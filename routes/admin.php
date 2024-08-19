@@ -7,6 +7,8 @@ use \App\Http\Controllers\admin\SubCategoryController;
 use \App\Http\Controllers\admin\BrandController;
 use \App\Http\Controllers\admin\SocialMediaController;
 use \App\Http\Controllers\admin\PublicSettingController;
+use \App\Http\Controllers\admin\AttributesController;
+use \App\Http\Controllers\admin\AttributeValuesController;
 Route::group(['prefix' => 'admin'], function () {
 // Admin Login
 
@@ -64,6 +66,20 @@ Route::group(['prefix' => 'admin'], function () {
         Route::controller(SocialMediaController::class)->group(function (){
             Route::match(['post','get'],'social-media/update','update');
         });
-    });
 
+        ///////////////// Start Product Attribute /////////////////////////
+        Route::controller(AttributesController::class)->group(function (){
+            Route::get('attributes','index');
+            Route::match(['post','get'],'attribute/add','store');
+            Route::match(['post','get'],'attribute/update/{id}','update');
+            Route::post('attribute/delete/{id}','delete');
+        });
+        ///////////////////// start Attribute Values /////////////////
+        Route::controller(AttributeValuesController::class)->group(function (){
+            Route::get('attribute-values/{id}','index');
+            Route::match(['post','get'],'attribute-value/add/{id}','store');
+            Route::match(['post','get'],'attribute-value/update/{id}','update');
+            Route::post('attribute-value/delete/{id}','delete');
+        });
+    });
 });
