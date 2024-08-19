@@ -106,15 +106,15 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-end">
                             <!-- item-->
-                            <h6 class="dropdown-header"> مرحبا محمد ! </h6>
-                            <a class="dropdown-item" href="pages-profile.html">
+                            <h6 class="dropdown-header"> مرحبا {{\Illuminate\Support\Facades\Auth::guard('admin')->user()->name}} ! </h6>
+                            <a class="dropdown-item" href="{{url('admin/update_admin_details')}}">
                                 <i class="bx bx-user-circle text-muted fs-18 align-middle me-1"></i><span class="align-middle"> حسابي  </span>
                             </a>
-                            <a class="dropdown-item" href="apps-chat.html">
+                            <a class="dropdown-item" href="{{url('admin/update_admin_password')}}">
                                 <i class="bx bx-message-dots text-muted fs-18 align-middle me-1"></i><span class="align-middle"> تغير كلمة المرور  </span>
                             </a>
                             <div class="dropdown-divider my-1"></div>
-                            <a class="dropdown-item text-danger" href="auth-signin.html">
+                            <a class="dropdown-item text-danger" href="{{route('logout')}}">
                                 <i class="bx bx-log-out fs-18 align-middle me-1"></i><span class="align-middle"> تسجيل خروج  </span>
                             </a>
                         </div>

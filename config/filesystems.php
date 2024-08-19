@@ -57,6 +57,13 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
+        'PublicSetting' => [
+            'driver' => 'local',
+            'root' => base_path('public/assets/uploads/PublicSetting'), // Use base_path() directly with the path
+            'url' => env('APP_URL').'/storage',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
 
         's3' => [
             'driver' => 's3',

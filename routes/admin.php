@@ -5,7 +5,8 @@ use \App\Http\Controllers\admin\AdminController;
 use \App\Http\Controllers\admin\MainCategoryController;
 use \App\Http\Controllers\admin\SubCategoryController;
 use \App\Http\Controllers\admin\BrandController;
-
+use \App\Http\Controllers\admin\SocialMediaController;
+use \App\Http\Controllers\admin\PublicSettingController;
 Route::group(['prefix' => 'admin'], function () {
 // Admin Login
 
@@ -21,6 +22,7 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('check_admin_password', 'check_admin_password');
 // Update Admin Details
             Route::match(['post', 'get'], 'update_admin_details', 'update_admin_details');
+            Route::get('logout','logout')->name('logout');
         });
     });
     Route::group(['middleware' => 'admin'], function () {
@@ -43,11 +45,24 @@ Route::group(['prefix' => 'admin'], function () {
 
         /////////// Start Brands
 
-        Route::controller(\App\Http\Controllers\admin\BrandController::class)->group(function () {
+        Route::controller(BrandController::class)->group(function () {
             Route::get('brands', 'index');
             Route::match(['post', 'get'], 'brand/add', 'store');
             Route::match(['post', 'get'], 'brand/update/{id}', 'update');
             Route::post('brand/delete/{id}', 'delete');
+        });
+
+        ///////////////// Start Public Settings
+        ///
+
+        Route::controller(PublicSettingController::class)->group(function (){
+           Route::match(['post','get'],'public-setting/update','update');
+        });
+
+        //////////// Start Social Media
+        ///
+        Route::controller(SocialMediaController::class)->group(function (){
+            Route::match(['post','get'],'social-media/update','update');
         });
     });
 

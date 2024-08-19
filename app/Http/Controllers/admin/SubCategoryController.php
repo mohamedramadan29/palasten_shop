@@ -128,8 +128,8 @@ class SubCategoryController extends Controller
         try{
             $category = SubCategory::findOrFail($id);
             $old_image = public_path('assets/uploads/Subcategory_images/' . $category['image']);
-            if (isset($old_image) && $old_image !=''){
-                unlink($old_image);
+            if (file_exists($old_image)){
+                @unlink($old_image);
             }
             $category->delete();
             return $this->success_message(' تم حذف القسم بنجاح  ');

@@ -79,11 +79,13 @@ class BrandController extends Controller
                     'image.mimes'=> ' نوع الصورة فقط jpg, png , jpeg , webp ',
                 ];
                 $this->validate($request, $rules, $custome_messages);
+
+                // Handle image upload and deletion
                 if ($request->hasFile('image')) {
                     // delete old image
                     $old_image = public_path('assets/uploads/brands/'.$brand['image']);
-                    if (isset($old_image) && $old_image !='') {
-                        unlink('assets/uploads/brands'.$brand['image']);
+                    if (file_exists($old_image)) {
+                        @unlink($old_image);
                     }
                     $file_name = $this->saveImage($request->image, public_path('assets/uploads/brands'));
 

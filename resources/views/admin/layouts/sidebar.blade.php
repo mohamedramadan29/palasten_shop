@@ -169,15 +169,26 @@
                     </ul>
                 </div>
             </li>
+            <li class="menu-title mt-2">  اعدادات الموقع </li>
 
             <li class="nav-item">
-                <a class="nav-link" href="settings.html">
+                <a class="nav-link" href="{{url('admin/public-setting/update')}}">
                                    <span class="nav-icon">
                                         <iconify-icon icon="solar:settings-bold-duotone"></iconify-icon>
                                    </span>
-                    <span class="nav-text">  اعدادات الموقع  </span>
+                    <span class="nav-text">  الاعدادات العامة   </span>
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{url('admin/social-media/update')}}">
+                                   <span class="nav-icon">
+                                         <iconify-icon icon="solar:share-circle-bold-duotone"></iconify-icon>
+                                   </span>
+                    <span class="nav-text">  مواقع التواصل الاجتماعي    </span>
+                </a>
+            </li>
+
 
             <li class="menu-title mt-2"> المستخدمين</li>
 

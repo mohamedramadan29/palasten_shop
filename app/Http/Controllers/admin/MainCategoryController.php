@@ -92,8 +92,8 @@ class MainCategoryController extends Controller
                 if ($request->hasFile('image')) {
                     ////// Delete Old Image
                     $old_image = public_path('assets/uploads/category_images/' . $category['image']);
-                    if (isset($old_image) && $old_image != '') {
-                        unlink($old_image);
+                    if (file_exists($old_image)) {
+                        @unlink($old_image);
                     }
                     $file_name = $this->saveImage($request->image, public_path('assets/uploads/category_images'));
                     $category->update([
