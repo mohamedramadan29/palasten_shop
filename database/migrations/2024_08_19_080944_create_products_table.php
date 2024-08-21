@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('slug');
             $table->string('category_id');
+            $table->string('sub_category_id')->nullable();
             $table->string('brand_id')->nullable();
             $table->string('image');
             $table->string('video')->nullable();

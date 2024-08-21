@@ -9,6 +9,8 @@ use \App\Http\Controllers\admin\SocialMediaController;
 use \App\Http\Controllers\admin\PublicSettingController;
 use \App\Http\Controllers\admin\AttributesController;
 use \App\Http\Controllers\admin\AttributeValuesController;
+use \App\Http\Controllers\admin\ProductController;
+
 Route::group(['prefix' => 'admin'], function () {
 // Admin Login
 
@@ -24,7 +26,7 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('check_admin_password', 'check_admin_password');
 // Update Admin Details
             Route::match(['post', 'get'], 'update_admin_details', 'update_admin_details');
-            Route::get('logout','logout')->name('logout');
+            Route::get('logout', 'logout')->name('logout');
         });
     });
     Route::group(['middleware' => 'admin'], function () {
@@ -57,29 +59,38 @@ Route::group(['prefix' => 'admin'], function () {
         ///////////////// Start Public Settings
         ///
 
-        Route::controller(PublicSettingController::class)->group(function (){
-           Route::match(['post','get'],'public-setting/update','update');
+        Route::controller(PublicSettingController::class)->group(function () {
+            Route::match(['post', 'get'], 'public-setting/update', 'update');
         });
 
         //////////// Start Social Media
         ///
-        Route::controller(SocialMediaController::class)->group(function (){
-            Route::match(['post','get'],'social-media/update','update');
+        Route::controller(SocialMediaController::class)->group(function () {
+            Route::match(['post', 'get'], 'social-media/update', 'update');
         });
 
         ///////////////// Start Product Attribute /////////////////////////
-        Route::controller(AttributesController::class)->group(function (){
-            Route::get('attributes','index');
-            Route::match(['post','get'],'attribute/add','store');
-            Route::match(['post','get'],'attribute/update/{id}','update');
-            Route::post('attribute/delete/{id}','delete');
+        Route::controller(AttributesController::class)->group(function () {
+            Route::get('attributes', 'index');
+            Route::match(['post', 'get'], 'attribute/add', 'store');
+            Route::match(['post', 'get'], 'attribute/update/{id}', 'update');
+            Route::post('attribute/delete/{id}', 'delete');
         });
         ///////////////////// start Attribute Values /////////////////
-        Route::controller(AttributeValuesController::class)->group(function (){
-            Route::get('attribute-values/{id}','index');
-            Route::match(['post','get'],'attribute-value/add/{id}','store');
-            Route::match(['post','get'],'attribute-value/update/{id}','update');
-            Route::post('attribute-value/delete/{id}','delete');
+        Route::controller(AttributeValuesController::class)->group(function () {
+            Route::get('attribute-values/{id}', 'index');
+            Route::match(['post', 'get'], 'attribute-value/add/{id}', 'store');
+            Route::match(['post', 'get'], 'attribute-value/update/{id}', 'update');
+            Route::post('attribute-value/delete/{id}', 'delete');
+        });
+
+        ////////////////////// Start Products ///////////////////////////////
+        Route::controller(ProductController::class)->group(function () {
+            Route::get('products', 'index');
+            Route::match(['post', 'get'], 'product/add', 'store');
+            Route::match(['post', 'get'], 'product/update/{id}', 'update');
+            Route::post('product/delete/{id}', 'delete');
+            Route::get('/get-attribute-values/{attributeId}', 'getAttributeValues');
         });
     });
 });

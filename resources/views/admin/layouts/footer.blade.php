@@ -25,9 +25,9 @@
 <script src="{{asset('assets/admin/js/app.js')}}"></script>
 
 <!-- Vector Map Js -->
-<script src="{{asset('assets/admin/vendor/jsvectormap/js/jsvectormap.min.js')}}"></script>
-<script src="{{asset('assets/admin/vendor/jsvectormap/maps/world-merc.js')}}"></script>
-<script src="{{asset('assets/admin/vendor/jsvectormap/maps/world.js')}}"></script>
+{{--<script src="{{asset('assets/admin/vendor/jsvectormap/js/jsvectormap.min.js')}}"></script>--}}
+{{--<script src="{{asset('assets/admin/vendor/jsvectormap/maps/world-merc.js')}}"></script>--}}
+{{--<script src="{{asset('assets/admin/vendor/jsvectormap/maps/world.js')}}"></script>--}}
 
 <!-- Dashboard Js -->
 <script src="{{asset('assets/admin/js/pages/dashboard.js')}}"></script>

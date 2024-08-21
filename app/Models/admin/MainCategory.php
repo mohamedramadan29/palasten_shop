@@ -11,4 +11,8 @@ class MainCategory extends Model
     protected $guarded = [];
 
 
+    public function SubCategories()
+    {
+        return $this->belongsTo(SubCategory::class,'id');
+    }
 }

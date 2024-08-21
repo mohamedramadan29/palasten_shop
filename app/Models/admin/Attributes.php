@@ -9,4 +9,9 @@ class Attributes extends Model
 {
     use HasFactory;
     protected $guarded =[];
+
+    public static function findByName($name)
+    {
+        return self::where('name', $name)->first();
+    }
 }

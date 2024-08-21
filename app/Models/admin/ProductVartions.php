@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class ProductVartions extends Model
 {
     use HasFactory;
+    protected $guarded = [];
+    public function variationValues()
+    {
+        return $this->hasMany(VartionsValues::class);
+    }
 }
