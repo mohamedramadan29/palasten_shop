@@ -117,7 +117,6 @@ class ProductController extends Controller
         return view('admin.products.add', compact('MainCategories', 'SubCategories', 'brands', 'attributes', 'attributes_vartions'));
 
     }
-
     public function update(Request $request, $id)
     {
         $product = Product::findOrFail($id);
@@ -125,7 +124,6 @@ class ProductController extends Controller
 
         return view('admin.Products.update', compact('product'));
     }
-
     public function delete($id)
     {
         $product = Product::findOrFail($id);
