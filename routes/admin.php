@@ -11,7 +11,9 @@ use \App\Http\Controllers\admin\AttributesController;
 use \App\Http\Controllers\admin\AttributeValuesController;
 use \App\Http\Controllers\admin\ProductController;
 use \App\Http\Controllers\admin\CouponController;
-use \App\Http\Controllers\admin\WebsiteCurrancyController;
+use \App\Http\Controllers\admin\TopNavBarController;
+use \App\Http\Controllers\admin\ShippingCityController;
+use \App\Http\Controllers\admin\FaqController;
 
 Route::group(['prefix' => 'admin'], function () {
 // Admin Login
@@ -107,7 +109,7 @@ Route::group(['prefix' => 'admin'], function () {
         });
         //////////////// Start Faq Controller ////////////////////
         ///
-        Route::controller(\App\Http\Controllers\admin\FaqController::class)->group(function () {
+        Route::controller(FaqController::class)->group(function () {
             Route::get('faqs', 'index');
             Route::match(['post', 'get'], 'faq/add', 'store');
             Route::match(['post', 'get'], 'faq/update/{id}', 'update');
@@ -115,11 +117,21 @@ Route::group(['prefix' => 'admin'], function () {
         });
         /////////////////////// Start Shipping City /////////
         ///
-        Route::controller(\App\Http\Controllers\admin\ShippingCityController::class)->group(function (){
-           Route::get('shipping-city','index');
-           Route::post('city/add','store');
-           Route::post('city/update/{id}','update');
-           Route::post('city/delete/{id}','delete');
+        Route::controller(ShippingCityController::class)->group(function () {
+            Route::get('shipping-city', 'index');
+            Route::post('city/add', 'store');
+            Route::post('city/update/{id}', 'update');
+            Route::post('city/delete/{id}', 'delete');
+        });
+
+        /////////////////// Start top Navbar settings //////////////
+        ///
+        Route::controller(TopNavBarController::class)->group(function () {
+
+            Route::get('top-navbar', 'index');
+            Route::post('top-navbar/add', 'store');
+            Route::post('top-navbar/update/{id}', 'update');
+            Route::post('top-navbar/delete/{id}', 'delete');
         });
     });
 });
