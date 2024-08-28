@@ -3,13 +3,13 @@
     <!-- Sidebar Logo -->
     <div class="logo-box">
         <a href="{{url('admin/dashboard')}}" class="logo-dark">
-            <img src="{{asset('assets/admin/images/logo-sm.png')}}" class="logo-sm" alt="logo sm">
-            <img src="{{asset('assets/admin/images/logo-dark.png')}}" class="logo-lg" alt="logo dark">
+            <img src="{{asset('assets/admin/images/logowo.png')}}" class="logo-sm" alt="logo sm">
+            <img src="{{asset('assets/admin/images/logowo.png')}}" class="logo-lg" alt="logo dark">
         </a>
 
         <a href="{{url('admin/dashboard')}}" class="logo-light">
-            <img src="{{asset('assets/admin/images/logo-sm.png')}}" class="logo-sm" alt="logo sm">
-            <img src="{{asset('assets/admin/images/logo-light.png')}}" class="logo-lg" alt="logo light">
+            <img src="{{asset('assets/admin/images/logowo.png')}}" class="logo-sm" alt="logo sm">
+            <img src="{{asset('assets/admin/images/logowo.png')}}" class="logo-lg" alt="logo light">
         </a>
     </div>
 
@@ -43,10 +43,10 @@
                 <div class="collapse" id="sidebarProducts">
                     <ul class="nav sub-navbar-nav">
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="{{url('admin/products')}}"> جميع المنتجات  </a>
+                            <a class="sub-nav-link" href="{{url('admin/products')}}"> جميع المنتجات </a>
                         </li>
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="{{url('admin/product/add')}}"> اضف منتج جديد  </a>
+                            <a class="sub-nav-link" href="{{url('admin/product/add')}}"> اضف منتج جديد </a>
                         </li>
                     </ul>
                 </div>
@@ -126,7 +126,7 @@
                 <div class="collapse" id="sidebarAttributes">
                     <ul class="nav sub-navbar-nav">
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="{{url('admin/attributes')}}"> مشاهدة السمات المتاحة  </a>
+                            <a class="sub-nav-link" href="{{url('admin/attributes')}}"> مشاهدة السمات المتاحة </a>
                         </li>
                     </ul>
                 </div>
@@ -154,7 +154,7 @@
                     </ul>
                 </div>
             </li>
-            <li class="menu-title mt-2">  اعدادات الموقع </li>
+            <li class="menu-title mt-2"> اعدادات الموقع</li>
 
             <li class="nav-item">
                 <a class="nav-link" href="{{url('admin/public-setting/update')}}">
@@ -189,10 +189,11 @@
                     <ul class="nav sub-navbar-nav">
 
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="{{url('admin/update_admin_details')}}"> تعديل البيانات  </a>
+                            <a class="sub-nav-link" href="{{url('admin/update_admin_details')}}"> تعديل البيانات </a>
                         </li>
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="{{url('admin/update_admin_password')}}"> تعديل كلمة المرور </a>
+                            <a class="sub-nav-link" href="{{url('admin/update_admin_password')}}"> تعديل كلمة
+                                المرور </a>
                         </li>
                     </ul>
                 </div>
@@ -231,10 +232,10 @@
                 <div class="collapse" id="sidebarCoupons">
                     <ul class="nav sub-navbar-nav">
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="coupons-list.html"> جميع الكوبونات </a>
+                            <a class="sub-nav-link" href="{{url('admin/coupons')}}"> جميع الكوبونات </a>
                         </li>
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="coupons-add.html"> اضافة كوبون </a>
+                            <a class="sub-nav-link" href="{{url('admin/coupon/add')}}"> اضافة كوبون </a>
                         </li>
                     </ul>
                 </div>
@@ -293,6 +294,27 @@
                     </ul>
                 </div>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link menu-arrow" href="#sidebarfaqs" data-bs-toggle="collapse" role="button"
+                   aria-expanded="false" aria-controls="sidebarfaqs">
+                                   <span class="nav-icon">
+                                        <iconify-icon icon="solar:question-circle-bold-duotone"></iconify-icon>
+                                   </span>
+                    <span class="nav-text">الاسئلة الشائعة للمتجر    </span>
+                </a>
+                <div class="collapse" id="sidebarfaqs">
+                    <ul class="nav sub-navbar-nav">
+                        <li class="sub-nav-item">
+                            <a class="sub-nav-link" href="{{url('admin/faqs')}}">  الاسئلة الشائعة للمتجر </a>
+                        </li>
+                        <li class="sub-nav-item">
+                            <a class="sub-nav-link" href="{{url('admin/faq/add')}}">  اضافة سوال جديد  </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
 
             <li class="nav-item">
                 <a class="nav-link" href="apps-email.html">

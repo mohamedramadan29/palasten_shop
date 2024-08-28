@@ -10,6 +10,7 @@ use \App\Http\Controllers\admin\PublicSettingController;
 use \App\Http\Controllers\admin\AttributesController;
 use \App\Http\Controllers\admin\AttributeValuesController;
 use \App\Http\Controllers\admin\ProductController;
+use \App\Http\Controllers\admin\CouponController;
 
 Route::group(['prefix' => 'admin'], function () {
 // Admin Login
@@ -88,9 +89,29 @@ Route::group(['prefix' => 'admin'], function () {
         Route::controller(ProductController::class)->group(function () {
             Route::get('products', 'index');
             Route::match(['post', 'get'], 'product/add', 'store');
-            Route::match(['post', 'get'], 'product/update/{id}', 'update');
+            Route::match(['post', 'get'], 'product/update/{slug}', 'update');
             Route::post('product/delete/{id}', 'delete');
             Route::get('/get-attribute-values/{attributeId}', 'getAttributeValues');
+            Route::get('/get-subcategories', 'getSubCategories')->name('get.subcategories');
+            Route::post('product/gallary/delete/{id}', 'delete_image_gallary');
+        });
+
+        //////////////////////////// Start Coupon Code ////////////////////
+        ///
+        Route::controller(CouponController::class)->group(function () {
+            Route::get('coupons', 'index');
+            Route::match(['post', 'get'], 'coupon/add', 'store');
+            Route::match(['post', 'get'], 'coupon/update/{id}', 'update');
+            Route::post('coupon/delete/{id}', 'delete');
+        });
+        //////////////// Start Faq Controller ////////////////////
+        ///
+        Route::controller(\App\Http\Controllers\admin\FaqController::class)->group(function () {
+            Route::get('faqs', 'index');
+            Route::match(['post', 'get'], 'faq/add', 'store');
+            Route::match(['post', 'get'], 'faq/update/{id}', 'update');
+            Route::post('faq/delete/{id}', 'delete');
+
         });
     });
 });

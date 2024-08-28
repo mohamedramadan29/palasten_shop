@@ -30,6 +30,7 @@
 {{--<script src="{{asset('assets/admin/vendor/jsvectormap/maps/world.js')}}"></script>--}}
 
 <!-- Dashboard Js -->
+
 <script src="{{asset('assets/admin/js/pages/dashboard.js')}}"></script>
 @toastifyJs
 @yield('js')

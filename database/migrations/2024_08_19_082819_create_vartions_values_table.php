@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('vartions_values', function (Blueprint $table) {
             $table->id();
             $table->foreignId('product_variation_id')->references('id')->on('product_vartions')->cascadeOnDelete();
+            $table->integer('attribute_id');
             $table->foreignId('attribute_value_id')->references('id')->on('attribute_values')->cascadeOnDelete();
             $table->timestamps();
         });

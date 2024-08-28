@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('variation_values', function (Blueprint $table) {
-            $table->foreign('attribute_id')->after('product_variation_id')->references('id')->on('attributes')->onDelete('cascade');
+        Schema::create('product_videos', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('product_id')->references('id')->on('products')->cascadeOnDelete();
+            $table->string('video');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('variation_values', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('product_videos');
     }
 };

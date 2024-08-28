@@ -15,12 +15,9 @@
             @endif
             @if ($errors->any())
                 @foreach ($errors->all() as $error)
-                    {{--                    @php--}}
-                    {{--                        toastify()->error($error);--}}
-                    {{--                    @endphp--}}
-                    <div class="alert alert-danger">
-                        {{$error}}
-                    </div>
+                    @php
+                        toastify()->error($error);
+                    @endphp
                 @endforeach
             @endif
             <form method="post" action="{{url('admin/product/add')}}" enctype="multipart/form-data">
@@ -57,16 +54,43 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="sub_category_id" class="form-label"> حدد القسم الفرعي </label>
-                                            <select class="form-control" id="sub_category_id" data-choices
-                                                    data-choices-groups data-placeholder="Select Categories"
+                                            <select class="form-control" id="sub_category_id"
+                                                    data-placeholder="Select Categories"
                                                     name="sub_category_id">
                                                 <option value=""> -- حدد القسم الفرعي --</option>
-                                                @foreach($SubCategories as $subcat)
-                                                    <option value="{{$subcat['id']}}">{{$subcat['name']}}</option>
-                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
+                                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                    <script>
+                                        $(document).ready(function () {
+                                            $('#category_id').on('change', function () {
+                                                var categoryId = $(this).val();
+                                                if (categoryId) {
+                                                    $.ajax({
+                                                        url: '{{ route("get.subcategories") }}', // تأكد من استخدام المسار الصحيح
+                                                        type: "GET",
+                                                        data: {category_id: categoryId},
+                                                        success: function (data) {
+                                                            $('#sub_category_id').empty();
+                                                            if (data.message) {
+                                                                $('#sub_category_id').append('<option value="">' + data.message + '</option>');
+                                                            } else {
+                                                                $('#sub_category_id').append('<option value=""> -- حدد القسم الفرعي --</option>');
+                                                                $.each(data, function (key, value) {
+                                                                    $('#sub_category_id').append('<option value="' + key + '">' + value + '</option>');
+                                                                });
+                                                            }
+                                                        }
+                                                    });
+                                                } else {
+                                                    $('#sub_category_id').empty();
+                                                    $('#sub_category_id').append('<option value=""> -- حدد القسم الفرعي --</option>');
+                                                }
+                                            });
+                                        });
+                                    </script>
+
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="brand_id" class="form-label"> العلامة التجارية </label>
@@ -98,14 +122,17 @@
                                                 المنتج </label>
                                             <textarea class="form-control bg-light-subtle" id="short_description"
                                                       rows="5"
-                                                      placeholder="" name="short_description"></textarea>
+                                                      placeholder=""
+                                                      name="short_description">{{old('short_description')}}</textarea>
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label for="description" class="form-label"> وصف المنتج </label>
-                                            <textarea class="form-control bg-light-subtle" id="description" rows="7"
-                                                      placeholder="" name="description"></textarea>
+                                            <textarea required class="form-control bg-light-subtle" id="description"
+                                                      rows="7"
+                                                      placeholder=""
+                                                      name="description">{{old('description')}}</textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -164,7 +191,7 @@
                                             <label for="type">نوع المنتج:</label>
                                             <select class="form-control
                                     " name="type" id="product-type" required>
-                                                <option value="بسيط">بسيط</option>
+                                                <option selected value="بسيط">بسيط</option>
                                                 <option value="متغير">متغير</option>
                                             </select>
                                         </div>
@@ -261,7 +288,16 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-lg-6">
-                                        <label for="product-price" class="form-label"> سعر المنتج </label>
+                                        <label for="product-price" class="form-label"> سعر الشراء </label>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text fs-20"><i class='bx bx-dollar'></i></span>
+                                            <input type="number" id="purches_price" name="purches_price"
+                                                   class="form-control"
+                                                   placeholder="000">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="product-price" class="form-label"> سعر البيع </label>
                                         <div class="input-group mb-3">
                                             <span class="input-group-text fs-20"><i class='bx bx-dollar'></i></span>
                                             <input type="number" id="price" name="price" class="form-control"
@@ -433,5 +469,4 @@
         }
 
     </script>
-
 @endsection

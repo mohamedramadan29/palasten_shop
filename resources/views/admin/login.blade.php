@@ -13,11 +13,11 @@
                             <div class="d-flex flex-column h-100 justify-content-center">
                                 <div class="auth-logo mb-4">
                                     <a href="{{url('login')}}" class="logo-dark">
-                                        <img src="{{asset('assets/admin/images/logo-dark.png')}}" height="24" alt="logo dark">
+                                        <img src="{{asset('assets/admin/images/logowo.png')}}" width="75px" alt="logo dark">
                                     </a>
 
                                     <a href="{{url('login')}}" class="logo-light">
-                                        <img src="{{asset('assets/admin/images/logo-light.png')}}" height="24" alt="logo light">
+                                        <img src="{{asset('assets/admin/images/logowo.png')}}" width="75px" alt="logo light">
                                     </a>
                                 </div>
 
@@ -61,9 +61,9 @@
                     </div>
                 </div>
                 <div class="col-xxl-5 d-none d-xxl-flex">
-                    <div class="card h-100 mb-0 overflow-hidden">
+                    <div class="card h-100 mb-0 overflow-hidden" style="background: transparent;box-shadow: none">
                         <div class="d-flex flex-column h-100">
-                            <img src="{{asset('assets/admin/images/small/img-10.jpg')}}" alt="" class="w-100 h-100">
+                            <img src="{{asset('assets/admin/images/shopping.svg')}}" alt="" class="w-100 h-100">
                         </div>
                     </div>
                 </div>

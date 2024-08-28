@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('title')
-    المنتجات
+   كوبونات الخصم
 @endsection
 @section('css')
 
@@ -29,10 +29,10 @@
                 <div class="col-xl-12">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center gap-1">
-                            <h4 class="card-title flex-grow-1"> المنتجات   </h4>
+                            <h4 class="card-title flex-grow-1"> كوبونات الخصم  </h4>
 
-                            <a href="{{url('admin/product/add')}}" class="btn btn-sm btn-primary">
-                                اضف منتج جديد <i class="ti ti-plus"></i>
+                            <a href="{{url('admin/coupon/add')}}" class="btn btn-sm btn-primary">
+                                اضف كوبون جديد  <i class="ti ti-plus"></i>
                             </a>
                         </div>
 
@@ -43,44 +43,45 @@
                                     <thead class="bg-light-subtle">
                                     <tr>
                                         <th style="width: 20px;">
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" id="customCheck1">
-                                                <label class="form-check-label" for="customCheck1"></label>
-                                            </div>
                                         </th>
-                                        <th> اسم المنتج  </th>
-                                        <th> القسم الرئيسي   </th>
-                                        <th> سعر الشراء  </th>
-                                        <th> سعر البيع  </th>
-                                        <th> سعر التخفيض   </th>
-                                        <th>  الصورة </th>
-                                        <th>  العمليات</th>
+                                        <th> الكود  </th>
+                                        <th> نوع الاستخدام  </th>
+                                        <th> نوع الخصم  </th>
+                                        <th> قيمة الخصم   </th>
+                                        <th> تاريخ الانتهاء  </th>
+                                        <th>الحالة  </th>
+                                        <th> العمليات</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     @php
+
                                         $i = 1;
                                     @endphp
-                                    @foreach($products as $product)
+                                    @foreach($coupons as $coupon)
                                         <tr>
                                             <td>
                                                 {{$i++}}
                                             </td>
-                                            <td><a href="{{url('admin/product/update/'.$product['slug'])}}"></a>  {{$product['name']}} </td>
-                                            <td> {{$product['Main_Category']['name']}} </td>
-                                            <td> {{$product['price']}} </td>
-                                            <td> {{$product['price']}} </td>
-                                            <td> {{$product['price']}} </td>
+                                            <td> {{$coupon['coupon_code']}} </td>
+                                            <td> {{$coupon['coupon_type']}} </td>
+                                            <td> {{$coupon['amount_type']}} </td>
+                                            <td> {{$coupon['amount']}} </td>
+                                            <td> {{$coupon['expire_date']}} </td>
                                             <td>
-                                                <img class="img-thumbnail" src="{{asset('assets/uploads/product_images/'.$product['image'])}}" width="80" height="80px" alt="">
+                                                @if($coupon['status'] == 1)
+                                                    <span class="badge bg-success"> مفعل  </span>
+                                                @else
+                                                    <span class="badge bg-danger"> غير مفعل  </span>
+                                                @endif
                                             </td>
                                             <td>
                                                 <div class="d-flex gap-2">
-                                                    <a href="{{url('admin/product/update/'.$product['slug'])}}" class="btn btn-soft-primary btn-sm">
+                                                    <a href="{{url('admin/coupon/update/'.$coupon['id'])}}" class="btn btn-soft-primary btn-sm">
                                                         <iconify-icon icon="solar:pen-2-broken"
                                                                       class="align-middle fs-18"></iconify-icon>
                                                     </a>
-                                                    <button type="button" class="btn btn-soft-danger btn-sm" data-bs-toggle="modal" data-bs-target="#delete_category_{{$product['id']}}">
+                                                    <button type="button" class="btn btn-soft-danger btn-sm" data-bs-toggle="modal" data-bs-target="#delete_coupon_{{$coupon['id']}}">
                                                         <iconify-icon icon="solar:trash-bin-minimalistic-2-broken"
                                                                       class="align-middle fs-18"></iconify-icon>
                                                     </button>
@@ -88,7 +89,7 @@
                                             </td>
                                         </tr>
                                         <!-- Modal -->
-                                        @include('admin.Products.delete')
+                                        @include('admin.Coupons.delete')
                                     @endforeach
 
                                     </tbody>

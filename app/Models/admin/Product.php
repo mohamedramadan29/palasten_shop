@@ -13,4 +13,12 @@ class Product extends Model
     {
         return $this->hasMany(ProductVartions::class);
     }
+    public function Main_Category()
+    {
+        return $this->belongsTo(MainCategory::class,'category_id');
+    }
+    public function Sub_Category()
+    {
+        return $this->belongsTo(SubCategory::class,'sub_category_id');
+    }
 }

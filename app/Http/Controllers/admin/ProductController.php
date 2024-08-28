@@ -11,6 +11,7 @@ use App\Models\admin\AttributeValues;
 use App\Models\admin\Brand;
 use App\Models\admin\MainCategory;
 use App\Models\admin\Product;
+use App\Models\admin\ProductGallary;
 use App\Models\admin\ProductVartions;
 use App\Models\admin\SubCategory;
 use App\Models\admin\VartionsValues;
@@ -26,18 +27,26 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::all();
+        $products = Product::with('Main_Category')->orderBy('id','desc')->get();
         $MainCategories = MainCategory::where('status', '1')->get();
         $SubCategories = SubCategory::where('status', '1')->get();
         return view('admin.Products.index', compact('products', 'MainCategories', 'SubCategories'));
     }
-
     public function getAttributeValues($attributeId)
     {
         // جلب قيم المتغيرات بناءً على معرف السمة
         $values = AttributeValues::where('attribute_id', $attributeId)->get();
         // إعادة القيم كـ JSON
         return response()->json($values);
+    }
+
+    public function getSubCategories(Request $request)
+    {
+        $subCategories = SubCategory::where('parent_id', $request->category_id)->pluck('name', 'id');
+        if ($subCategories->isEmpty()) {
+            return response()->json(['message' => 'لا يوجد أقسام فرعية داخل هذا القسم']);
+        }
+        return response()->json($subCategories);
     }
 
     public function store(Request $request)
@@ -50,11 +59,18 @@ class ProductController extends Controller
         if ($request->isMethod('post')) {
             try {
                 $data = $request->all();
-                $rules = [];
+                $rules = [
+                    'name' => 'required',
+                    'category_id' => 'required',
+                    'description' => 'required'
+                ];
                 if ($request->hasFile('image')) {
                     $rules['image'] = 'image|mimes:jpg,png,jpeg,webp';
                 }
                 $messages = [
+                    'name.required' => ' من فضلك ادخل اسم المنتج  ',
+                    'category_id.required' => ' من فضلك حدد القسم الرئيسي للمنتج  ',
+                    'description.required' => ' من فضلك ادخل الوصف الخاص بالمنتج ',
                     'image.mimes' =>
                         'من فضلك يجب ان يكون نوع الصورة jpg,png,jpeg,webp',
                     'image.image' => 'من فضلك ادخل الصورة بشكل صحيح',
@@ -65,6 +81,12 @@ class ProductController extends Controller
                 }
                 if ($request->hasFile('image')) {
                     $file_name = $this->saveImage($request->image, public_path('assets/uploads/product_images'));
+                }
+                /////// Check if This Product In Db Or Not
+                ///
+                $count_old_product = Product::where('name', $data['name'])->count();
+                if ($count_old_product > 0) {
+                    return Redirect::back()->withInput()->withErrors(' اسم المنتج متواجد من قبل من فضلك ادخل منتج جديد  ');
                 }
                 $product = new Product();
                 $product->name = $data['name'];
@@ -77,6 +99,7 @@ class ProductController extends Controller
                 $product->description = $data['description'];
                 $product->quantity = $data['quantity'];
                 $product->type = $data['type'];
+                $product->purches_price = $data['purches_price'];
                 $product->price = $data['price'];
                 $product->discount = $data['discount'];
                 $product->meta_title = $data['meta_title'];
@@ -84,28 +107,39 @@ class ProductController extends Controller
                 $product->meta_description = $data['meta_description'];
                 $product->image = $file_name;
                 $product->save();
-                // حفظ المتغيرات
-                foreach ($request->variant_name as $index => $variantName) {
-                    // حفظ كل متغير في جدول product_variations
-                    $productVariation = new ProductVartions();
-                    $productVariation->product_id = $product->id;
-                    $productVariation->price = $request->variant_price[$index];
-                    $productVariation->discount = $request->variant_discount[$index];
-                    $productVariation->image = $request->variant_image[$index]->store('images');
-                    $productVariation->stock = $request->variant_stock[$index];
-                    $productVariation->save();
-
-                    // حفظ القيم المرتبطة بهذا المتغير
-                    $attributes = explode(' - ', $variantName);
-                    $attributesIds = $data['attributes'];  // مصفوفة attribute_ids
-
-                    foreach ($attributes as $attributeIndex => $attributeName) {
-                        if (isset($attributesIds[$attributeIndex])) {
-                            VartionsValues::create([
-                                'product_variation_id' => $productVariation->id,
-                                'attribute_id' => $attributesIds[$attributeIndex], // ربط attribute_id بالقيمة الصحيحة
-                                'attribute_value_name' => $attributeName
-                            ]);
+                ///////// Check If Product Gallary Not Empty
+                ///
+                if ($request->hasFile('gallery')) {
+                    foreach ($request->file('gallery') as $gallery) { // تعديل `hasFile` إلى `file`
+                        $gallery_name = $this->saveImage($gallery, 'assets/uploads/product_gallery');
+                        $gallery_image = new ProductGallary(); // تأكد من استخدام اسم النموذج الصحيح
+                        $gallery_image->product_id = $product->id;
+                        $gallery_image->image = $gallery_name;
+                        $gallery_image->save();
+                    }
+                }
+                if ($product['data'] == 'متغير') {
+                    // حفظ المتغيرات
+                    foreach ($request->variant_name as $index => $variantName) {
+                        // حفظ كل متغير في جدول product_variations
+                        $productVariation = new ProductVartions();
+                        $productVariation->product_id = $product->id;
+                        $productVariation->price = $request->variant_price[$index];
+                        $productVariation->discount = $request->variant_discount[$index];
+                        $productVariation->image = $request->variant_image[$index]->store('images');
+                        $productVariation->stock = $request->variant_stock[$index];
+                        $productVariation->save();
+                        // حفظ القيم المرتبطة بهذا المتغير
+                        $attributes = explode(' - ', $variantName);
+                        $attributesIds = $data['attributes'];  // مصفوفة attribute_ids
+                        foreach ($attributes as $attributeIndex => $attributeName) {
+                            if (isset($attributesIds[$attributeIndex])) {
+                                VartionsValues::create([
+                                    'product_variation_id' => $productVariation->id,
+                                    'attribute_id' => $attributesIds[$attributeIndex], // ربط attribute_id بالقيمة الصحيحة
+                                    'attribute_value_name' => $attributeName
+                                ]);
+                            }
                         }
                     }
                 }
@@ -117,12 +151,25 @@ class ProductController extends Controller
         return view('admin.products.add', compact('MainCategories', 'SubCategories', 'brands', 'attributes', 'attributes_vartions'));
 
     }
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug)
     {
-        $product = Product::findOrFail($id);
+        $MainCategories = MainCategory::where('status', '1')->get();
+        $SubCategories = SubCategory::where('status', '1')->get();
+        $brands = Brand::where('status', '1')->get();
+        $attributes = Attributes::all();
+        $product = Product::with('Sub_Category')->where('slug',$slug)->first();
+        $gallaries = ProductGallary::where('product_id',$product['id'])->get();
+        if ($request->isMethod('post')){
+            try {
 
+                $data = $request->all();
+                dd($data);
 
-        return view('admin.Products.update', compact('product'));
+            }catch (\Exception $e){
+                return $this->exception_message($e);
+            }
+        }
+        return view('admin.Products.update', compact('product','MainCategories','SubCategories','brands','attributes','gallaries'));
     }
     public function delete($id)
     {
@@ -130,5 +177,15 @@ class ProductController extends Controller
         $product->delete();
 
         return $this->success_message(' تم حذف المنتج بنجاح  ');
+    }
+    public function delete_image_gallary($id)
+    {
+        $imageGallary = ProductGallary::findOrFail($id);
+        $oldimage = public_path('assets/uploads/product_gallery/'.$imageGallary['image']);
+        if (file_exists($oldimage)){
+            unlink($oldimage);
+        }
+        $imageGallary->delete();
+        return $this->success_message(' تم حذف الصورة بنجاح  ');
     }
 }

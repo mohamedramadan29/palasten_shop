@@ -10,7 +10,7 @@
                 @csrf
                 <div class="modal-body">
                     <label for=""> اسم السمة   </label>
-                    <input type="text" name="name" class="form-control" placeholder="اللون" value="">
+                    <input type="text" name="name" class="form-control" placeholder="اللون" value="{{old('name')}}">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> رجوع</button>
