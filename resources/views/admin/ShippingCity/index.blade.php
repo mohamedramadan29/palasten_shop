@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('title')
-   الاسئلة الشائعة
+         المدن المتاحة للشحن
 @endsection
 @section('css')
 
@@ -29,11 +29,13 @@
                 <div class="col-xl-12">
                     <div class="card">
                         <div class="card-header d-flex justify-content-between align-items-center gap-1">
-                            <h4 class="card-title flex-grow-1"> السمات الخاصة بالمنتجات </h4>
-                            <a href="{{url('admin/faq/add')}}" class="btn btn-sm btn-primary">
-                                اضافة سؤال جديد
+                            <h4 class="card-title flex-grow-1"> المدن المتاحة للشحن  </h4>
+                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#add_attribute">
+                                اضف مدينة جديدة
                                 <i class="ti ti-plus"></i>
-                            </a>
+                            </button>
+                            @include('admin.ShippingCity.add')
                         </div>
 
 
@@ -49,8 +51,8 @@
                                                 <label class="form-check-label" for="customCheck1"></label>
                                             </div>
                                         </th>
-                                        <th>  السوال </th>
-                                        <th> الاجابة  </th>
+                                        <th> المدينة  </th>
+                                        <th> سعر الشحن   </th>
                                         <th> العمليات</th>
                                     </tr>
                                     </thead>
@@ -59,22 +61,25 @@
 
                                         $i = 1;
                                     @endphp
-                                    @foreach($faqs as $faq)
+                                    @foreach($shipingcitizen as $city)
                                         <tr>
                                             <td>
                                                 {{$i++}}
                                             </td>
-                                            <td> {{$faq['title']}} </td>
-                                            <td> {!! $faq['content'] !!} </td>
+                                            <td> {{$city['city']}} </td>
+                                            <td> {{$city['price']}} </td>
                                             <td>
                                                 <div class="d-flex gap-2">
-                                                    <a href="{{url('admin/faq/update/'.$faq['id'])}}" type="button" class="btn btn-soft-primary btn-sm">
-                                                        <iconify-icon icon="solar:pen-2-broken"
-                                                                      class="align-middle fs-18"></iconify-icon>
-                                                    </a>
+
                                                     <button type="button" class="btn btn-soft-danger btn-sm"
                                                             data-bs-toggle="modal"
-                                                            data-bs-target="#delete_message_{{$faq['id']}}">
+                                                            data-bs-target="#edit_attribute_{{$city['id']}}">
+                                                        <iconify-icon icon="solar:pen-2-broken"
+                                                                      class="align-middle fs-18"></iconify-icon>
+                                                    </button>
+                                                    <button type="button" class="btn btn-soft-danger btn-sm"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#delete_category_{{$city['id']}}">
                                                         <iconify-icon icon="solar:trash-bin-minimalistic-2-broken"
                                                                       class="align-middle fs-18"></iconify-icon>
                                                     </button>
@@ -82,7 +87,8 @@
                                             </td>
                                         </tr>
                                         <!-- Modal -->
-                                        @include('admin.Faqs.delete')
+                                        @include('admin.ShippingCity.delete')
+                                        @include('admin.ShippingCity.update')
                                     @endforeach
 
                                     </tbody>

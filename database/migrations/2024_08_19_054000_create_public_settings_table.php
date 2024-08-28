@@ -21,6 +21,8 @@ return new class extends Migration
             $table->tinyInteger('status')->default('1');
             $table->string('main_color')->default('#FE6C2F');
             $table->string('second_color')->default('#FFDACD');
+            $table->string('website_currency')->nullable();
+            $table->string('website_address')->nullable();
             $table->timestamps();
         });
     }

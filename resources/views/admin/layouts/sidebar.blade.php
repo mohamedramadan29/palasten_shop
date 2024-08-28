@@ -240,6 +240,22 @@
                     </ul>
                 </div>
             </li>
+            <li class="nav-item">
+                <a class="nav-link menu-arrow" href="#sidebarshippingCity" data-bs-toggle="collapse" role="button"
+                   aria-expanded="false" aria-controls="sidebarshippingCity">
+                                   <span class="nav-icon">
+                                        <iconify-icon icon="solar:case-round-bold-duotone"></iconify-icon>
+                                   </span>
+                    <span class="nav-text"> المدن المتاحة للشحن  </span>
+                </a>
+                <div class="collapse" id="sidebarshippingCity">
+                    <ul class="nav sub-navbar-nav">
+                        <li class="sub-nav-item">
+                            <a class="sub-nav-link" href="{{url('admin/shipping-city')}}"> مدن الشحن  </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="pages-review.html">

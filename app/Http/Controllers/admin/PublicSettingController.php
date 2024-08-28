@@ -55,6 +55,8 @@ class PublicSettingController extends Controller
                 'status' => $data['status'],
                 'main_color' => $data['main_color'],
                 'second_color' => $data['second_color'],
+                'website_currency'=>$data['website_currency'],
+                'website_address'=>$data['website_address'],
             ]);
 
             return $this->success_message('تم تعديل الاعدادات العامة للموقع بنجاح');

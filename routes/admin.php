@@ -11,6 +11,7 @@ use \App\Http\Controllers\admin\AttributesController;
 use \App\Http\Controllers\admin\AttributeValuesController;
 use \App\Http\Controllers\admin\ProductController;
 use \App\Http\Controllers\admin\CouponController;
+use \App\Http\Controllers\admin\WebsiteCurrancyController;
 
 Route::group(['prefix' => 'admin'], function () {
 // Admin Login
@@ -111,7 +112,14 @@ Route::group(['prefix' => 'admin'], function () {
             Route::match(['post', 'get'], 'faq/add', 'store');
             Route::match(['post', 'get'], 'faq/update/{id}', 'update');
             Route::post('faq/delete/{id}', 'delete');
-
+        });
+        /////////////////////// Start Shipping City /////////
+        ///
+        Route::controller(\App\Http\Controllers\admin\ShippingCityController::class)->group(function (){
+           Route::get('shipping-city','index');
+           Route::post('city/add','store');
+           Route::post('city/update/{id}','update');
+           Route::post('city/delete/{id}','delete');
         });
     });
 });
