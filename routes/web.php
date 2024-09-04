@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\front\FrontController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -11,11 +12,9 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/
-
-Route::get('/', function () {
-    return view('/welcome');
+*/ 
+Route::controller(FrontController::class)->group(function(){
+    Route::get('/','index');
 });
-
 
 @include 'admin.php';
