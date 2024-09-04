@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Zain:wght@200;300;400;700;800;900&display=swap');
 
-body{
+body {
     font-family: "Zain", system-ui;
-    --main-color:#FEBD68;
-    --second-color:#222F3E;
+    --main-color: #FEBD68;
+    --second-color: #222F3E;
     height: 6000px;
 }
 
@@ -11,27 +11,34 @@ body{
 
 /********** Start Top Navbar Section ************/
 
-.top_navbar{
+.top_navbar {
     background-color: #131921;
     padding: 10px;
 }
-.top_navbar .sections{
+
+.top_navbar .sections {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.top_navbar .logo_section{}
-.top_navbar .logo_section img{
+
+.top_navbar .logo_section {}
+
+.top_navbar .logo_section img {
     width: 135px;
 }
-.top_navbar .search_section{
+
+.top_navbar .search_section {
     width: 50%;
 }
-.top_navbar .search_section form{}
-.top_navbar .search_section form .search{
+
+.top_navbar .search_section form {}
+
+.top_navbar .search_section form .search {
     display: flex;
 }
-.top_navbar .search_section form .search select{
+
+.top_navbar .search_section form .search select {
     background-color: #e6e6e6;
     height: 40px;
     padding-right: 5px;
@@ -42,7 +49,8 @@ body{
     outline: none;
     width: 65px;
 }
-.top_navbar .search_section form .search .search_input{
+
+.top_navbar .search_section form .search .search_input {
     width: 100%;
     line-height: 15px;
     padding: 7px 0 10px 10px;
@@ -57,7 +65,8 @@ body{
     text-indent: 8px;
     background-color: #fff;
 }
-.top_navbar .search_section form .search button{
+
+.top_navbar .search_section form .search button {
     font-size: 22px;
     margin: 0;
     cursor: pointer;
@@ -68,23 +77,27 @@ body{
     width: 10%;
     border-radius: 5px 0 0 5px;
 }
-.top_navbar .search_section form .search button i{
+
+.top_navbar .search_section form .search button i {
     position: relative;
     top: 4px;
 }
-.top_navbar .cart_section{
+
+.top_navbar .cart_section {
     width: 10%;
 }
-.top_navbar .cart_section .cart{
+
+.top_navbar .cart_section .cart {
     position: relative;
     top: 5px;
 }
 
-.top_navbar .cart_section .cart i{
-font-size: 30px;
-color: #fff;
+.top_navbar .cart_section .cart i {
+    font-size: 30px;
+    color: #fff;
 }
-.top_navbar .cart_section .cart .counter{
+
+.top_navbar .cart_section .cart .counter {
     color: #fff;
     font-weight: bold;
     position: absolute;
@@ -97,17 +110,20 @@ color: #fff;
     text-align: center;
     line-height: 20px;
 }
+
 /*********** End Top Navbar Section ************/
 /*********** Start Second Navbar ************/
 
-.second_navbar{
+.second_navbar {
     background-color: #222F3E;
     color: #fff;
 }
-.second_navbar .nav-link{
+
+.second_navbar .nav-link {
     color: #fff;
 }
-.second_navbar .navbar-nav .nav-link.active, .navbar-nav .show>.nav-link{
+
+.second_navbar .navbar-nav .nav-link.active, .navbar-nav .show>.nav-link {
     color: #FEBD68;
 }
 
@@ -125,14 +141,15 @@ color: #fff;
     overflow-x: scroll;
 
 }
-.new_links h6{
+
+.new_links h6 {
     font-weight: bold;
     color: #2e2d2c;
     padding-right: 10px;
 }
-.new_links ul{
 
-}
+.new_links ul {}
+
 .new_links ul li {
     display: block;
     padding-top: 10px;
@@ -150,7 +167,8 @@ color: #fff;
 .small_screen {
     display: none
 }
-.new_links .closebutton{
+
+.new_links .closebutton {
     position: absolute;
     left: 4px;
     top: 7px;
@@ -163,6 +181,7 @@ body.overlay-active {
     overflow: hidden;
     /* يمنع التمرير عندما تكون القائمة نشطة */
 }
+
 .new_links {
     /* ابدأ القائمة خارج الشاشة */
     transition: right 0.3s ease-in-out;
@@ -183,6 +202,7 @@ body.overlay-active {
     background: rgba(0, 0, 0, 0.5);
     z-index: 9999999998;
 }
+
 .overlay.active {
     display: block;
 }
@@ -196,21 +216,24 @@ body.overlay-active {
 
 
 /****************** Start New Product Section ***********/
-.new_producs{
+.new_producs {
     padding-top: 40px;
     background-color: #febd680a;
     border-bottom: 2px solid #eeeeee;
     padding-bottom: 40px;
 }
+
 .new_producs .data .data_header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding-bottom: 40px;
 }
-.new_producs .data .data_header .header2{
+
+.new_producs .data .data_header .header2 {
     font-size: 25px;
 }
+
 .new_producs .data .data_header p {
     color: #797979;
     font-size: 14px
@@ -224,7 +247,9 @@ body.overlay-active {
     padding: 7px 25px;
     min-width: 130px
 }
-.new_producs .products .product_info {
+
+.new_producs .products .product_info,
+.new_producs .main_products .product_info {
     border: 1px solid #eeeeee;
     border-radius: 5px;
     margin-right: 12px;
@@ -236,25 +261,31 @@ body.overlay-active {
     -o-border-radius: 5px;
     background-color: #fff;
 }
-.new_producs .products .product_info .main_image {
+
+.new_producs .products .product_info .main_image,
+.new_producs .main_products .product_info .main_image {
     width: 100%;
     border-radius: 5px 5px 0 0;
     height: 250px;
     object-fit: cover;
     object-position: center
 }
-.new_producs .products .product_info .main_image img{
+
+.new_producs .products .product_info .main_image img,
+.new_producs .main_products .product_info .main_image img {
     width: 100%;
     height: 100%;
-    border-radius: 3px 3px 0 0 ;
+    border-radius: 3px 3px 0 0;
 }
 
- .new_producs .products .product_info .product_details {
+.new_producs .products .product_info .product_details,
+.new_producs .main_products .product_info .product_details {
     padding: 15px;
     text-align: center;
 }
 
- .new_producs .products .product_info .product_details h2 {
+.new_producs .products .product_info .product_details h2,
+.new_producs .main_products .product_info .product_details h2 {
     color: #1b1b1b;
     font-size: 18px;
     margin-bottom: 12px;
@@ -263,39 +294,51 @@ body.overlay-active {
     max-height: 85px;
     overflow: hidden
 }
- .new_producs .products .product_info .product_details h2 a {
+
+.new_producs .products .product_info .product_details h2 a,
+.new_producs .main_products .product_info .product_details h2 a {
     text-decoration: none;
     color: #1b1b1b
 }
- .new_producs .products .product_info .product_details .price {
+
+.new_producs .products .product_info .product_details .price,
+.new_producs .main_products .product_info .product_details .price {
     color: var(--main-color);
     font-size: 16px;
     margin-top: 12px;
     display: flex;
     justify-content: center;
 }
-.new_producs .products .product_info .product_details .price .text-decoration-line-through{
+
+.new_producs .products .product_info .product_details .price .text-decoration-line-through,
+.new_producs .main_products .product_info .product_details .price .text-decoration-line-through {
     color: #ccc;
     margin-left: 15px;
 }
- .new_producs .products .product_info .product_details .add_cart {
+
+.new_producs .products .product_info .product_details .add_cart,
+.new_producs .main_products .product_info .product_details .add_cart {
     display: flex;
     justify-content: space-between;
     align-items: center;
     bottom: 15px
 }
- /* .new_producs .slick-slide img {
+
+/* .new_producs .slick-slide img {
     display: inline-block !important;
     width: 19px
 } */
- .new_producs .products .product_info .product_details .add_cart .global_button {
+.new_producs .products .product_info .product_details .add_cart .global_button,
+.new_producs .main_products .product_info .product_details .add_cart .global_button {
     color: #fff;
     border-color: var(--second-color);
     background-color: var(--second-color);
     font-size: 13px;
     padding: 7px 25px
 }
-.new_producs .products .product_info .product_details .add_cart .view_product{
+
+.new_producs .products .product_info .product_details .add_cart .view_product,
+.new_producs .main_products .product_info .product_details .add_cart .view_product {
     border: none;
     background: transparent;
     font-size: 22px;
@@ -360,3 +403,60 @@ body.overlay-active {
 }
 
 /****************** End New Product Section ************/
+
+/********************* Start Middle Banner *************/
+
+.middle_banner {
+    padding-top: 40px;
+}
+
+.middle_banner img {
+    max-width: 100%;
+}
+
+/*********************End Middle Banner ****************/
+/******************** Start Main Category Product *******/
+.main_products {
+    display: flex;
+}
+
+/******************** End  Main Category Product *******/
+/******************** Start Subscribe Mails ***********/
+.subscribe {
+    padding-top: 40px;
+    text-align: center;
+}
+
+.subscribe .data {}
+
+.subscribe .data h2 {}
+
+.subscribe .data p {}
+
+.subscribe .data form {}
+
+.subscribe .data form .box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.subscribe .data form .box input[type='email'] {
+    text-align: right;
+    height: 50px;
+    box-shadow: none;
+    outline: none;
+    direction: rtl;
+    width: 50%;
+}
+
+.subscribe .data form .box button {
+    background-color: var(--second-color);
+    border-color: var(--second-color);
+    color: #fff;
+    height: 49px;
+    border-radius: 0 5px 5px 0;
+    width: 15%;
+}
+
+/********************* End Subscribe Mails ***********/

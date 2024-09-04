@@ -37,7 +37,7 @@
                 <div class="data">
                     <div class="data_header">
                         <div class="data_header_name">
-                            <h1 class='header2'> احدث المنتجات   </h1>
+                            <h1 class='header2'> احدث المنتجات </h1>
                         </div>
                         <div>
                             <a href="shop" class='global_button btn'> تصفح المزيد </a>
@@ -152,7 +152,7 @@
                 <div class="data">
                     <div class="data_header">
                         <div class="data_header_name">
-                            <h1 class='header2'> افضل المنتجات مبيعا  </h1>
+                            <h1 class='header2'> افضل المنتجات مبيعا </h1>
                         </div>
                         <div>
                             <a href="shop" class='global_button btn'> تصفح المزيد </a>
@@ -260,6 +260,237 @@
             </div>
         </div>
         <!------------------- End Best Products ------------------->
+        <!-------------------- Start Banner --------------------->
+        <div class="middle_banner">
+            <div class="container-fluid">
+                <img src="{{ asset('assets/front/images/banner.jpg') }}" alt="">
+            </div>
+        </div>
+        <!--------------------- End Banner --------------------->
+        <!------------ Start Main Categories Product --------------->
+        <div class="new_producs">
+            <div class="container">
+                <div class="data">
+                    <div class="data_header">
+                        <div class="data_header_name">
+                            <h1 class='header2'> اجهزة الكترونية </h1>
+                        </div>
+                        <div>
+                            <a href="shop" class='global_button btn'> مشاهدة الكل </a>
+                        </div>
+                    </div>
+                    <div class="main_products">
+                        <div class="product_info">
+                            <div class="main_image">
+                                <img src="{{ asset('assets/front/images/pro2.webp') }}" alt="">
+                            </div>
+                            <div class="product_details">
+                                <h4> اسم المنتج الثاني </h4>
+                                <div class="price">
+                                    <p class="main_price text-decoration-line-through"> 20 <span> ريال </span> </p>
+                                    <p class="sale_price"> 12 <span> ريال </span> </p>
+                                </div>
+                                <div class="add_cart">
+                                    <button class="view_product"> <i class="bi bi-search-heart"></i> </button>
+                                    <button class="btn global_button"> اضف للسلة <i class="bi bi-cart"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product_info">
+                            <div class="main_image">
+                                <img src="{{ asset('assets/front/images/pro2.webp') }}" alt="">
+                            </div>
+                            <div class="product_details">
+                                <h4> اسم المنتج الثاني </h4>
+                                <div class="price">
+                                    <p class="main_price text-decoration-line-through"> 20 <span> ريال </span> </p>
+                                    <p class="sale_price"> 12 <span> ريال </span> </p>
+                                </div>
+                                <div class="add_cart">
+                                    <button class="view_product"> <i class="bi bi-search-heart"></i> </button>
+                                    <button class="btn global_button"> اضف للسلة <i class="bi bi-cart"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product_info">
+                            <div class="main_image">
+                                <img src="{{ asset('assets/front/images/pro2.webp') }}" alt="">
+                            </div>
+                            <div class="product_details">
+                                <h4> اسم المنتج الثاني </h4>
+                                <div class="price">
+                                    <p class="main_price text-decoration-line-through"> 20 <span> ريال </span> </p>
+                                    <p class="sale_price"> 12 <span> ريال </span> </p>
+                                </div>
+                                <div class="add_cart">
+                                    <button class="view_product"> <i class="bi bi-search-heart"></i> </button>
+                                    <button class="btn global_button"> اضف للسلة <i class="bi bi-cart"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product_info">
+                            <div class="main_image">
+                                <img src="{{ asset('assets/front/images/pro2.webp') }}" alt="">
+                            </div>
+                            <div class="product_details">
+                                <h4> اسم المنتج الثاني </h4>
+                                <div class="price">
+                                    <p class="main_price text-decoration-line-through"> 20 <span> ريال </span> </p>
+                                    <p class="sale_price"> 12 <span> ريال </span> </p>
+                                </div>
+                                <div class="add_cart">
+                                    <button class="view_product"> <i class="bi bi-search-heart"></i> </button>
+                                    <button class="btn global_button"> اضف للسلة <i class="bi bi-cart"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product_info">
+                            <div class="main_image">
+                                <img src="{{ asset('assets/front/images/pro2.webp') }}" alt="">
+                            </div>
+                            <div class="product_details">
+                                <h4> اسم المنتج الثاني </h4>
+                                <div class="price">
+                                    <p class="main_price text-decoration-line-through"> 20 <span> ريال </span> </p>
+                                    <p class="sale_price"> 12 <span> ريال </span> </p>
+                                </div>
+                                <div class="add_cart">
+                                    <button class="view_product"> <i class="bi bi-search-heart"></i> </button>
+                                    <button class="btn global_button"> اضف للسلة <i class="bi bi-cart"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!------------ End Main Categories Product ------------------>
+
+        <!------------ Start Main Categories Product --------------->
+        <div class="new_producs">
+            <div class="container">
+                <div class="data">
+                    <div class="data_header">
+                        <div class="data_header_name">
+                            <h1 class='header2'> آلات صنع القهوة </h1>
+                        </div>
+                        <div>
+                            <a href="shop" class='global_button btn'> مشاهدة الكل </a>
+                        </div>
+                    </div>
+                    <div class="main_products">
+                        <div class="product_info">
+                            <div class="main_image">
+                                <img src="{{ asset('assets/front/images/pro2.webp') }}" alt="">
+                            </div>
+                            <div class="product_details">
+                                <h4> اسم المنتج الثاني </h4>
+                                <div class="price">
+                                    <p class="main_price text-decoration-line-through"> 20 <span> ريال </span> </p>
+                                    <p class="sale_price"> 12 <span> ريال </span> </p>
+                                </div>
+                                <div class="add_cart">
+                                    <button class="view_product"> <i class="bi bi-search-heart"></i> </button>
+                                    <button class="btn global_button"> اضف للسلة <i class="bi bi-cart"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product_info">
+                            <div class="main_image">
+                                <img src="{{ asset('assets/front/images/pro2.webp') }}" alt="">
+                            </div>
+                            <div class="product_details">
+                                <h4> اسم المنتج الثاني </h4>
+                                <div class="price">
+                                    <p class="main_price text-decoration-line-through"> 20 <span> ريال </span> </p>
+                                    <p class="sale_price"> 12 <span> ريال </span> </p>
+                                </div>
+                                <div class="add_cart">
+                                    <button class="view_product"> <i class="bi bi-search-heart"></i> </button>
+                                    <button class="btn global_button"> اضف للسلة <i class="bi bi-cart"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product_info">
+                            <div class="main_image">
+                                <img src="{{ asset('assets/front/images/pro2.webp') }}" alt="">
+                            </div>
+                            <div class="product_details">
+                                <h4> اسم المنتج الثاني </h4>
+                                <div class="price">
+                                    <p class="main_price text-decoration-line-through"> 20 <span> ريال </span> </p>
+                                    <p class="sale_price"> 12 <span> ريال </span> </p>
+                                </div>
+                                <div class="add_cart">
+                                    <button class="view_product"> <i class="bi bi-search-heart"></i> </button>
+                                    <button class="btn global_button"> اضف للسلة <i class="bi bi-cart"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product_info">
+                            <div class="main_image">
+                                <img src="{{ asset('assets/front/images/pro2.webp') }}" alt="">
+                            </div>
+                            <div class="product_details">
+                                <h4> اسم المنتج الثاني </h4>
+                                <div class="price">
+                                    <p class="main_price text-decoration-line-through"> 20 <span> ريال </span> </p>
+                                    <p class="sale_price"> 12 <span> ريال </span> </p>
+                                </div>
+                                <div class="add_cart">
+                                    <button class="view_product"> <i class="bi bi-search-heart"></i> </button>
+                                    <button class="btn global_button"> اضف للسلة <i class="bi bi-cart"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product_info">
+                            <div class="main_image">
+                                <img src="{{ asset('assets/front/images/pro2.webp') }}" alt="">
+                            </div>
+                            <div class="product_details">
+                                <h4> اسم المنتج الثاني </h4>
+                                <div class="price">
+                                    <p class="main_price text-decoration-line-through"> 20 <span> ريال </span> </p>
+                                    <p class="sale_price"> 12 <span> ريال </span> </p>
+                                </div>
+                                <div class="add_cart">
+                                    <button class="view_product"> <i class="bi bi-search-heart"></i> </button>
+                                    <button class="btn global_button"> اضف للسلة <i class="bi bi-cart"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!------------ End Main Categories Product ------------------>
+
+        <!---------- Start Subscribe Mails ----------------------->
+        <div class="subscribe">
+            <div class="container">
+                <div class="data">
+                    <h2> لنبقي علي تواصل  </h2>
+                    <p> اشترك معنا لتصلك كل عروضنا بشكل مستمر  </p>
+                    <form action="" method="POST">
+                        @csrf
+                        <div class="box">
+                            <input type="email" class="form-control" placeholder=" ادخل البريد الالكتروني الخاص بك  "><button type="submit" class="btn global_button"> اشتراك  </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!------------ End Subscribe Mails ---------------------->
 
 
     </div>
