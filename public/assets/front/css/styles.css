@@ -18194,7 +18194,6 @@ blockquote .text {
     -moz-border-radius: 0 4px 4px 0;
     border-radius: 0 4px 4px 0;
     outline: none;
-    width: 65px;
 }
 
 .top_navbar .search_section form .search .search_input {
@@ -18263,3 +18262,8 @@ blockquote .text {
 .new_products{
 background-color:#fbfbfb;
 }
+/********************* Start Hero  Section *******************/
+.hero_section{
+    height:70vh;
+}
+/**************************End Hero Section *****************/

@@ -14,6 +14,7 @@ use \App\Http\Controllers\admin\CouponController;
 use \App\Http\Controllers\admin\TopNavBarController;
 use \App\Http\Controllers\admin\ShippingCityController;
 use \App\Http\Controllers\admin\FaqController;
+use \App\Http\Controllers\admin\BannerController;
 
 Route::group(['prefix' => 'admin'], function () {
 // Admin Login
@@ -123,15 +124,19 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('city/update/{id}', 'update');
             Route::post('city/delete/{id}', 'delete');
         });
-
         /////////////////// Start top Navbar settings //////////////
-        ///
         Route::controller(TopNavBarController::class)->group(function () {
-
             Route::get('top-navbar', 'index');
             Route::post('top-navbar/add', 'store');
             Route::post('top-navbar/update/{id}', 'update');
             Route::post('top-navbar/delete/{id}', 'delete');
+        });
+        ///////////////////////// start Banners ///////////////////////////////
+        Route::controller(BannerController::class)->group(function () {
+            Route::get('banners', 'index');
+            Route::match(['post', 'get'], 'banner/add', 'store');
+            Route::match(['post', 'get'], 'banner/update/{id}', 'update');
+            Route::post('banner/delete/{id}', 'delete');
         });
     });
 });

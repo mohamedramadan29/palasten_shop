@@ -815,98 +815,6 @@
 <!-- /mobile menu -->
 
 
-
-<!-- canvasSearch -->
-<div class="offcanvas offcanvas-end canvas-search" id="canvasSearch">
-    <div class="canvas-wrapper">
-        <header class="tf-search-head">
-            <div class="title fw-5">
-                Search our site
-                <div class="close">
-                    <span class="icon-close icon-close-popup" data-bs-dismiss="offcanvas" aria-label="Close"></span>
-                </div>
-            </div>
-            <div class="tf-search-sticky">
-                <form class="tf-mini-search-frm">
-                    <fieldset class="text">
-                        <input type="text" placeholder="Search" class="" name="text" tabindex="0" value="" aria-required="true" required="">
-                    </fieldset>
-                    <button class="" type="submit"><i class="icon-search"></i></button>
-                </form>
-            </div>
-        </header>
-        <div class="canvas-body p-0">
-            <div class="tf-search-content">
-                <div class="tf-cart-hide-has-results">
-                    <div class="tf-col-quicklink">
-                        <div class="tf-search-content-title fw-5">Quick link</div>
-                        <ul class="tf-quicklink-list">
-                            <li class="tf-quicklink-item">
-                                <a href="shop-default.html" class="">Fashion</a>
-                            </li>
-                            <li class="tf-quicklink-item">
-                                <a href="shop-default.html" class="">Men</a>
-                            </li>
-                            <li class="tf-quicklink-item">
-                                <a href="shop-default.html" class="">Women</a>
-                            </li>
-                            <li class="tf-quicklink-item">
-                                <a href="shop-default.html" class="">Accessories</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="tf-col-content">
-                        <div class="tf-search-content-title fw-5">Need some inspiration?</div>
-                        <div class="tf-search-hidden-inner">
-                            <div class="tf-loop-item">
-                                <div class="image">
-                                    <a href="product-detail.html">
-                                        <img src="images/products/white-3.jpg" alt="">
-                                    </a>
-                                </div>
-                                <div class="content">
-                                    <a href="product-detail.html">Cotton jersey top</a>
-                                    <div class="tf-product-info-price">
-                                        <div class="compare-at-price">$10.00</div>
-                                        <div class="price-on-sale fw-6">$8.00</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tf-loop-item">
-                                <div class="image">
-                                    <a href="product-detail.html">
-                                        <img src="images/products/white-2.jpg" alt="">
-                                    </a>
-                                </div>
-                                <div class="content">
-                                    <a href="product-detail.html">Mini crossbody bag</a>
-                                    <div class="tf-product-info-price">
-                                        <div class="price fw-6">$18.00</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tf-loop-item">
-                                <div class="image">
-                                    <a href="product-detail.html">
-                                        <img src="images/products/white-1.jpg" alt="">
-                                    </a>
-                                </div>
-                                <div class="content">
-                                    <a href="product-detail.html">Oversized Printed T-shirt</a>
-                                    <div class="tf-product-info-price">
-                                        <div class="price fw-6">$18.00</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- /canvasSearch -->
-
 <!-- toolbarShopmb -->
 <div class="offcanvas offcanvas-start canvas-mb toolbar-shop-mobile" id="toolbarShopmb">
     <span class="icon-close icon-close-popup" data-bs-dismiss="offcanvas" aria-label="Close"></span>
@@ -1297,61 +1205,6 @@
 </div>
 <!-- /shoppingCart -->
 
-<!-- modal compare -->
-<div class="offcanvas offcanvas-bottom canvas-compare" id="compare">
-    <div class="canvas-wrapper">
-        <header class="canvas-header">
-            <div class="close-popup">
-                <span class="icon-close icon-close-popup" data-bs-dismiss="offcanvas" aria-label="Close"></span>
-            </div>
-        </header>
-        <div class="canvas-body">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="tf-compare-list">
-                            <div class="tf-compare-head">
-                                <div class="title">Compare Products</div>
-                            </div>
-                            <div class="tf-compare-offcanvas">
-                                <div class="tf-compare-item">
-                                    <div class="position-relative">
-                                        <div class="icon">
-                                            <i class="icon-close"></i>
-                                        </div>
-                                        <a href="product-detail.html">
-                                            <img class="radius-3" src="images/products/orange-1.jpg" alt="">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="tf-compare-item">
-                                    <div class="position-relative">
-                                        <div class="icon">
-                                            <i class="icon-close"></i>
-                                        </div>
-                                        <a href="product-detail.html">
-                                            <img class="radius-3" src="images/products/pink-1.jpg" alt="">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tf-compare-buttons">
-                                <div class="tf-compare-buttons-wrap">
-                                    <a href="compare.html" class="tf-btn radius-3 btn-fill justify-content-center fw-6 fs-14 flex-grow-1 animate-hover-btn ">Compare</a>
-                                    <div class="tf-compapre-button-clear-all link">
-                                        Clear All
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- /modal compare -->
-
 <!-- modal quick_add -->
 <div class="modal fade modalDemo" id="quick_add">
     <div class="modal-dialog modal-dialog-centered">
@@ -1465,12 +1318,12 @@
                         <div class="swiper-wrapper" >
                             <div class="swiper-slide">
                                 <div class="item">
-                                    <img src="images/products/orange-1.jpg" alt="">
+                                    <img src="{{asset('assets/front/images/products/orange-1.jpg')}}" alt="">
                                 </div>
                             </div>
                             <div class="swiper-slide">
                                 <div class="item">
-                                    <img src="images/products/pink-1.jpg" alt="">
+                                    <img src="{{asset('assets/front/images/products/pink-1.jpg')}}" alt="">
                                 </div>
                             </div>
                         </div>
@@ -1481,7 +1334,7 @@
                 <div class="tf-product-info-wrap position-relative">
                     <div class="tf-product-info-list">
                         <div class="tf-product-info-title">
-                            <h5><a class="link" href="product-detail.html">Ribbed Tank Top</a></h5>
+                            <h5><a class="link" href="{{url('product/'.$product['slug'])}}">{{$product['name']}}</a></h5>
                         </div>
                         <div class="tf-product-info-badges">
                             <div class="badges text-uppercase">Best seller</div>
@@ -1583,94 +1436,6 @@
     </div>
 </div>
 <!-- /modal quick_view -->
-
-<!-- modal find_size -->
-<div class="modal fade modalDemo tf-product-modal" id="find_size">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="header">
-                <div class="demo-title">Size chart</div>
-                <span class="icon-close icon-close-popup" data-bs-dismiss="modal"></span>
-            </div>
-            <div class="tf-rte">
-                <div class="tf-table-res-df">
-                    <h6>Size guide</h6>
-                    <table class="tf-sizeguide-table">
-                        <thead>
-                        <tr>
-                            <th>Size</th>
-                            <th>US</th>
-                            <th>Bust</th>
-                            <th>Waist</th>
-                            <th>Low Hip</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>XS</td>
-                            <td>2</td>
-                            <td>32</td>
-                            <td>24 - 25</td>
-                            <td>33 - 34</td>
-                        </tr>
-                        <tr>
-                            <td>S</td>
-                            <td>4</td>
-                            <td>34 - 35</td>
-                            <td>26 - 27</td>
-                            <td>35 - 26</td>
-                        </tr>
-                        <tr>
-                            <td>M</td>
-                            <td>6</td>
-                            <td>36 - 37</td>
-                            <td>28 - 29</td>
-                            <td>38 - 40</td>
-                        </tr>
-                        <tr>
-                            <td>L</td>
-                            <td>8</td>
-                            <td>38 - 29</td>
-                            <td>30 - 31</td>
-                            <td>42 - 44</td>
-                        </tr>
-                        <tr>
-                            <td>XL</td>
-                            <td>10</td>
-                            <td>40 - 41</td>
-                            <td>32 - 33</td>
-                            <td>45 - 47</td>
-                        </tr>
-                        <tr>
-                            <td>XXL</td>
-                            <td>12</td>
-                            <td>42 - 43</td>
-                            <td>34 - 35</td>
-                            <td>48 - 50</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="tf-page-size-chart-content">
-                    <div>
-                        <h6>Measuring Tips</h6>
-                        <div class="title">Bust</div>
-                        <p>Measure around the fullest part of your bust.</p>
-                        <div class="title">Waist</div>
-                        <p>Measure around the narrowest part of your torso.</p>
-                        <div class="title">Low Hip</div>
-                        <p class="mb-0">With your feet together measure around the fullest part of your hips/rear.
-                        </p>
-                    </div>
-                    <div>
-                        <img class="sizechart lazyload" data-src="images/shop/products/size_chart2.jpg" src="images/shop/products/size_chart2.jpg" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- /modal find_size -->
 
 <!-- auto popup  -->
 <div class="modal modalCentered fade auto-popup modal-newleter">

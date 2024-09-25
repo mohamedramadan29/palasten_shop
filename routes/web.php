@@ -29,6 +29,7 @@ Route::controller(\App\Http\Controllers\front\ShopCollection::class)->group(func
 
 Route::controller(\App\Http\Controllers\front\ProductController::class)->group(function (){
    Route::get('product','product');
+    Route::get('/search-products',  'search')->name('search.products');
 });
 
 Route::controller(\App\Http\Controllers\front\CartController::class)->group(function (){

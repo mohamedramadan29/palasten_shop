@@ -251,7 +251,7 @@
                 <div class="collapse" id="sidebarshippingCity">
                     <ul class="nav sub-navbar-nav">
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="{{url('admin/shipping-city')}}"> مدن الشحن  </a>
+                            <a class="sub-nav-link" href="{{url('admin/shipping-city')}}"> مدن الشحن </a>
                         </li>
                     </ul>
                 </div>
@@ -322,10 +322,10 @@
                 <div class="collapse" id="sidebarfaqs">
                     <ul class="nav sub-navbar-nav">
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="{{url('admin/faqs')}}">  الاسئلة الشائعة للمتجر </a>
+                            <a class="sub-nav-link" href="{{url('admin/faqs')}}"> الاسئلة الشائعة للمتجر </a>
                         </li>
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="{{url('admin/faq/add')}}">  اضافة سوال جديد  </a>
+                            <a class="sub-nav-link" href="{{url('admin/faq/add')}}"> اضافة سوال جديد </a>
                         </li>
                     </ul>
                 </div>
@@ -341,12 +341,28 @@
                 <div class="collapse" id="sidebartopnavbar">
                     <ul class="nav sub-navbar-nav">
                         <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="{{url('admin/top-navbar')}}">التفاصيل  </a>
+                            <a class="sub-nav-link" href="{{url('admin/top-navbar')}}">التفاصيل </a>
                         </li>
                     </ul>
                 </div>
             </li>
 
+            <li class="nav-item">
+                <a class="nav-link menu-arrow" href="#sidebarbanners" data-bs-toggle="collapse" role="button"
+                   aria-expanded="false" aria-controls="sidebarbanners">
+                                   <span class="nav-icon">
+                                        <iconify-icon icon="solar:case-round-bold-duotone"></iconify-icon>
+                                   </span>
+                    <span class="nav-text"> البانرات الرئيسية   </span>
+                </a>
+                <div class="collapse" id="sidebarbanners">
+                    <ul class="nav sub-navbar-nav">
+                        <li class="sub-nav-item">
+                            <a class="sub-nav-link" href="{{url('admin/banners')}}">التفاصيل </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="apps-email.html">
