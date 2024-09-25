@@ -46,8 +46,13 @@
                                     <div class="card-product">
                                         <div class="card-product-wrapper">
                                             <a href="{{url('product/'.$product['slug'])}}" class="product-img">
-                                                <img class="lazyload img-product" data-src="{{asset('assets/front/images/products/orange-1.jpg')}}" src="{{asset('assets/front/images/products/orange-1.jpg')}}" alt="image-product">
-                                                <img class="lazyload img-hover" data-src="{{asset('assets/front/images/products/white-1.jpg')}}" src="{{asset('assets/front/images/products/white-1.jpg')}}" alt="image-product">
+                                                <img class="lazyload img-product" data-src="{{asset('assets/uploads/product_images/'.$product['image'])}}" src="{{asset('assets/uploads/product_images/'.$product['image'])}}" alt="{{$product['name']}}">
+                                                @if($product->gallary && $product->gallary->first())
+                                                    <img class="lazyload img-hover" data-src="{{asset('assets/uploads/product_gallery/'.$product->gallary->first()->image)}}" src="{{asset('assets/uploads/product_gallery/'.$product->gallary->first()->image)}}" alt="{{$product['name']}}">
+                                                @else
+                                                    <img class="lazyload img-hover" data-src="{{asset('assets/uploads/product_images/'.$product['image'])}}" src="{{asset('assets/uploads/product_images/'.$product['image'])}}" alt="{{$product['name']}}">
+                                                @endif
+
                                             </a>
                                             <div class="list-product-btn">
                                                 <a href="#quick_add" data-bs-toggle="modal" class="box-icon bg_white quick-add tf-btn-loading">
@@ -64,30 +69,18 @@
                                                     <span class="tooltip"> مشاهدة </span>
                                                 </a>
                                             </div>
-                                            <div class="size-list">
-                                                <span>4 sizes available</span>
-                                            </div>
                                         </div>
                                         <div class="card-product-info">
                                             <a href="{{url('product/'.$product['slug'])}}" class="title link"> {{$product['name']}} </a>
-                                            <span class="price"> {{$product['price']}} {{ $storeCurrency }} </span>
-                                            <ul class="list-color-product">
-                                                <li class="list-color-item color-swatch active">
-                                                    <span class="tooltip">Orange</span>
-                                                    <span class="swatch-value bg_orange-3"></span>
-                                                    <img class="lazyload" data-src="{{asset('assets/front/images/products/orange-1.jpg')}}" src="{{asset('assets/front/images/products/orange-1.jpg')}}" alt="image-product">
-                                                </li>
-                                                <li class="list-color-item color-swatch">
-                                                    <span class="tooltip">Black</span>
-                                                    <span class="swatch-value bg_dark"></span>
-                                                    <img class="lazyload" data-src="{{asset('assets/front/images/products/black-1.jpg')}}" src="{{asset('assets/front/images/products/black-1.jpg')}}" alt="image-product">
-                                                </li>
-                                                <li class="list-color-item color-swatch">
-                                                    <span class="tooltip">White</span>
-                                                    <span class="swatch-value bg_white"></span>
-                                                    <img class="lazyload" data-src="{{asset('assets/front/images/products/white-1.jpg')}}" src="{{asset('assets/front/images/products/white-1.jpg')}}" alt="image-product">
-                                                </li>
-                                            </ul>
+                                            @if(isset($product['discount']) && $product['discount'] !=null)
+                                                <div class="d-flex">
+                                                    <span class="price" > {{$product['discount']}} {{ $storeCurrency }} </span> <span class="price old_price"> {{$product['price']}} {{ $storeCurrency }} </span>
+                                                </div>
+
+                                            @else
+                                                <span class="price"> {{$product['price']}} {{ $storeCurrency }} </span>
+                                            @endif
+
                                         </div>
                                     </div>
                                 </div>

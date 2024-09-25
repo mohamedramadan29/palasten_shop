@@ -161,7 +161,6 @@ class ProductController extends Controller
         $gallaries = ProductGallary::where('product_id',$product['id'])->get();
         if ($request->isMethod('post')){
             try {
-
                 $data = $request->all();
                 dd($data);
 

@@ -11,7 +11,7 @@ class FrontController extends Controller
 {
     public function index(){
         $banners = Banner::where('status',1)->get();
-        $bestproducts  = Product::where('status',1)->get();
+        $bestproducts  = Product::with('gallary')->where('status',1)->get();
         return view('front.index',compact('banners','bestproducts'));
     }
 

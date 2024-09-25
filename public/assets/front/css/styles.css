@@ -18267,3 +18267,8 @@ background-color:#fbfbfb;
     height:70vh;
 }
 /**************************End Hero Section *****************/
+.old_price{
+    color: #7b7777;
+    text-decoration: line-through;
+    margin-right: 10px;
+}
