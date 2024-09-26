@@ -1,16 +1,14 @@
 <?php
-
 namespace App\Http\Controllers\front;
-
 use App\Http\Controllers\Controller;
 use App\Models\admin\Product;
 use Illuminate\Http\Request;
-
 class ProductController extends Controller
 {
-    public function product()
+    public function product($slug)
     {
-        return view('front.product-details');
+        $product = Product::with('Main_Category','gallary')->where('slug',$slug)->first();
+        return view('front.product-details',compact('product'));
     }
 
     public function search(Request $request)

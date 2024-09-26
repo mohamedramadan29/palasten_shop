@@ -17,5 +17,7 @@
     <!-- Favicon and Touch Icons  -->
     <link rel="shortcut icon" href="{{asset('assets/images/logo/favicon.png')}}">
     <link rel="apple-touch-icon-precomposed" href="{{asset('assets/images/logo/favicon.png')}}">
+    @toastifyCss
+    @yield('css')
 </head>
 <body>

@@ -10297,7 +10297,7 @@ blockquote .text {
 }
 
 .tf-page-title {
-  padding: 69px 0 65px;
+  padding: 150px 0 65px;
   background-image: url(../images/shop/file/page-title-blog.png);
   background-position: center;
   background-repeat: no-repeat;
@@ -13275,7 +13275,7 @@ blockquote .text {
 .tf-cart-item .tf-cart-item_product .img-box {
   width: 80px;
   max-height: 110px;
-  margin-right: 24px;
+  margin-left: 24px;
   border-radius: 2.5px;
   overflow: hidden;
 }
@@ -18271,4 +18271,23 @@ background-color:#fbfbfb;
     color: #7b7777;
     text-decoration: line-through;
     margin-right: 10px;
+}
+.card-product:not(.list-layout) .box-icon {
+    border: none;
+}
+
+form .btn-add-to-cart{
+    width:100%;
+    margin-top: 15px;
+}
+
+.tf-mini-cart-item .tf-mini-cart-remove,
+.tf-cart-item_product .remove-cart{
+    border: none;
+    background-color:transparent;
+}
+.tf-mini-cart-item .tf-mini-cart-remove i,
+.tf-cart-item_product .remove-cart i{
+    color: #f91a1a;
+    font-size: 20px;
 }

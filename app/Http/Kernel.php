@@ -3,6 +3,8 @@
 namespace App\Http;
 
 use App\Http\Middleware\admin;
+use App\Http\Middleware\CartMiddleware;
+use App\Http\Middleware\CheckCookie;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -22,6 +24,8 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        CheckCookie::class,
+        CartMiddleware::class,
     ];
 
     /**
@@ -66,5 +70,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'admin'=>admin::class,
+        CartMiddleware::class,
+
     ];
 }
