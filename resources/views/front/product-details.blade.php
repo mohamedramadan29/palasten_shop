@@ -164,11 +164,15 @@
                                         </div>
                                         <div class="tf-product-info-buy-button">
                                             <input type="hidden" name="product_id" value="{{$product['id']}}">
-                                            <input type="hidden" name="price" value="{{$product['price']}}">
+                                            @if(isset($product['discount']) && $product['discount'] !=null)
+                                                <input type="hidden" name="price" value="{{$product['discount']}}">
+                                            @else
+                                                <input type="hidden" name="price" value="{{$product['price']}}">
+                                            @endif
+
                                             <button id="addtocartbutton" href="javascript:void(0);"
                                                     class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn btn-add-to-cart">
                                                 <span>  اضف الي السلة    </span></button>
-                                            <button type="submit"> add to cart</button>
                                         </div>
                                     </form>
                                     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
