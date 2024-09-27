@@ -8,7 +8,8 @@ use \App\Http\Controllers\front\ProductController;
 use \App\Http\Controllers\front\CartController;
 use \App\Http\Controllers\front\CheckoutController;
 use \App\Http\Controllers\front\WishlistController;
-
+use \App\Http\Controllers\front\OrderController;
+use \App\Http\Controllers\front\TermsController;
 Route::controller(FrontController::class)->group(function () {
     Route::get('/', 'index');
 });
@@ -46,7 +47,11 @@ Route::controller(WishlistController::class)->group(function () {
     Route::post('wishlist/store', 'store');
     Route::get('wishlist/delete/{id}', 'delete');
 });
-Route::controller(\App\Http\Controllers\front\TermsController::class)->group(function (){
+Route::controller(TermsController::class)->group(function (){
    Route::get('terms','index');
+});
+Route::controller(OrderController::class)->group(function (){
+    Route::post('order/store','store');
+    Route::get('thanks','thanks');
 });
 @include 'admin.php';

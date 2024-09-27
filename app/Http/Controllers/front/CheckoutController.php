@@ -13,7 +13,12 @@ class CheckoutController extends Controller
     {
         $shippingCity = ShippingCity::where('status',1)->get();
         $cartitems = Cart::getcartitems();
-        return view('front.checkout',compact('shippingCity','cartitems'));
+        if ($cartitems ->count() > 0){
+            return view('front.checkout',compact('shippingCity','cartitems'));
+        }else{
+            return view('front.shop');
+        }
+
     }
     public function getShippingPrice(Request $request)
     {
