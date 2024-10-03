@@ -189,8 +189,7 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="type">نوع المنتج:</label>
-                                            <select class="form-control
-                                    " name="type" id="product-type" required>
+                                            <select class="form-control" name="type" id="product-type" required>
                                                 <option selected value="بسيط">بسيط</option>
                                                 <option value="متغير">متغير</option>
                                             </select>

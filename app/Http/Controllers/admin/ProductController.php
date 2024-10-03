@@ -16,6 +16,7 @@ use App\Models\admin\ProductVartions;
 use App\Models\admin\SubCategory;
 use App\Models\admin\VartionsValues;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
@@ -88,6 +89,7 @@ class ProductController extends Controller
                 if ($count_old_product > 0) {
                     return Redirect::back()->withInput()->withErrors(' اسم المنتج متواجد من قبل من فضلك ادخل منتج جديد  ');
                 }
+                DB::beginTransaction();
                 $product = new Product();
                 $product->name = $data['name'];
                 $product->slug = $this->CustomeSlug($data['name']);
@@ -118,7 +120,7 @@ class ProductController extends Controller
                         $gallery_image->save();
                     }
                 }
-                if ($product['data'] == 'متغير') {
+                if ($data['type'] == 'متغير') {
                     // حفظ المتغيرات
                     foreach ($request->variant_name as $index => $variantName) {
                         // حفظ كل متغير في جدول product_variations
@@ -143,6 +145,7 @@ class ProductController extends Controller
                         }
                     }
                 }
+                DB::commit();
                 return $this->success_message(' تم اضافة المنتج بنجاح  ');
             } catch (\Exception $e) {
                 return $this->exception_message($e);

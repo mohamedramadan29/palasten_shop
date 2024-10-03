@@ -25,6 +25,7 @@ class CartController extends Controller
     public function add(Request $request)
     {
         $cartData = $request->all();
+      //  dd($cartData);
         // Generate Session Id If Not Exists
         $session_id = Session::get('session_id');
         if (empty($session_id)) {
@@ -39,18 +40,29 @@ class CartController extends Controller
         } else {
             // User Not Login
             $user_id = 0;
-            $countProducts = Cart::where(['product_id' => $cartData['product_id'], 'session_id' => $session_id])->count();
+            $countProducts = Cart::where(['product_id' => $cartData['product_id'], 'session_id' => $session_id,'product_variation_id'=>$cartData['hidden-variation']])->count();
         }
         if ($countProducts > 0) {
             return response()->json(['message' => 'تم اضافة المنتج الي السلة من قبل ']);
         }
         // Save Product In Cart Tabel
+        if (isset($cartData['discount']) && $cartData['discount'] > 0){
+            $price = $cartData['discount'];
+        }else{
+            $price = $cartData['price'];
+        }
+        if (isset($cartData['hidden-variation']) && $cartData['hidden-variation']){
+            $hidden_vartion = $cartData['hidden-variation'];
+        }else{
+            $hidden_vartion = null;
+        }
         $item = new Cart();
         $item->session_id = $session_id;
         $item->user_id = $user_id;
         $item->product_id = $cartData['product_id'];
         $item->qty = $cartData['number'];
-        $item->price = $cartData['price'];
+        $item->price = $price;
+        $item->product_variation_id = $hidden_vartion;
         $item->save();
         $cartCount = Cart::getcartitems()->count();
         return response()->json([
