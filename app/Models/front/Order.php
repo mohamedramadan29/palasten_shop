@@ -16,4 +16,8 @@ class Order extends Model
         return $this->belongsTo(ShippingCity::class,'shippingcity');
     }
 
+    public function details()
+    {
+        return $this->hasMany(OrderDetails::class,'order_id');
+    }
 }

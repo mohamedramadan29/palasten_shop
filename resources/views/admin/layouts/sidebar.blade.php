@@ -103,12 +103,12 @@
                         <li class="sub-nav-item">
                             <a class="sub-nav-link" href="{{url('admin/orders')}}"> جميع الطلبات  </a>
                         </li>
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="{{url('admin/order/store')}}"> اضافة طلب </a>
-                        </li>
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="{{url('admin/orders/archive')}}"> ارشيف الطلبات  </a>
-                        </li>
+{{--                        <li class="sub-nav-item">--}}
+{{--                            <a class="sub-nav-link" href="{{url('admin/order/store')}}"> اضافة طلب </a>--}}
+{{--                        </li>--}}
+{{--                        <li class="sub-nav-item">--}}
+{{--                            <a class="sub-nav-link" href="{{url('admin/orders/archive')}}"> ارشيف الطلبات  </a>--}}
+{{--                        </li>--}}
                     </ul>
                 </div>
             </li>

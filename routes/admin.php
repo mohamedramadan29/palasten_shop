@@ -146,7 +146,7 @@ Route::group(['prefix' => 'admin'], function () {
             Route::post('order/delete/{id}','delete');
             Route::match(['post','get'],'order/update/{id}','update');
             Route::match(['post','get'],'order/store','store');
-            Route::get('order/view/{id}','view');
+            Route::get('order/print/{id}','print');
             Route::get('orders/archive','archive');
         });
     });

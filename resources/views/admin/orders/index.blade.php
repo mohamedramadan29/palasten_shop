@@ -59,12 +59,25 @@
                                             <td> {{$order['city']['city']}} </td>
                                             <td> {{$order['shipping_price']}} </td>
                                             <td> {{$order['grand_total']}} </td>
-                                            <td> <span class="badge badge-info bg-info"> {{$order['order_status']}} </span> </td>
+                                            <td>
+                                                @if($order['order_status'] == 'لم يبدا')
+                                                    <span class="badge badge-info bg-warning"> {{$order['order_status']}} </span>
+                                                @elseif($order['order_status'] == 'بداية التنفيذ')
+                                                    <span class="badge badge-info bg-info"> {{$order['order_status']}} </span>
+                                                @elseif($order['order_status'] == 'مكتمل')
+                                                    <span class="badge badge-info bg-success"> {{$order['order_status']}} </span>
+                                                @elseif($order['order_status'] == 'ملغي')
+                                                    <span class="badge badge-info bg-danger"> {{$order['order_status']}} </span>
+                                                @endif
+                                                 </td>
                                             <td>
                                                 <div class="d-flex gap-2">
                                                     <a href="{{url('admin/order/update/'.$order['id'])}}" class="btn btn-soft-primary btn-sm">
                                                         <iconify-icon icon="solar:pen-2-broken"
                                                                       class="align-middle fs-18"></iconify-icon>
+                                                    </a>
+                                                    <a href="{{url('admin/order/print/'.$order['id'])}}" class="btn btn-soft-primary btn-sm">
+                                                        <i class='bx bxs-printer'></i>
                                                     </a>
                                                     <button type="button" class="btn btn-soft-danger btn-sm" data-bs-toggle="modal" data-bs-target="#delete_category_{{$order['id']}}">
                                                         <iconify-icon icon="solar:trash-bin-minimalistic-2-broken"
