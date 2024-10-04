@@ -107,6 +107,13 @@ class ProductController extends Controller
         return response()->json(['price' => null, 'discount' => null]);
     }
 
+    public function quickView($id)
+    {
+        $product = Product::findOrFail($id);
+        return view('front.partials.quick-view', compact('product'));
+    }
+
+
 
 
 }

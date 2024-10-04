@@ -1,6 +1,6 @@
 @extends('front.layouts.master')
 @section('title')
-    الرئيسية
+     جميع الاقسام
 @endsection
 
 @section('content')
@@ -9,94 +9,28 @@
         <!-- page-title -->
         <div class="tf-page-title">
             <div class="container-full">
-                <div class="heading text-center">Collections</div>
+                <div class="heading text-center"> جميع الاقسام  </div>
             </div>
         </div>
         <!-- /page-title -->
         <section class="flat-spacing-1">
             <div class="container">
                 <div class="tf-grid-layout lg-col-3 tf-col-2">
-                    <div class="collection-item hover-img">
-                        <div class="collection-inner">
-                            <a href="shop-default.html" class="collection-image img-style">
-                                <img class="lazyload" data-src="images/collections/collection-8.jpg" src="images/collections/collection-8.jpg"  alt="collection-img">
-                            </a>
-                            <div class="collection-content">
-                                <a href="shop-default.html" class="tf-btn collection-title hover-icon"><span>Women</span><i class="icon icon-arrow1-top-left"></i></a>
+                    @foreach($categories as $category)
+                        <div class="collection-item hover-img">
+                            <div class="collection-inner">
+                                <a href="{{url('collection/'.$category['slug'])}}" class="collection-image img-style">
+                                    <img class="lazyload" data-src="{{asset('assets/uploads/category_images/'.$category['image'])}}" src="{{asset('assets/uploads/category_images/'.$category['image'])}}"  alt="{{$category['name']}}">
+                                </a>
+                                <div class="collection-content">
+                                    <a href="{{url('collection/'.$category['slug'])}}" class="tf-btn collection-title hover-icon"><span>{{$category['name']}}</span><i class="icon icon-arrow1-top-left"></i></a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="collection-item hover-img">
-                        <div class="collection-inner">
-                            <a href="shop-default.html" class="collection-image img-style">
-                                <img class="lazyload" data-src="images/collections/collection-9.jpg" src="images/collections/collection-9.jpg" alt="collection-img">
-                            </a>
-                            <div class="collection-content">
-                                <a href="shop-default.html" class="tf-btn collection-title hover-icon"><span>Women</span><i class="icon icon-arrow1-top-left"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="collection-item hover-img">
-                        <div class="collection-inner">
-                            <a href="shop-default.html" class="collection-image img-style">
-                                <img class="lazyload" data-src="images/collections/collection-10.jpg" src="images/collections/collection-10.jpg" alt="collection-img">
-                            </a>
-                            <div class="collection-content">
-                                <a href="shop-default.html" class="tf-btn collection-title hover-icon"><span>Women</span><i class="icon icon-arrow1-top-left"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="collection-item hover-img">
-                        <div class="collection-inner">
-                            <a href="shop-default.html" class="collection-image img-style">
-                                <img class="lazyload" data-src="images/collections/collection-11.jpg" src="images/collections/collection-11.jpg" alt="collection-img">
-                            </a>
-                            <div class="collection-content">
-                                <a href="shop-default.html" class="tf-btn collection-title hover-icon"><span>Women</span><i class="icon icon-arrow1-top-left"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="collection-item hover-img">
-                        <div class="collection-inner">
-                            <a href="shop-default.html" class="collection-image img-style">
-                                <img class="lazyload" data-src="images/collections/collection-12.jpg" src="images/collections/collection-12.jpg" alt="collection-img">
-                            </a>
-                            <div class="collection-content">
-                                <a href="shop-default.html" class="tf-btn collection-title hover-icon"><span>Women</span><i class="icon icon-arrow1-top-left"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="collection-item hover-img">
-                        <div class="collection-inner">
-                            <a href="shop-default.html" class="collection-image img-style">
-                                <img class="lazyload" data-src="images/collections/collection-13.jpg" src="images/collections/collection-13.jpg" alt="collection-img">
-                            </a>
-                            <div class="collection-content">
-                                <a href="shop-default.html" class="tf-btn collection-title hover-icon"><span>Women</span><i class="icon icon-arrow1-top-left"></i></a>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
+
                 </div>
-                <!-- pagination -->
-                <ul class="tf-pagination-wrap tf-pagination-list">
-                    <li class="active">
-                        <a href="#" class="pagination-link">1</a>
-                    </li>
-                    <li>
-                        <a href="#" class="pagination-link animate-hover-btn">2</a>
-                    </li>
-                    <li>
-                        <a href="#" class="pagination-link animate-hover-btn">3</a>
-                    </li>
-                    <li>
-                        <a href="#" class="pagination-link animate-hover-btn">4</a>
-                    </li>
-                    <li>
-                        <a href="#" class="pagination-link animate-hover-btn">
-                            <span class="icon icon-arrow-right"></span>
-                        </a>
-                    </li>
-                </ul>
+                {!! $categories->links('vendor.pagination.pagination') !!}
             </div>
         </section>
 

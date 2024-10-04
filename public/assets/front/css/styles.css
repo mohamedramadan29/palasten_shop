@@ -18291,3 +18291,25 @@ form .btn-add-to-cart{
     color: #f91a1a;
     font-size: 20px;
 }
+
+
+.footer{
+    background-color:#222F3E;
+    color:#fff;
+}
+.footer .footer-heading h6{
+    color:#fff;
+}
+.footer .footer-menu_item{
+    color:#fff;
+
+}
+.footer a{
+    color:#fff;
+}
+.tf-social-icon .social-line{
+    border:1px solid #fff;
+}
+.footer .footer-wrap .footer-bottom .footer-bottom-wrap .footer-menu_item{
+    color:#fff;
+}
