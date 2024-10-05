@@ -12,6 +12,8 @@ use \App\Http\Controllers\front\OrderController;
 use \App\Http\Controllers\front\TermsController;
 Route::controller(FrontController::class)->group(function () {
     Route::get('/', 'index');
+    Route::get('/get-product-details/{id}', 'getProductDetails');
+
 });
 
 Route::controller(ShopController::class)->group(function () {
@@ -20,6 +22,7 @@ Route::controller(ShopController::class)->group(function () {
 
 Route::controller(ShopCollection::class)->group(function () {
     Route::get('collection', 'collection');
+    Route::get('collection/{slug}','collection_details');
 });
 
 Route::controller(ProductController::class)->group(function () {

@@ -22,30 +22,34 @@
                     @php $subtotal = 0 ; @endphp
                     @foreach($cartItems as $item)
                         @php  $subtotal = $subtotal + ($item['price'] * $item['qty']) @endphp
-                    <div class="tf-mini-cart-item">
-                        <div class="tf-mini-cart-image">
-                            <a href="{{url('product/'.$item['productdata']['slug'])}}">
-                                <img src="{{asset('assets/uploads/product_images/'.$item['productdata']['image'])}}" alt="">
-                            </a>
-                        </div>
-                        <div class="tf-mini-cart-info">
-                            <a class="title link" href="{{url('product/'.$item['productdata']['slug'])}}">{{$item['productdata']['name']}}</a>
-                            <div class="meta-variant">Light gray</div>
-                            <div class="price fw-6"> {{$item['qty']}} *   {{$item['price']}} {{ $storeCurrency }}</div>
-                            <div class="tf-mini-cart-btns">
-                                <div class="wg-quantity small">
-                                    <span class="btn-quantity minus-btn">-</span>
-                                    <input type="text" name="number" value="{{$item['qty']}}">
-                                    <span class="btn-quantity plus-btn">+</span>
+                        <div class="tf-mini-cart-item">
+                            <div class="tf-mini-cart-image">
+                                <a href="{{url('product/'.$item['productdata']['slug'])}}">
+                                    <img src="{{asset('assets/uploads/product_images/'.$item['productdata']['image'])}}"
+                                         alt="">
+                                </a>
+                            </div>
+                            <div class="tf-mini-cart-info">
+                                <a class="title link"
+                                   href="{{url('product/'.$item['productdata']['slug'])}}">{{$item['productdata']['name']}}</a>
+                                <div class="meta-variant">Light gray</div>
+                                <div class="price fw-6"> {{$item['qty']}}
+                                    * {{$item['price']}} {{ $storeCurrency }}</div>
+                                <div class="tf-mini-cart-btns">
+                                    <div class="wg-quantity small">
+                                        <span class="btn-quantity minus-btn">-</span>
+                                        <input type="text" name="number" value="{{$item['qty']}}">
+                                        <span class="btn-quantity plus-btn">+</span>
+                                    </div>
+                                    <form method="post" action="{{url('cart/delete/'.$item['id'])}}">
+                                        @csrf
+                                        <input type="hidden" name="item_id" value="{{$item['id']}}">
+                                        <button type="submit" class="tf-mini-cart-remove"><i
+                                                class="bi bi-trash-fill"></i></button>
+                                    </form>
                                 </div>
-                                <form method="post" action="{{url('cart/delete/'.$item['id'])}}">
-                                    @csrf
-                                    <input type="hidden" name="item_id" value="{{$item['id']}}">
-                                    <button type="submit" class="tf-mini-cart-remove"> <i class="bi bi-trash-fill"></i> </button>
-                                </form>
                             </div>
                         </div>
-                    </div>
                     @endforeach
                 </div>
             </div>
@@ -54,13 +58,14 @@
             <div class="tf-mini-cart-bottom-wrap">
                 <div class="tf-cart-totals-discounts">
                     <div class="tf-cart-total"> المبلغ الاجمالي</div>
-                    <div class="tf-totals-total-value fw-6">  {{ number_format($subtotal,2)}} {{ $storeCurrency }} </div>
+                    <div
+                        class="tf-totals-total-value fw-6">  {{ number_format($subtotal,2)}} {{ $storeCurrency }} </div>
                 </div>
 
                 <div class="tf-mini-cart-view-checkout">
                     <a href="{{url('cart')}}" class="tf-btn btn-outline radius-3 link w-100 justify-content-center">
                         مشاهدة سلة الشراء </a>
-                    <a href="checkout.html"
+                    <a href="{{url('checkout')}}"
                        class="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"><span> انتقل الي اتمام الطلب  </span></a>
                 </div>
             </div>

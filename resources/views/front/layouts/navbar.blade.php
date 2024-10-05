@@ -234,15 +234,10 @@
                             <li class="menu-item"><a
                                         href="{{url('collection')}}"
                                         class="item-link"> جميع الاقسام </a></li>
-                            <li class="menu-item"><a
-                                        href="{{url('product')}}"
-                                        class="item-link"> صفحة المنتج </a></li>
+
                             <li class="menu-item"><a
                                         href="{{url('cart')}}"
                                         class="item-link"> السلة </a></li>
-                            <li class="menu-item"><a
-                                        href="{{url('checkout')}}"
-                                        class="item-link"> اتمام الطلب </a></li>
                         </ul>
                     </nav>
                 </div>

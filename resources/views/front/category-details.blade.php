@@ -1,6 +1,6 @@
 @extends('front.layouts.master')
 @section('title')
-     المتجر
+    {{$category['name']}}
 @endsection
 
 @section('content')
@@ -9,8 +9,8 @@
         <!-- page-title -->
         <div class="tf-page-title">
             <div class="container-full">
-                <div class="heading text-center"> المتجر  </div>
-                <p class="text-center text-2 text_black-2 mt_5"> جميع المنتجات  </p>
+                <div class="heading text-center"> منتجات القسم</div>
+                <p class="text-center text-2 text_black-2 mt_5"> {{$category['name']}} </p>
             </div>
         </div>
         <!-- /page-title -->
@@ -19,7 +19,6 @@
         <section class="flat-spacing-2">
             <div class="container">
                 <div class="tf-shop-control grid-3 align-items-center">
-
                     <ul class="tf-control-layout d-flex justify-content-center">
                         <li class="tf-view-layout-switch sw-layout-2" data-value-grid="grid-2">
                             <div class="item"><span class="icon icon-grid-2"></span></div>
@@ -164,7 +163,6 @@
 
     </div>
 @endsection
-
 
 
 @section('js')

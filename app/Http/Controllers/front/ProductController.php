@@ -14,9 +14,17 @@ class ProductController extends Controller
     {
 
         $product = Product::with('Main_Category', 'gallary')->where('slug', $slug)->first();
+        $similar_products = Product::with('gallary')->where('id','!=',$product['id'])->
+            where(function ($query) use ($product){
+                $query->where('category_id',$product['category_id'])
+                    ->orWhere('sub_category_id',$product['sub_category_id']);
+        })
+            ->limit(6)->get();
 
 
         // جلب جميع المتغيرات الخاصة بالمنتج
+
+
         $productVariations = ProductVartions::where('product_id', $product->id)->get();
 
         // جمع السمات مع القيم بناءً على attribute_id
@@ -43,7 +51,7 @@ class ProductController extends Controller
             }
         }
 
-        return view('front.product-details', compact('product', 'productVariations', 'variationAttributes'));
+        return view('front.product-details', compact('product', 'productVariations', 'variationAttributes','similar_products'));
     }
 
     public function search(Request $request)
@@ -110,8 +118,37 @@ class ProductController extends Controller
     public function quickView($id)
     {
         $product = Product::findOrFail($id);
-        return view('front.partials.quick-view', compact('product'));
+
+        // جلب جميع المتغيرات الخاصة بالمنتج
+        $productVariations = ProductVartions::where('product_id', $id)->get();
+
+        // جمع السمات مع القيم بناءً على attribute_id
+        $variationAttributes = [];
+
+        foreach ($productVariations as $variation) {
+            // جلب القيم من جدول vartions_values بناءً على المتغير
+            $attributes = VartionsValues::where('product_variation_id', $variation->id)->get();
+
+            foreach ($attributes as $attribute) {
+                // التأكد من أن العلاقة مع attributes تجلب الاسم
+                $attributeName = $attribute->attribute->name;
+                // تنظيم القيم حسب attribute_id
+                if (!isset($variationAttributes[$attribute->attribute_id])) {
+                    $variationAttributes[$attribute->attribute_id] = [
+                        'name' => $attributeName, // اسم السمة من جدول attributes
+                        'values' => []
+                    ];
+                }
+                // إضافة القيم إلى السمة المحددة إذا لم تكن موجودة مسبقاً
+                if (!in_array($attribute->attribute_value_name, $variationAttributes[$attribute->attribute_id]['values'])) {
+                    $variationAttributes[$attribute->attribute_id]['values'][] = $attribute->attribute_value_name;
+                }
+            }
+        }
+        return view('front.partials.quick-view', compact('product','productVariations', 'variationAttributes',));
     }
+
+
 
 
 

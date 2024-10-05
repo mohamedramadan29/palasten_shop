@@ -2238,7 +2238,7 @@ header {
   background-color: var(--white);
 }
 header.header-bg {
-  background-color: var(--white);
+  background-color: #222F3E;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
@@ -8948,6 +8948,8 @@ header.header-bg {
   border-radius: 10px;
   overflow: hidden;
   z-index: 20;
+    width:300px;
+    height:300px;
 }
 .card-product .card-product-wrapper .sold-out {
   display: flex;
@@ -10297,11 +10299,12 @@ blockquote .text {
 }
 
 .tf-page-title {
-  padding: 150px 0 65px;
+  padding: 100px 0 65px;
   background-image: url(../images/shop/file/page-title-blog.png);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+    margin-bottom: 30px;
 }
 .tf-page-title .heading {
   font-size: 42px;

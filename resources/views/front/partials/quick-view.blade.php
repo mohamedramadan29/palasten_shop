@@ -4,17 +4,21 @@
 <div class="wrap">
     <div class="tf-product-media-wrap">
         <div class="swiper tf-single-slide">
-            <div class="swiper-wrapper" >
+            <div class="swiper-wrapper" style="align-items: center">
                 <div class="swiper-slide">
                     <div class="item">
-                        <img width="200px" height="200px" src="{{asset('assets/front/images/products/orange-1.jpg')}}" alt="">
+                        <img src="{{asset('assets/uploads/product_images/'.$product['image'])}}" alt="">
                     </div>
                 </div>
-                <div class="swiper-slide">
-                    <div class="item">
-                        <img width="200px" height="200px" src="{{asset('assets/front/images/products/pink-1.jpg')}}" alt="">
-                    </div>
-                </div>
+                @if($product['gallary'] && $product['gallary'] !='')
+                    @foreach($product['gallary'] as $gallary)
+                        <div class="swiper-slide">
+                            <div class="item">
+                                <img src="{{asset('assets/uploads/product_gallery/'.$gallary['image'])}}" alt="">
+                            </div>
+                        </div>
+                    @endforeach
+                @endif
             </div>
             <div class="swiper-button-next button-style-arrow single-slide-prev"></div>
             <div class="swiper-button-prev button-style-arrow single-slide-next"></div>
@@ -26,98 +30,92 @@
                 <h5><a class="link" href="#"> {{$product->name}}  </a></h5>
             </div>
             <div class="tf-product-info-badges">
-                <div class="badges text-uppercase">Best seller</div>
                 <div class="product-status-content">
-                    <i class="icon-lightning"></i>
-                    <p class="fw-6">Selling fast! 48 people have this in their carts.</p>
+                    <p class="fw-6">{{$product['short_description']}}</p>
                 </div>
             </div>
-            <div class="tf-product-info-price">
-                <div class="price">$18.00</div>
-            </div>
-            <div class="tf-product-description">
-                <p>Nunc arcu faucibus a et lorem eu a mauris adipiscing conubia ac aptent ligula facilisis a auctor habitant parturient a a.Interdum fermentum.</p>
-            </div>
-            <div class="tf-product-info-variant-picker">
-                <div class="variant-picker-item">
-                    <div class="variant-picker-label">
-                        Color: <span class="fw-6 variant-picker-label-value">Orange</span>
-                    </div>
-                    <div class="variant-picker-values">
-                        <input id="values-orange-1" type="radio" name="color-1" checked>
-                        <label class="hover-tooltip radius-60" for="values-orange-1" data-value="Orange">
-                            <span class="btn-checkbox bg-color-orange"></span>
-                            <span class="tooltip">Orange</span>
-                        </label>
-                        <input id="values-black-1" type="radio" name="color-1">
-                        <label class=" hover-tooltip radius-60" for="values-black-1" data-value="Black">
-                            <span class="btn-checkbox bg-color-black"></span>
-                            <span class="tooltip">Black</span>
-                        </label>
-                        <input id="values-white-1" type="radio" name="color-1">
-                        <label class="hover-tooltip radius-60" for="values-white-1" data-value="White">
-                            <span class="btn-checkbox bg-color-white"></span>
-                            <span class="tooltip">White</span>
-                        </label>
-                    </div>
-                </div>
-                <div class="variant-picker-item">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="variant-picker-label">
-                            Size: <span class="fw-6 variant-picker-label-value">S</span>
+            <!-- عرض خيارات السمات -->
+            <form id="addToCart" class="" method="post" action="{{url('cart/add')}}">
+                @csrf
+                <div class="tf-product-info-variant-picker">
+                    @if($productVariations->count() > 0)
+                        @foreach($variationAttributes as $attributeId => $attribute)
+                            <div class="form-group">
+                                <label
+                                    for="attribute_{{ $attributeId }}">{{ $attribute['name'] }}</label>
+                                <select name="attribute_values[{{ $attributeId }}]"
+                                        class="form-control" onchange="fetchPrice()">
+                                    <option value="">اختر {{ $attribute['name'] }}</option>
+                                    @foreach($attribute['values'] as $value)
+                                        <option value="{{ $value }}">{{ $value }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        @endforeach
+                        <!-- عرض السعر هنا -->
+                        <div id="product-price" class="tf-product-info-price">
+                            <p class="quantity-title fw-6">السعر: <span id="price-value"
+                                                                        class="price-on-sale"> </span>
+                            </p>
+                            <p id="discount-section" style="display: none;">
+                                <span id="discounted-price" class="price-on-sale"> </span></p>
                         </div>
-                        <div class="find-size btn-choose-size fw-6">Find your size</div>
-                    </div>
-                    <div class="variant-picker-values">
-                        <input type="radio" name="size-1" id="values-s-1" checked>
-                        <label class="style-text" for="values-s-1" data-value="S">
-                            <p>S</p>
-                        </label>
-                        <input type="radio" name="size-1" id="values-m-1">
-                        <label class="style-text" for="values-m-1" data-value="M">
-                            <p>M</p>
-                        </label>
-                        <input type="radio" name="size-1" id="values-l-1">
-                        <label class="style-text" for="values-l-1" data-value="L">
-                            <p>L</p>
-                        </label>
-                        <input type="radio" name="size-1" id="values-xl-1">
-                        <label class="style-text" for="values-xl-1" data-value="XL">
-                            <p>XL</p>
-                        </label>
+                        <br>
+                        <!-- حقول مخفية للسعر والمتغيرات -->
+                        <input type="hidden" placeholder="سعر المتغير " id="hidden-price"
+                               name="price" value="">
+                        <input type="hidden" id="hidden-discount" placeholder=" سعر خصم المتغير "
+                               name="discount" value="">
+                        <input type="hidden" id="hidden-variation" placeholder="دشقفهخر " name="hidden-variation"
+                               value="">
+
+                    @else
+                        <input type="hidden" id="hidden-variation" placeholder="دشقفهخر " name="hidden-variation"
+                               value="">
+                        <div class="tf-product-info-price">
+                            @if(isset($product['discount']) && $product['discount'] !=null)
+                                <div
+                                    class="price-on-sale">{{$product['discount']}} {{ $storeCurrency }} </div>
+                                <div
+                                    class="compare-at-price">{{$product['price']}} {{ $storeCurrency }}</div>
+                            @else
+                                <div
+                                    class="price-on-sale">{{$product['price']}} {{ $storeCurrency }}</div>
+                            @endif
+                        </div>
+                        @if(isset($product['discount']) && $product['discount'] !=null)
+                            <input type="hidden" name="price" value="{{$product['discount']}}">
+                        @else
+                            <input type="hidden" name="price" value="{{$product['price']}}">
+                        @endif
+                    @endif
+
+                </div>
+                <div class="tf-product-info-quantity">
+                    <div class="quantity-title fw-6"> الكمية</div>
+                    <div class="wg-quantity">
+                        <span class="btn-quantity minus-btn">-</span>
+                        <input type="text" name="number" value="1">
+                        <span class="btn-quantity plus-btn">+</span>
                     </div>
                 </div>
-            </div>
-            <div class="tf-product-info-quantity">
-                <div class="quantity-title fw-6">Quantity</div>
-                <div class="wg-quantity">
-                    <span class="btn-quantity minus-btn">-</span>
-                    <input type="text" name="number" value="1">
-                    <span class="btn-quantity plus-btn">+</span>
+                <div class="tf-product-info-buy-button">
+                    <input type="hidden" name="product_id" value="{{$product['id']}}">
+
+
+                    <button id="addtocartbutton" href="javascript:void(0);"
+                            class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn btn-add-to-cart">
+                        <span>  اضف الي السلة    </span></button>
                 </div>
-            </div>
-            <div class="tf-product-info-buy-button">
-                <form class="">
-                    <a href="javascript:void(0);" class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn btn-add-to-cart"><span>Add to cart -&nbsp;</span><span class="tf-qty-price">$8.00</span></a>
-                    <a href="javascript:void(0);" class="tf-product-btn-wishlist hover-tooltip box-icon bg_white wishlist btn-icon-action">
-                        <span class="icon icon-heart"></span>
-                        <span class="tooltip">Add to Wishlist</span>
-                        <span class="icon icon-delete"></span>
-                    </a>
-                    <a href="#compare" data-bs-toggle="offcanvas" aria-controls="offcanvasLeft" class="tf-product-btn-wishlist hover-tooltip box-icon bg_white compare btn-icon-action">
-                        <span class="icon icon-compare"></span>
-                        <span class="tooltip">Add to Compare</span>
-                        <span class="icon icon-check"></span>
-                    </a>
-                    <div class="w-100">
-                        <a href="#" class="btns-full">Buy with <img src="images/payments/paypal.png" alt=""></a>
-                        <a href="#" class="payment-more-option">More payment options</a>
-                    </div>
-                </form>
-            </div>
+            </form>
+
             <div>
-                <a href="product-detail.html" class="tf-btn fw-6 btn-line">View full details<i class="icon icon-arrow1-top-left"></i></a>
+                <br>
+                <a href="{{url('product/'.$product['slug'])}}" class="tf-btn fw-6 btn-line"> تفاصيل المنتج  <i
+                        class="icon icon-arrow1-top-left"></i></a>
             </div>
         </div>
     </div>
 </div>
+
+
