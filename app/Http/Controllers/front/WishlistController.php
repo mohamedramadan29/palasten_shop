@@ -4,6 +4,7 @@ namespace App\Http\Controllers\front;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\Message_Trait;
+use App\Models\admin\Product;
 use App\Models\front\wishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
@@ -14,8 +15,17 @@ class WishlistController extends Controller
     use Message_Trait;
     public function index()
     {
-        $wishlists = wishlist::all();
-        return view('front.wishlist', compact('wishlists'));
+        $cookie_id = Cookie::get('cookie_id');
+
+// جلب جميع العناصر في المفضلة حسب cookie_id
+        $wishlists = Wishlist::where('cookie_id', $cookie_id)->get();
+
+// جلب المنتجات المرتبطة بالمفضلة
+        $wishlistProductIds = $wishlists->pluck('product_id')->toArray();
+
+// جلب المنتجات من جدول products بناءً على IDs
+        $productsInWishlist = Product::whereIn('id', $wishlistProductIds)->get();
+        return view('front.wishlist', compact('wishlists','productsInWishlist'));
     }
 
     public function store(Request $request)

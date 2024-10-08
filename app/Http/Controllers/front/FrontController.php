@@ -17,7 +17,18 @@ class FrontController extends Controller
         $bestproducts  = Product::with('gallary','Main_Category')->where('status',1)->get();
         $lastproducts = Product::with('gallary','Main_Category')->where('status',1)->orderBy('id','DESC')->limit(12)->get();
         $mainCategories = MainCategory::where('status',1)->get();
-        return view('front.index',compact('banners','bestproducts','lastproducts','mainCategories'));
+        // جلب الأقسام المحددة لتظهر في الصفحة الرئيسية
+        $selectedCategories = MainCategory::where('main_page', 1)->get();
+
+        // جلب المنتجات المتعلقة بالأقسام المختارة
+        $productsBySelectedCategories = Product::with('gallary', 'Main_Category')
+            ->whereHas('Main_Category', function ($query) {
+                $query->where('main_page', 1);
+            })
+            ->where('status', 1)
+            ->get();
+
+        return view('front.index',compact('banners','bestproducts','lastproducts','mainCategories','selectedCategories','productsBySelectedCategories'));
     }
 
     public function getProductDetails($id){

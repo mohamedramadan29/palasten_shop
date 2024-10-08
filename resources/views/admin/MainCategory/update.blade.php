@@ -45,7 +45,6 @@
                                     </div>
 
                                     <div class="col-lg-6">
-
                                         <label for="crater" class="form-label"> حالة التفعيل </label>
                                         <select required name="status" class="form-control" id="crater" data-choices
                                                 data-choices-groups data-placeholder="Select Crater">
@@ -53,8 +52,19 @@
                                             <option @if($category['status'] ==1) selected @endif value="1">مفعل</option>
                                             <option @if($category['status'] ==0) selected @endif value="0">غير مفعل</option>
                                         </select>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <label for="crater" class="form-label">  قسم في الصفحة الرئيسية  </label>
+                                        <select required name="main_page" class="form-control" id="crater" data-choices
+                                                data-choices-groups data-placeholder="Select Crater">
+                                            <option value=""> -- حدد   --</option>
+                                            <option @if($category['main_page'] == 1) selected @endif value="1">نعم</option>
+                                            <option @if($category['main_page'] == 0) selected @endif value="0">لا</option>
+                                        </select>
 
                                     </div>
+
                                     <div class="col-lg-12">
                                         <div class="mb-0">
                                             <label for="description" class="form-label"> وصف القسم </label>

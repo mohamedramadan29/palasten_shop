@@ -51,6 +51,7 @@ class MainCategoryController extends Controller
                     $new_category->slug = $this->CustomeSlug($alldata['name']);
                     $new_category->description = $alldata['description'];
                     $new_category->status = $alldata['status'];
+                    $new_category->main_page = $alldata['main_page'];
                     $new_category->meta_title = $alldata['meta_title'];
                     $new_category->meta_description = $alldata['meta_description'];
                     $new_category->meta_keywords = $alldata['meta_keywords'];
@@ -105,6 +106,7 @@ class MainCategoryController extends Controller
                     "slug" => $this->CustomeSlug($alldata['name']),
                     "description" => $alldata['description'],
                     "status" => $alldata['status'],
+                    'main_page' => $alldata['main_page'],
                     "meta_title" => $alldata['meta_title'],
                     "meta_description" => $alldata['meta_description'],
                     "meta_keywords" => $alldata['meta_keywords'],
@@ -120,15 +122,15 @@ class MainCategoryController extends Controller
 
     public function delete($id)
     {
-        try{
+        try {
             $category = MainCategory::findOrFail($id);
             $old_image = public_path('assets/uploads/category_images/' . $category['image']);
-            if (isset($old_image) && $old_image !=''){
+            if (isset($old_image) && $old_image != '') {
                 unlink($old_image);
             }
             $category->delete();
             return $this->success_message(' تم حذف القسم بنجاح  ');
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return $this->exception_message($e);
         }
     }

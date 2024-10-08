@@ -66,6 +66,7 @@
                                         <th> اسم القسم</th>
                                         <th> عدد الاقسام الفرعية</th>
                                         <th> الحالة</th>
+                                        <th> رئيسية  </th>
                                         <th> الصورة</th>
                                         <th> العمليات</th>
                                     </tr>
@@ -91,6 +92,13 @@
                                                     <span class="badge bg-success"> مفعل  </span>
                                                 @else
                                                     <span class="badge bg-danger"> غير مفعل  </span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if($category['main_page'] == 1)
+                                                    <span class="badge bg-success"> نعم  </span>
+                                                @else
+                                                    <span class="badge bg-danger"> لا  </span>
                                                 @endif
                                             </td>
                                             <td>
