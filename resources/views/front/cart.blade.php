@@ -29,16 +29,6 @@
         <section class="flat-spacing-11">
             <div class="container">
                 @if($cartcount > 0 )
-
-                    {{--            <div class="tf-cart-countdown">--}}
-                    {{--                <div class="title-left">--}}
-                    {{--                    <svg class="d-inline-block" xmlns="http://www.w3.org/2000/svg" width="16" height="24" viewBox="0 0 16 24" fill="rgb(219 18 21)">--}}
-                    {{--                        <path fill-rule="evenodd" clip-rule="evenodd" d="M10.0899 24C11.3119 22.1928 11.4245 20.2409 10.4277 18.1443C10.1505 19.2691 9.64344 19.9518 8.90645 20.1924C9.59084 18.2379 9.01896 16.1263 7.19079 13.8576C7.15133 16.2007 6.58824 17.9076 5.50148 18.9782C4.00436 20.4517 4.02197 22.1146 5.55428 23.9669C-0.806588 20.5819 -1.70399 16.0418 2.86196 10.347C3.14516 11.7228 3.83141 12.5674 4.92082 12.8809C3.73335 7.84186 4.98274 3.54821 8.66895 0C8.6916 7.87426 11.1062 8.57414 14.1592 12.089C17.4554 16.3071 15.5184 21.1748 10.0899 24Z"></path>--}}
-                    {{--                    </svg>--}}
-                    {{--                    <p>These products are limited, checkout within </p>--}}
-                    {{--                </div>--}}
-                    {{--                <div class="js-countdown timer-count" data-timer="600" data-labels="d:,h:,m:,s"></div>--}}
-                    {{--            </div>--}}
                     <div class="tf-page-cart-wrap">
                         <div class="tf-page-cart-item">
                             <table class="tf-table-page-cart">
@@ -64,7 +54,17 @@
                                             <div class="cart-info">
                                                 <a href="{{url('product/'.$item['productdata']['slug'])}}"
                                                    class="cart-title link"> {{$item['productdata']['name']}} </a>
-                                                <div class="cart-meta-variant">White / M</div>
+                                                @if($item['product_variation_id'] !=null)
+                                                    @php
+$vartionValues = \App\Models\admin\VartionsValues::where('product_variation_id',$item['product_variation_id'])->select('attribute_value_name')->get();
+ @endphp
+                                                    <div
+                                                        class="cart-meta-variant">
+                                                        @foreach($vartionValues as $value)
+                                                            {{$value['attribute_value_name']}} -
+                                                        @endforeach  </div>
+                                                @endif
+
                                                 <form method="post" action="{{url('cart/delete/'.$item['id'])}}">
                                                     @csrf
                                                     <input type="hidden" name="item_id" value="{{$item['id']}}">
@@ -73,29 +73,35 @@
                                                 </form>
                                             </div>
                                         </td>
-                                        <td class="tf-cart-item_price" cart-data-title="Price">
-                                            <div class="cart-price">  {{$item['price']}} {{ $storeCurrency }} </div>
+                                        <td class="tf-cart-item_price" cart-data-title="السعر ">
+                                            <div class="cart-price"  data-id="{{ $item['id'] }}">  {{$item['price']}} {{ $storeCurrency }} </div>
                                         </td>
-                                        <td class="tf-cart-item_quantity" cart-data-title="Quantity">
+                                        <td class="tf-cart-item_quantity" cart-data-title="الكمية ">
                                             <div class="cart-quantity">
                                                 <div class="wg-quantity">
-                                                    <span class="btn-quantity minus-btn">
+                                                    <span class="btn-quantity minus-btn" data-id="{{$item['id']}}">
                                                         <svg class="d-inline-block" width="9" height="1"
-                                                             viewBox="0 0 9 1" fill="currentColor"><path
-                                                                d="M9 1H5.14286H3.85714H0V1.50201e-05H3.85714L5.14286 0L9 1.50201e-05V1Z"></path></svg>
+                                                             viewBox="0 0 9 1" fill="currentColor">
+                                                            <path
+                                                                d="M9 1H5.14286H3.85714H0V1.50201e-05H3.85714L5.14286 0L9 1.50201e-05V1Z"></path>
+                                                        </svg>
                                                     </span>
-                                                    <input type="text" name="number" value="{{$item['qty']}}">
-                                                    <span class="btn-quantity plus-btn">
+
+                                                    <input type="number" name="number" data-id="{{ $item['id'] }}" value="{{ $item['qty'] }}" min="1">
+                                                    <span class="btn-quantity plus-btn" data-id="{{$item['id']}}">
                                                         <svg class="d-inline-block" width="9" height="9"
-                                                             viewBox="0 0 9 9" fill="currentColor"><path
-                                                                d="M9 5.14286H5.14286V9H3.85714V5.14286H0V3.85714H3.85714V0H5.14286V3.85714H9V5.14286Z"></path></svg>
+                                                             viewBox="0 0 9 9" fill="currentColor">
+                                                            <path
+                                                                d="M9 5.14286H5.14286V9H3.85714V5.14286H0V3.85714H3.85714V0H5.14286V3.85714H9V5.14286Z"></path>
+                                                        </svg>
                                                     </span>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="tf-cart-item_total" cart-data-title="Total">
-                                            <div
-                                                class="cart-total"> {{$item['qty'] * $item['price']}} {{ $storeCurrency }} </div>
+                                        <td class="tf-cart-item_total" cart-data-title="المجموع ">
+                                            <div class="cart-total" data-id="{{ $item['id'] }}">
+                                                {{ number_format($item['qty'] * $item['price'],2)}} {{ $storeCurrency }}
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -106,13 +112,13 @@
                             <div class="tf-cart-footer-inner">
                                 <div class="tf-page-cart-checkout">
                                     <div class="tf-cart-totals-discounts">
-                                        <h3> المجموع الفرعي  </h3>
+                                        <h3> المجموع الفرعي </h3>
                                         <span class="total-value"> {{$subtotal}} {{ $storeCurrency }}  </span>
                                     </div>
                                     <div class="cart-checkbox">
                                         <input type="checkbox" class="tf-check" id="check-agree">
                                         <label for="check-agree" class="fw-4">
-                                            الموافقة علي  <a href="{{url('terms')}}"> الشروط والاحكام  </a>
+                                            الموافقة علي <a href="{{url('terms')}}"> الشروط والاحكام </a>
                                         </label>
                                     </div>
                                     <div class="cart-checkout-btn">
@@ -139,4 +145,71 @@
         </section>
     </div>
     <!-- page-cart -->
+@endsection
+
+
+@section('js')
+    <script>
+        $(document).ready(function () {
+            // زيادة الكمية عند الضغط على الزر +
+            $('.plus-btn').off('click').on('click', function (e) {
+                e.preventDefault(); // منع السلوك الافتراضي
+                let itemId = $(this).data('id');
+                let inputField = $('input[name="number"][data-id="' + itemId + '"]');
+                let newQuantity = parseInt(inputField.val()) + 1;
+                updateCart(itemId, newQuantity);
+            });
+
+            // نقصان الكمية عند الضغط على الزر -
+            $('.minus-btn').off('click').on('click', function (e) {
+                e.preventDefault(); // منع السلوك الافتراضي
+                let itemId = $(this).data('id');
+                let inputField = $('input[name="number"][data-id="' + itemId + '"]');
+                let newQuantity = parseInt(inputField.val()) - 1;
+                if (newQuantity > 0) {
+                    updateCart(itemId, newQuantity);
+                }
+            });
+
+            // تحديث الكمية عند كتابة المستخدم كمية مباشرة في حقل الإدخال
+            $('input[name="number"]').off('input').on('input', function (e) {
+                let itemId = $(this).data('id');
+                let newQuantity = parseInt($(this).val());
+
+                // التأكد من أن القيمة المدخلة صحيحة وأن الكمية أكبر من 0
+                if (!isNaN(newQuantity) && newQuantity > 0) {
+                    updateCart(itemId, newQuantity);
+                }
+            });
+
+            // تحديث الكمية في السلة
+            function updateCart(itemId, newQuantity) {
+                $.ajax({
+                    url: '/cart/update',
+                    method: 'POST',
+                    data: {
+                        "_token": "{{ csrf_token() }}", // تأكيد الحماية ضد CSRF
+                        "item_id": itemId,
+                        "quantity": newQuantity
+                    },
+                    success: function (response) {
+                        // تحديث الكميات والأسعار بناءً على الاستجابة
+                        $('input[name="number"][data-id="' + itemId + '"]').val(newQuantity);
+
+                        // تحديث المجموع لكل منتج
+                        $('.tf-cart-item_total .cart-total[data-id="' + itemId + '"]').text(response.itemTotal.toFixed(2) + ' {{ $storeCurrency }}');
+
+                        // تحديث المجموع الفرعي (Subtotal)
+                        $('.total-value').text(response.subtotal.toFixed(2) + ' {{ $storeCurrency }}');
+                    },
+                    error: function (xhr) {
+                        console.log('Error updating cart');
+                    }
+                });
+            }
+        });
+    </script>
+
+
+
 @endsection

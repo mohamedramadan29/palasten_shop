@@ -46,10 +46,13 @@
         <section class="flat-spacing-15 new_products">
             <div class="container">
                 <div class="flat-title wow fadeInUp" data-wow-delay="0s">
-
-
-                    <span class="title wow fadeInUp" data-wow-delay="0s"> الاكثر مبيعا  </span>
-                    <p class="sub-title wow fadeInUp" data-wow-delay="0s"> اكثر المنتجات مبيعا في المتجر </p>
+                    <div>
+                        <span class="title wow fadeInUp" data-wow-delay="0s"> الاكثر مبيعا  </span>
+                        <p class="sub-title wow fadeInUp" data-wow-delay="0s"> اكثر المنتجات مبيعا في المتجر </p>
+                    </div>
+                    <div>
+                        <a href="#" class="head_read_more"> عرض الكل   <i class="bi bi-arrow-left"></i></a>
+                    </div>
 
                 </div>
                 <div class="hover-sw-nav hover-sw-3">
@@ -81,7 +84,6 @@
 
                                             </a>
                                             <div class="list-product-btn">
-
                                                 <form id="wishlistForm_{{$product['id']}}" method="post"
                                                       action="{{url('wishlist/store')}}">
                                                     @csrf
@@ -133,16 +135,88 @@
                                             <a href="{{url('product/'.$product['slug'])}}"
                                                class="title link"> {{$product['name']}} </a>
                                             @if(isset($product['discount']) && $product['discount'] !=null)
-                                                <div class="d-flex">
+                                                <div class="">
                                                     <span
-                                                        class="price"> {{$product['discount']}} {{ $storeCurrency }} </span>
+                                                        class="price main_price"> {{$product['discount']}} {{ $storeCurrency }} </span>
                                                     <span
                                                         class="price old_price"> {{$product['price']}} {{ $storeCurrency }} </span>
                                                 </div>
-
                                             @else
-                                                <span class="price"> {{$product['price']}} {{ $storeCurrency }} </span>
+                                                <span
+                                                    class="price main_price"> {{$product['price']}} {{ $storeCurrency }} </span>
                                             @endif
+
+                                            @php
+                                                $productVariations = \App\Models\admin\ProductVartions::where('product_id', $product['id'])->get();
+                                            @endphp
+                                            @if($productVariations->count() > 0)
+                                                <a href="{{url('product/'.$product['slug'])}}" class="add-to-cart">
+                                                    مشاهدة الاختيارات
+                                                </a>
+                                            @else
+                                                <form id="addToCart_{{$product['id']}}" class="" method="post"
+                                                      action="{{url('cart/add')}}">
+                                                    <input type="hidden" name="product_id" value="{{$product['id']}}">
+                                                    <input type="hidden" name="number" value="1">
+                                                    @if(isset($product['discount']) && $product['discount'] !=null)
+                                                        <input type="hidden" name="price"
+                                                               value="{{$product['discount']}}">
+                                                    @else
+                                                        <input type="hidden" name="price" value="{{$product['price']}}">
+                                                    @endif
+                                                    <input type="hidden" id="hidden-variation" placeholder="دشقفهخر "
+                                                           name="hidden-variation" value="">
+
+                                                    <button id="addtocartbutton_{{$product['id']}}" class="add-to-cart">
+                                                        اضف الي السلة
+                                                    </button>
+                                                </form>
+                                                <script>
+                                                    $(document).ready(function () {
+                                                        $("#addtocartbutton_{{$product['id']}}").on('click', function (e) {
+                                                            e.preventDefault();
+                                                            $.ajax({
+                                                                url: '/cart/add',
+                                                                method: 'POST',
+                                                                headers: {
+                                                                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                                                },
+                                                                data: $("#addToCart_{{$product['id']}}").serialize(),
+                                                                success: function (response) {
+                                                                    // عرض الرسالة باستخدام Toastify
+                                                                    Toastify({
+                                                                        text: response.message, // عرض الرسالة من response
+                                                                        duration: 3000, // المدة الزمنية لعرض الرسالة
+                                                                        gravity: "top", // اتجاه العرض
+                                                                        position: "right", // موقع الرسالة
+                                                                        backgroundColor: "#4CAF50", // لون الخلفية للرسالة
+                                                                    }).showToast();
+                                                                    if (response.cartCount) {
+                                                                        $('.nav-cart .count-box').text(response.cartCount);
+                                                                    }
+                                                                    // تحميل محتوى عربة التسوق المحدثة
+                                                                    updateCartModal();
+                                                                },
+                                                                error: function (xhr, status, error) {
+                                                                    $('#wishlistMessage').html('<p>حدث خطأ أثناء إضافة المنتج للسلة </p>');
+                                                                }
+                                                            });
+                                                        });
+
+                                                        function updateCartModal() {
+                                                            $.ajax({
+                                                                url: '/cart/items', // رابط يقوم بجلب العناصر المحدثة
+                                                                method: 'GET',
+                                                                success: function (response) {
+                                                                    // استبدل محتوى الـ modal الخاص بعربة التسوق
+                                                                    $('#shoppingCart .wrap').html(response);
+                                                                }
+                                                            });
+                                                        }
+                                                    });
+                                                </script>
+                                            @endif
+
 
                                         </div>
                                     </div>
@@ -163,13 +237,19 @@
         <!-- Start Best Products -->
         <section class="flat-spacing-5 flat-seller new_products">
             <div class="container">
-                <div class="flat-title">
-                    <span class="title"> احدث المنتجات  </span>
-                    <p class="sub-title"> احدث المنتجات في المتجر </p>
+                <div class="flat-title wow fadeInUp" data-wow-delay="0s">
+                    <div>
+                        <span class="title wow fadeInUp" data-wow-delay="0s"> احدث المنتجات   </span>
+                        <p class="sub-title wow fadeInUp" data-wow-delay="0s">  احدث المنتجات في المتجر </p>
+                    </div>
+                    <div>
+                        <a href="#" class="head_read_more"> عرض الكل   <i class="bi bi-arrow-left"></i></a>
+                    </div>
+
                 </div>
                 <div class="grid-layout loadmore-item wow fadeInUp" data-wow-delay="0s" data-grid="grid-4">
                     @foreach($lastproducts as $product)
-                        <div class="card-product fl-item">
+                        <div class="card-product">
                             <div class="card-product-wrapper">
                                 <a href="{{url('product/'.$product['slug'])}}" class="product-img">
                                     <img class="lazyload img-product"
@@ -190,7 +270,6 @@
 
                                 </a>
                                 <div class="list-product-btn">
-
                                     <form id="wishlistForm_{{$product['id']}}" method="post"
                                           action="{{url('wishlist/store')}}">
                                         @csrf
@@ -242,21 +321,92 @@
                                 <a href="{{url('product/'.$product['slug'])}}"
                                    class="title link"> {{$product['name']}} </a>
                                 @if(isset($product['discount']) && $product['discount'] !=null)
-                                    <div class="d-flex">
+                                    <div class="">
                                                     <span
-                                                        class="price"> {{$product['discount']}} {{ $storeCurrency }} </span>
+                                                        class="price main_price"> {{$product['discount']}} {{ $storeCurrency }} </span>
                                         <span
                                             class="price old_price"> {{$product['price']}} {{ $storeCurrency }} </span>
                                     </div>
-
                                 @else
-                                    <span class="price"> {{$product['price']}} {{ $storeCurrency }} </span>
+                                    <span
+                                        class="price main_price"> {{$product['price']}} {{ $storeCurrency }} </span>
                                 @endif
+
+                                @php
+                                    $productVariations = \App\Models\admin\ProductVartions::where('product_id', $product['id'])->get();
+                                @endphp
+                                @if($productVariations->count() > 0)
+                                    <a href="{{url('product/'.$product['slug'])}}" class="add-to-cart">
+                                        مشاهدة الاختيارات
+                                    </a>
+                                @else
+                                    <form id="addToCart_{{$product['id']}}" class="" method="post"
+                                          action="{{url('cart/add')}}">
+                                        <input type="hidden" name="product_id" value="{{$product['id']}}">
+                                        <input type="hidden" name="number" value="1">
+                                        @if(isset($product['discount']) && $product['discount'] !=null)
+                                            <input type="hidden" name="price"
+                                                   value="{{$product['discount']}}">
+                                        @else
+                                            <input type="hidden" name="price" value="{{$product['price']}}">
+                                        @endif
+                                        <input type="hidden" id="hidden-variation" placeholder="دشقفهخر "
+                                               name="hidden-variation" value="">
+
+                                        <button id="addtocartbutton_{{$product['id']}}" class="add-to-cart">
+                                            اضف الي السلة
+                                        </button>
+                                    </form>
+                                    <script>
+                                        $(document).ready(function () {
+                                            $("#addtocartbutton_{{$product['id']}}").on('click', function (e) {
+                                                e.preventDefault();
+                                                $.ajax({
+                                                    url: '/cart/add',
+                                                    method: 'POST',
+                                                    headers: {
+                                                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                                    },
+                                                    data: $("#addToCart_{{$product['id']}}").serialize(),
+                                                    success: function (response) {
+                                                        // عرض الرسالة باستخدام Toastify
+                                                        Toastify({
+                                                            text: response.message, // عرض الرسالة من response
+                                                            duration: 3000, // المدة الزمنية لعرض الرسالة
+                                                            gravity: "top", // اتجاه العرض
+                                                            position: "right", // موقع الرسالة
+                                                            backgroundColor: "#4CAF50", // لون الخلفية للرسالة
+                                                        }).showToast();
+                                                        if (response.cartCount) {
+                                                            $('.nav-cart .count-box').text(response.cartCount);
+                                                        }
+                                                        // تحميل محتوى عربة التسوق المحدثة
+                                                        updateCartModal();
+                                                    },
+                                                    error: function (xhr, status, error) {
+                                                        $('#wishlistMessage').html('<p>حدث خطأ أثناء إضافة المنتج للسلة </p>');
+                                                    }
+                                                });
+                                            });
+
+                                            function updateCartModal() {
+                                                $.ajax({
+                                                    url: '/cart/items', // رابط يقوم بجلب العناصر المحدثة
+                                                    method: 'GET',
+                                                    success: function (response) {
+                                                        // استبدل محتوى الـ modal الخاص بعربة التسوق
+                                                        $('#shoppingCart .wrap').html(response);
+                                                    }
+                                                });
+                                            }
+                                        });
+                                    </script>
+                                @endif
+
 
                             </div>
                         </div>
                     @endforeach
-
 
 
                 </div>
@@ -292,7 +442,8 @@
                                     <div class="swiper-slide" lazy="true">
                                         <div class="collection-item style-left hover-img">
                                             <div class="collection-inner">
-                                                <a href="{{url('collection/'.$category['slug'])}}" class="collection-image img-style">
+                                                <a href="{{url('collection/'.$category['slug'])}}"
+                                                   class="collection-image img-style">
                                                     <img class="lazyload"
                                                          data-src="{{asset('assets/uploads/category_images/'.$category['image'])}}"
                                                          src="{{asset('assets/uploads/category_images/'.$category['image'])}}"

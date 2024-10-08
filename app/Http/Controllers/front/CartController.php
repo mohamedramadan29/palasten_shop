@@ -95,4 +95,30 @@ class CartController extends Controller
             return $this->exception_message($e);
         }
     }
+
+    public function updateCart(Request $request)
+    {
+        $cartItem = Cart::find($request->item_id); // إيجاد العنصر في السلة
+        if ($cartItem) {
+            $cartItem->qty = $request->quantity; // تحديث الكمية
+            $cartItem->save(); // حفظ التحديثات
+
+            // حساب المجموع للمنتج الواحد
+            $itemTotal = $cartItem->qty * $cartItem->price;
+
+            // حساب المجموع الفرعي (Subtotal)
+            $subtotal = Cart::getcartitems()->sum(function($item) {
+                return $item['price'] * $item['qty'];
+            });
+
+            return response()->json([
+                'itemTotal' => $itemTotal,
+                'subtotal' => $subtotal
+            ]);
+        }
+
+        return response()->json(['error' => 'Item not found'], 404);
+    }
+
+
 }

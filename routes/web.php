@@ -39,6 +39,8 @@ Route::controller(CartController::class)->group(function () {
     Route::post('cart/add', 'add');
     Route::get('/cart/items', 'getCartItems');
     Route::post('cart/delete/{id}','delete');
+    Route::post('/cart/update', 'updateCart')->name('cart.update');
+
 });
 
 Route::controller(CheckoutController::class)->group(function () {
