@@ -43,10 +43,11 @@ class OrderController extends Controller
         }
         DB::beginTransaction();
         $order = new Order();
-        $order->name = $data['name'];
+        $order->name = $data['name'] . '' . $data['name2'];
         $order->address = $data['address'];
         $order->shippingcity = $data['shippingcity'];
         $order->phone = $data['phone'];
+        $order->phone2 = $data['phone2'];
         $order->email = $data['email'];
         $order->shipping_price = $data['shipping_price'];
         $order->order_status = 'لم يبدا';

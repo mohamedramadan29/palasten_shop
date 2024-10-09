@@ -34,11 +34,17 @@
                     <div class="tf-page-cart-item">
                         <h5 class="fw-5 mb_20"> تفاصيل الشحن </h5>
 
-                            <div class="box">
+                            <div class="box grid-2">
                                 <fieldset class="fieldset">
-                                    <label for="name"> الاسم </label>
+                                    <label for="name">  الاسم الاول  </label>
                                     <input type="text" id="name" placeholder="" name="name" required
                                            value="{{old('name')}}">
+                                </fieldset>
+                                <fieldset class="fieldset">
+
+                                    <label for="name"> اسم العائلة  </label>
+                                    <input type="text" id="name2" placeholder="" name="name2" required
+                                           value="{{old('name2')}}">
                                 </fieldset>
                             </div>
                             <fieldset class="box fieldset">
@@ -61,6 +67,10 @@
                                 <label for="phone"> رقم الهاتف </label>
                                 <input type="number" id="phone" name="phone" required value="{{old('phone')}}">
                             </fieldset>
+                        <fieldset class="box fieldset">
+                            <label for="phone2"> رقم بديل (اختياري) </label>
+                            <input type="number" id="phone2" name="phone2" required value="{{old('phone2')}}">
+                        </fieldset>
                             <fieldset class="box fieldset">
                                 <label for="email"> البريد الالكتروني </label>
                                 <input type="email" id="email" required name="email" value="{{old('email')}}">

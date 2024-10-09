@@ -510,7 +510,9 @@
 </div>
 <!-- /modal login -->
 <!-- shoppingCart -->
-<div class="modal fullLeft fade modal-shopping-cart" id="shoppingCart">
+
+
+    <div class="modal fullLeft fade modal-shopping-cart" id="shoppingCart" tabindex="-1" aria-labelledby="shoppingCartLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="header">
@@ -566,6 +568,7 @@
 <script type="text/javascript" src="{{asset('assets/front/js/main.js')}}"></script>
 @toastifyJs
 @yield('js')
+
 
 </body>
 
