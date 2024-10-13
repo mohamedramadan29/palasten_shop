@@ -92,7 +92,6 @@ class ProductController extends Controller
         foreach ($productVariations as $variation) {
             $matched = true;
             $variationAttributes = VartionsValues::where('product_variation_id', $variation->id)->get();
-
             // تحقق من مطابقة القيم
             foreach ($variationAttributes as $attribute) {
                 if (!isset($selectedAttributes[$attribute->attribute_id]) || $selectedAttributes[$attribute->attribute_id] !== $attribute->attribute_value_name) {
@@ -101,7 +100,6 @@ class ProductController extends Controller
                 }
             }
             // إذا كانت القيم متطابقة، نعيد السعر والتخفيض إذا وجد
-
             if ($matched) {
                 return response()->json([
                     'variation_id'=>$variation->id,

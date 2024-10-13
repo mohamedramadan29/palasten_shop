@@ -54,21 +54,38 @@
                 </div>
             </div>
         </div>
-        <div class="tf-mini-cart-bottom">
-            <div class="tf-mini-cart-bottom-wrap">
-                <div class="tf-cart-totals-discounts">
-                    <div class="tf-cart-total"> المبلغ الاجمالي</div>
-                    <div
-                        class="tf-totals-total-value fw-6">  {{ number_format($subtotal,2)}} {{ $storeCurrency }} </div>
-                </div>
+        @if($cartItems->count() > 0)
+            <div class="tf-mini-cart-bottom">
+                <div class="tf-mini-cart-bottom-wrap">
+                    <div class="tf-cart-totals-discounts">
+                        <div class="tf-cart-total"> المبلغ الاجمالي</div>
+                        <div
+                            class="tf-totals-total-value fw-6">  {{ number_format($subtotal,2)}} {{ $storeCurrency }} </div>
+                    </div>
 
-                <div class="tf-mini-cart-view-checkout">
-                    <a href="{{url('cart')}}" class="tf-btn btn-outline radius-3 link w-100 justify-content-center">
-                        مشاهدة سلة الشراء </a>
-                    <a href="{{url('checkout')}}"
-                       class="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"><span> انتقل الي اتمام الطلب  </span></a>
+                    <div class="tf-mini-cart-view-checkout">
+                        <a href="{{url('cart')}}" class="tf-btn btn-outline radius-3 link w-100 justify-content-center">
+                            مشاهدة سلة الشراء </a>
+                        <a href="{{url('checkout')}}"
+                           class="tf-btn btn-fill animate-hover-btn radius-3 w-100 justify-content-center"><span> انتقل الي اتمام الطلب  </span></a>
+                    </div>
                 </div>
             </div>
-        </div>
+        @else
+            <div class="tf-mini-cart-bottom">
+                <div class="tf-mini-cart-bottom-wrap">
+                    <div class="tf-cart-totals-discounts">
+                        <div class="tf-cart-total"> سلة الشراء فارغة</div>
+                    </div>
+
+                    <div class="tf-mini-cart-view-checkout">
+                        <a href="{{url('shop')}}"
+                           class="tf-btn btn-outline radius-3 link w-100 justify-content-center">
+                            تسوق الان </a>
+                    </div>
+                </div>
+            </div>
+        @endif
+
     </div>
 </div>

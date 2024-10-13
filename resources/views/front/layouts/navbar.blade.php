@@ -253,7 +253,7 @@
                         <li class="nav-wishlist"><a href="{{url('wishlist')}}" class="nav-icon-item"><i
                                     class="icon icon-heart"></i><span class="count-box">{{$wishlistCount}}</span></a>
                         </li>
-                        <li class="nav-cart"><a href="#shoppingCart" data-bs-toggle="modal" class="nav-icon-item"><i
+                        <li class="nav-cart"><a id="shoppingCartmodel" href="#shoppingCart" data-bs-toggle="modal" class="nav-icon-item"><i
                                     class="icon icon-bag"></i><span class="count-box">{{$cartCount}}</span></a></li>
                     </ul>
                 </div>
@@ -261,3 +261,14 @@
         </div>
     </header>
     <!-- /Header -->
+
+    <script>
+
+        $(document).ready(function () {
+            $("#shoppingCartmodel").on('click', function (e) {
+                e.preventDefault();
+                $('#shoppingCart').modal('show');
+
+            });
+        });
+    </script>

@@ -5565,7 +5565,7 @@ header.header-bg {
   border-radius: 0;
   border: 0;
   margin: auto;
-  overflow: hidden;
+  overflow: scroll;
   position: absolute;
   left: 0;
   bottom: 0;

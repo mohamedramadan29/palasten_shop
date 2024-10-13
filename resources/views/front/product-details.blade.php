@@ -449,17 +449,23 @@
                                                                 success: function (response) {
                                                                     // عرض الرسالة باستخدام Toastify
                                                                     Toastify({
-                                                                        text: response.message, // عرض الرسالة من response
-                                                                        duration: 3000, // المدة الزمنية لعرض الرسالة
-                                                                        gravity: "top", // اتجاه العرض
-                                                                        position: "right", // موقع الرسالة
-                                                                        backgroundColor: "#4CAF50", // لون الخلفية للرسالة
+                                                                        text: response.message,
+                                                                        duration: 3000,
+                                                                        gravity: "top",
+                                                                        position: "right",
+                                                                        backgroundColor: "#4CAF50",
                                                                     }).showToast();
+
+                                                                    // تحديث عداد المنتجات في السلة
                                                                     if (response.cartCount) {
                                                                         $('.nav-cart .count-box').text(response.cartCount);
                                                                     }
-                                                                    // تحميل محتوى عربة التسوق المحدثة
+
+                                                                    // تحديث محتويات الـ modal للسلة فورًا
                                                                     updateCartModal();
+
+                                                                    // إظهار الـ modal بعد الإضافة
+                                                                    $('#shoppingCart').modal('show');
                                                                 },
                                                                 error: function (xhr, status, error) {
                                                                     $('#wishlistMessage').html('<p>حدث خطأ أثناء إضافة المنتج للسلة </p>');
@@ -469,15 +475,28 @@
 
                                                         function updateCartModal() {
                                                             $.ajax({
-                                                                url: '/cart/items', // رابط يقوم بجلب العناصر المحدثة
+                                                                url: '/cart/items', // رابط جلب العناصر المحدثة
                                                                 method: 'GET',
                                                                 success: function (response) {
-                                                                    // استبدل محتوى الـ modal الخاص بعربة التسوق
-                                                                    $('#shoppingCart .wrap').html(response);
+                                                                    console.log('Cart modal response:', response); // طباعة استجابة السيرفر للتحقق من البيانات
+
+                                                                    // استبدال محتويات الـ modal بالـ HTML المستلم من السيرفر
+                                                                    $('#shoppingCart .wrap').html(response.html);
+
+                                                                    // تحديث عداد السلة
+                                                                    $('.nav-cart .count-box').text(response.cartCount); // تحديث العداد مباشرة
+
+                                                                    // تحديث متغير $cartCount في الواجهة إذا كنت تستخدمه في أماكن أخرى
+                                                                    window.cartCount = response.cartCount; // تخزين القيمة في متغير عالمي
+                                                                    console.log(window.cartCount);
+                                                                },
+                                                                error: function (xhr, status, error) {
+                                                                    console.log('خطأ في تحديث السلة');
                                                                 }
                                                             });
                                                         }
                                                     });
+
                                                 </script>
                                             @endif
 
@@ -502,6 +521,70 @@
 @endsection
 
 @section('js')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('body').on('click', '#addtocartbutton', function (e) {
+                e.preventDefault(); // منع السلوك الافتراضي للنموذج
+                // إرسال الطلب باستخدام AJAX
+                $.ajax({
+                    url: '/cart/add',
+                    method: 'POST',
+                    data: $("#addToCart").serialize(), // البيانات المرسلة
+                    success: function (response) {
+                        // عرض الرسالة باستخدام Toastify
+                        Toastify({
+                            text: response.message,
+                            duration: 3000,
+                            gravity: "top",
+                            position: "right",
+                            backgroundColor: "#4CAF50",
+                        }).showToast();
+
+                        if (response.cartCount) {
+                            $('.nav-cart .count-box').text(response.cartCount);
+                        }
+                        // تحديث عربة التسوق
+                        // تحديث محتويات الـ modal للسلة فورًا
+                        updateCartModal();
+
+                        // إظهار الـ modal بعد الإضافة
+                        $('#shoppingCart').modal('show');
+                        $('#quick_view').modal('hide');
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error:", xhr.responseText); // عرض أي أخطاء
+                        $('#wishlistMessage').html('<p>حدث خطأ أثناء إضافة المنتج للسلة</p>');
+                    }
+                });
+            });
+
+            // تحديث عربة التسوق
+            function updateCartModal() {
+                $.ajax({
+                    url: '/cart/items', // رابط جلب العناصر المحدثة
+                    method: 'GET',
+                    success: function (response) {
+                        console.log('Cart modal response:', response); // طباعة استجابة السيرفر للتحقق من البيانات
+
+                        // استبدال محتويات الـ modal بالـ HTML المستلم من السيرفر
+                        $('#shoppingCart .wrap').html(response.html);
+
+                        // تحديث عداد السلة
+                        $('.nav-cart .count-box').text(response.cartCount); // تحديث العداد مباشرة
+
+                        // تحديث متغير $cartCount في الواجهة إذا كنت تستخدمه في أماكن أخرى
+                        window.cartCount = response.cartCount; // تخزين القيمة في متغير عالمي
+                        console.log(window.cartCount);
+                    },
+                    error: function (xhr, status, error) {
+                        console.log('خطأ في تحديث السلة');
+                    }
+                });
+            }
+        });
+
+    </script>
 
     <script>
         document.querySelectorAll('.btn-quick-view').forEach(button => {
@@ -527,7 +610,6 @@
                                 prevEl: '.swiper-button-prev',
                             },
                         });
-
                         // تهيئة أزرار التحكم بالكمية
                         initializeQuantityButtons();
                     })
@@ -564,55 +646,9 @@
         });
     </script>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <script>
-        $(document).ready(function () {
-            // بدلاً من ربط الحدث مباشرة بالزر، اربطه بالـ body أو أي عنصر أعلى
-            $('body').on('click', '#addtocartbutton', function (e) {
-                e.preventDefault(); // منع السلوك الافتراضي للنموذج
-                // إرسال الطلب باستخدام AJAX
-                $.ajax({
-                    url: '/cart/add',
-                    method: 'POST',
-                    data: $("#addToCart").serialize(), // البيانات المرسلة
-                    success: function (response) {
-                        // عرض الرسالة باستخدام Toastify
-                        Toastify({
-                            text: response.message,
-                            duration: 3000,
-                            gravity: "top",
-                            position: "right",
-                            backgroundColor: "#4CAF50",
-                        }).showToast();
 
-                        if (response.cartCount) {
-                            $('.nav-cart .count-box').text(response.cartCount);
-                        }
-                        // تحديث عربة التسوق
-                        updateCartModal();
-                    },
-                    error: function (xhr, status, error) {
-                        console.error("Error:", xhr.responseText); // عرض أي أخطاء
-                        $('#wishlistMessage').html('<p>حدث خطأ أثناء إضافة المنتج للسلة</p>');
-                    }
-                });
-            });
 
-            // تحديث عربة التسوق
-            function updateCartModal() {
-                $.ajax({
-                    url: '/cart/items', // رابط لجلب العناصر المحدثة
-                    method: 'GET',
-                    success: function (response) {
-                        // تحديث محتوى modal الخاص بعربة التسوق
-                        $('#shoppingCart .wrap').html(response);
-                    }
-                });
-            }
-        });
-
-    </script>
 
     <script>
         function fetchPrice() {
@@ -649,4 +685,5 @@
                 .catch(error => console.error('Error:', error));
         }
     </script>
+
 @endsection

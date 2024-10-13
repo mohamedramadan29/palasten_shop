@@ -18,20 +18,22 @@ class CartController extends Controller
     {
         $cartItems = Cart::getcartitems();
         $cartcount = $cartItems->count();
-        $shippingCity = ShippingCity::where('status',1)->get();
-        return view('front.cart',compact('cartItems','cartcount','shippingCity'));
+        $shippingCity = ShippingCity::where('status', 1)->get();
+        return view('front.cart', compact('cartItems', 'cartcount', 'shippingCity'));
     }
 
     public function add(Request $request)
     {
         $cartData = $request->all();
-      //  dd($cartData);
+        //  dd($cartData);
         // Generate Session Id If Not Exists
         $session_id = Session::get('session_id');
         if (empty($session_id)) {
             $session_id = Session::getId();
             Session::put('session_id', $session_id);
+            Session::regenerate(); // تأكد من تحديث الجلسة
         }
+
         //Check If This Product Already Exist Or Not
         if (Auth::check()) {
             // User Is Login
@@ -40,20 +42,20 @@ class CartController extends Controller
         } else {
             // User Not Login
             $user_id = 0;
-            $countProducts = Cart::where(['product_id' => $cartData['product_id'], 'session_id' => $session_id,'product_variation_id'=>$cartData['hidden-variation']])->count();
+            $countProducts = Cart::where(['product_id' => $cartData['product_id'], 'session_id' => $session_id, 'product_variation_id' => $cartData['hidden-variation']])->count();
         }
         if ($countProducts > 0) {
             return response()->json(['message' => 'تم اضافة المنتج الي السلة من قبل ']);
         }
         // Save Product In Cart Tabel
-        if (isset($cartData['discount']) && $cartData['discount'] > 0){
+        if (isset($cartData['discount']) && $cartData['discount'] > 0) {
             $price = $cartData['discount'];
-        }else{
+        } else {
             $price = $cartData['price'];
         }
-        if (isset($cartData['hidden-variation']) && $cartData['hidden-variation']){
+        if (isset($cartData['hidden-variation']) && $cartData['hidden-variation']) {
             $hidden_vartion = $cartData['hidden-variation'];
-        }else{
+        } else {
             $hidden_vartion = null;
         }
         $item = new Cart();
@@ -69,21 +71,46 @@ class CartController extends Controller
             'message' => ' تم اضافه المنتج الي السله',
             'cartCount' => $cartCount // إرسال العدد إلى الـ Frontend
         ]);
+
         //return $this->success_message(' تم اضافه المنتج الي السله');
     }
 
+//    public function getCartItems()
+//    {
+//        if (Auth::check()) {
+//            $user_id = Auth::user()->id;
+//            $cartItems = Cart::with('productdata')->where('user_id', $user_id)->get();
+//        } else {
+//            $session_id = Session::get('session_id');
+//            $cartItems = Cart::with('productdata')->where('session_id', $session_id)->get();
+//        }
+//        // اعرض الـ view الخاص بعربة التسوق مع البيانات
+//        return view('front.partials.cart_items', compact('cartItems'));
+//    }
+
     public function getCartItems()
     {
+        $cartItems = [];
+
         if (Auth::check()) {
             $user_id = Auth::user()->id;
             $cartItems = Cart::with('productdata')->where('user_id', $user_id)->get();
         } else {
             $session_id = Session::get('session_id');
+            if (empty($session_id)) {
+                $session_id = Session::getId();
+                Session::put('session_id', $session_id);
+            }
             $cartItems = Cart::with('productdata')->where('session_id', $session_id)->get();
         }
-        // اعرض الـ view الخاص بعربة التسوق مع البيانات
-        return view('front.partials.cart_items', compact('cartItems'));
+
+        // إرجاع البيانات المحدثة كـ JSON
+        return response()->json([
+            'html' => view('front.partials.cart_items', compact('cartItems'))->render(), // رندر الـ HTML
+            'cartCount' => $cartItems->count(), // تحديث عداد السلة
+        ]);
     }
+
 
     public function delete($id)
     {
@@ -91,7 +118,7 @@ class CartController extends Controller
             $item = Cart::findOrFail($id);
             $item->delete();
             return $this->success_message(' تم حذف المنتج من سلة المشتريات  ');
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return $this->exception_message($e);
         }
     }
@@ -107,7 +134,7 @@ class CartController extends Controller
             $itemTotal = $cartItem->qty * $cartItem->price;
 
             // حساب المجموع الفرعي (Subtotal)
-            $subtotal = Cart::getcartitems()->sum(function($item) {
+            $subtotal = Cart::getcartitems()->sum(function ($item) {
                 return $item['price'] * $item['qty'];
             });
 
