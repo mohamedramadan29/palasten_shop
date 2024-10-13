@@ -17461,8 +17461,9 @@ textarea.form-control-lg {
     -webkit-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
     height: var(--bs-topbar-height);
-    background-color: var(--bs-topbar-bg);
+    background-color: #fff;
     padding-right: var(--bs-main-nav-width);
+    margin-bottom: 30px;
 }
 
 .topbar .navbar-header {

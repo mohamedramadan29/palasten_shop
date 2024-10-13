@@ -25,13 +25,13 @@
                                 </div> <!-- end col -->
                                 <div class="col-6 text-end">
                                     <p class="text-muted mb-0"> الطلبات </p>
-                                    <h3 class="text-dark mt-1 mb-0"> 1000 </h3>
+                                    <h3 class="text-dark mt-1 mb-0"> @php echo  count(\App\Models\front\Order::all()) @endphp  </h3>
                                 </div> <!-- end col -->
                             </div> <!-- end row-->
                         </div> <!-- end card body -->
                         <div class="card-footer py-2 bg-light bg-opacity-50">
                             <div class="d-flex align-items-center justify-content-between">
-                                <a href="{{url('admin/transactions')}}" class="text-reset fw-semibold fs-12"> مشاهدة
+                                <a href="{{url('admin/orders')}}" class="text-reset fw-semibold fs-12"> مشاهدة
                                     التفاصيل </a>
                             </div>
                         </div> <!-- end card body -->
@@ -49,13 +49,13 @@
                                 </div> <!-- end col -->
                                 <div class="col-6 text-end">
                                     <p class="text-muted mb-0"> المنتجات </p>
-                                    <h3 class="text-dark mt-1 mb-0"> 80 </h3>
+                                    <h3 class="text-dark mt-1 mb-0">  @php echo  count(\App\Models\admin\Product::all()) @endphp  </h3>
                                 </div> <!-- end col -->
                             </div> <!-- end row-->
                         </div> <!-- end card body -->
                         <div class="card-footer py-2 bg-light bg-opacity-50">
                             <div class="d-flex align-items-center justify-content-between">
-                                <a href="{{url('admin/transactions')}}" class="text-reset fw-semibold fs-12"> مشاهدة
+                                <a href="{{url('admin/products')}}" class="text-reset fw-semibold fs-12"> مشاهدة
                                     التفاصيل </a>
                             </div>
                         </div> <!-- end card body -->
@@ -74,13 +74,13 @@
                                 </div> <!-- end col -->
                                 <div class="col-6 text-end">
                                     <p class="text-muted mb-0"> التصنيفات الرئيسية </p>
-                                    <h3 class="text-dark mt-1 mb-0"> 10 </h3>
+                                    <h3 class="text-dark mt-1 mb-0"> @php echo count(\App\Models\admin\MainCategory::all()) @endphp </h3>
                                 </div> <!-- end col -->
                             </div> <!-- end row-->
                         </div> <!-- end card body -->
                         <div class="card-footer py-2 bg-light bg-opacity-50">
                             <div class="d-flex align-items-center justify-content-between">
-                                <a href="#!" class="text-reset fw-semibold fs-12"> مشاهدة التفاصيل </a>
+                                <a href="{{url('admin/main-categories')}}" class="text-reset fw-semibold fs-12"> مشاهدة التفاصيل </a>
                             </div>
                         </div> <!-- end card body -->
                     </div> <!-- end card -->
@@ -135,7 +135,7 @@
                                         <th style="width: 20px;">
                                         </th>
                                         <th> الاسم   </th>
-                                        <th> البريد الالكتروني  </th>
+                                        <th>  رقم الهاتف   </th>
                                         <th> السعر الكلي  </th>
                                         <th> العمليات</th>
                                     </tr>
@@ -145,98 +145,26 @@
 
                                         $i = 1;
                                     @endphp
-{{--                                    @foreach($brands as $brand)--}}
-                                        <tr>
-                                            <td>
-                                               1
-                                            </td>
-                                            <td> محمد رمضان   </td>
-                                            <td>
-                                              mohamed@gmail.com
-                                            </td>
-                                            <td> 1000 دولار </td>
-                                            <td>
-                                                <div class="d-flex gap-2">
-                                                    <a href="#" class="btn btn-soft-primary btn-sm">
-                                                        <iconify-icon icon="solar:pen-2-broken"
-                                                                      class="align-middle fs-18"></iconify-icon>
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>
+                                @foreach($lastorders as $order)
                                     <tr>
                                         <td>
-                                            1
+                                            {{$order['id']}}
                                         </td>
-                                        <td> محمد رمضان   </td>
+                                        <td> {{$order['name']}}  </td>
                                         <td>
-                                            mohamed@gmail.com
+                                            {{$order['phone']}}
                                         </td>
-                                        <td> 1000 دولار </td>
+                                        <td> {{$order['grand_total']}} </td>
                                         <td>
                                             <div class="d-flex gap-2">
-                                                <a href="#" class="btn btn-soft-primary btn-sm">
+                                                <a href="{{url('/admin/order/update/'.$order['id'])}}" class="btn btn-soft-primary btn-sm">
                                                     <iconify-icon icon="solar:pen-2-broken"
                                                                   class="align-middle fs-18"></iconify-icon>
                                                 </a>
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>
-                                            2
-                                        </td>
-                                        <td> محمد رمضان   </td>
-                                        <td>
-                                            mohamed@gmail.com
-                                        </td>
-                                        <td> 1000 دولار </td>
-                                        <td>
-                                            <div class="d-flex gap-2">
-                                                <a href="#" class="btn btn-soft-primary btn-sm">
-                                                    <iconify-icon icon="solar:pen-2-broken"
-                                                                  class="align-middle fs-18"></iconify-icon>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            3
-                                        </td>
-                                        <td> محمد رمضان   </td>
-                                        <td>
-                                            mohamed@gmail.com
-                                        </td>
-                                        <td> 1000 دولار </td>
-                                        <td>
-                                            <div class="d-flex gap-2">
-                                                <a href="#" class="btn btn-soft-primary btn-sm">
-                                                    <iconify-icon icon="solar:pen-2-broken"
-                                                                  class="align-middle fs-18"></iconify-icon>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            4
-                                        </td>
-                                        <td> محمد رمضان   </td>
-                                        <td>
-                                            mohamed@gmail.com
-                                        </td>
-                                        <td> 1000 دولار </td>
-                                        <td>
-                                            <div class="d-flex gap-2">
-                                                <a href="#" class="btn btn-soft-primary btn-sm">
-                                                    <iconify-icon icon="solar:pen-2-broken"
-                                                                  class="align-middle fs-18"></iconify-icon>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-{{--                                    @endforeach--}}
+                                          @endforeach
 
                                     </tbody>
                                 </table>
