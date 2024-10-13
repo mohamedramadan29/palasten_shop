@@ -156,23 +156,87 @@ class ProductController extends Controller
     }
     public function update(Request $request, $slug)
     {
+        // جلب الفئات الرئيسية والفرعية والعلامات التجارية والسمات
         $MainCategories = MainCategory::where('status', '1')->get();
         $SubCategories = SubCategory::where('status', '1')->get();
         $brands = Brand::where('status', '1')->get();
         $attributes = Attributes::all();
-        $product = Product::with('Sub_Category')->where('slug',$slug)->first();
-        $gallaries = ProductGallary::where('product_id',$product['id'])->get();
-        if ($request->isMethod('post')){
+
+        // جلب المنتج مع الفئة الفرعية والمتغيرات المرتبطة به
+        $product = Product::with('Sub_Category')->where('slug', $slug)->first();
+        $variations  = ProductVartions::where('product_id',$product['id'])->get();
+        $gallaries = ProductGallary::where('product_id', $product->id)->get();
+
+        if ($request->isMethod('post')) {
+            // التحقق من صحة المدخلات
+            $request->validate([
+                'name' => 'required|string|max:255',
+                'category_id' => 'required|integer',
+                'sub_category_id' => 'nullable|integer',
+                'type' => 'required|in:بسيط,متغير',
+            ]);
+
             try {
                 $data = $request->all();
-                dd($data);
 
-            }catch (\Exception $e){
+                // تحديث بيانات المنتج
+                $product->update([
+                    'name' => $data['name'],
+                    'category_id' => $data['category_id'],
+                    'sub_category_id' => $data['sub_category_id'],
+                    'type' => $data['type'],
+                ]);
+
+                // التعامل مع المتغيرات
+                if ($data['type'] == 'متغير') {
+                    // حذف المتغيرات الحالية المرتبطة بالمنتج
+                    ProductVariation::where('product_id', $product->id)->delete();
+
+                    if (isset($data['variant_price']) && is_array($data['variant_price'])) {
+                        foreach ($data['variant_price'] as $index => $price) {
+                            // إنشاء متغير جديد
+                            $productVariation = ProductVariation::create([
+                                'product_id' => $product->id,
+                                'price' => $price,
+                                'discount' => $data['variant_discount'][$index] ?? 0,
+                                'stock' => $data['variant_stock'][$index] ?? 0,
+                                'image' => isset($data['variant_image'][$index]) ? $this->uploadImage($data['variant_image'][$index]) : null,
+                            ]);
+
+                            // إضافة قيم السمات للمتغير
+                            foreach ($data['variant_attributes'][$index] as $attribute_id => $attribute_value_name) {
+                                VariationValue::create([
+                                    'product_variation_id' => $productVariation->id,
+                                    'attribute_id' => $attribute_id,
+                                    'attribute_value_name' => $attribute_value_name,
+                                ]);
+                            }
+                        }
+                    }
+                }
+
+                // تحديث الجاليري
+                if ($request->hasFile('gallary_images')) {
+                    foreach ($request->file('gallary_images') as $file) {
+                        $filePath = $this->uploadImage($file);
+                        ProductGallary::create([
+                            'product_id' => $product->id,
+                            'image' => $filePath,
+                        ]);
+                    }
+                }
+
+                return redirect()->back()->with('success', 'تم تحديث المنتج بنجاح');
+            } catch (\Exception $e) {
                 return $this->exception_message($e);
             }
         }
-        return view('admin.Products.update', compact('product','MainCategories','SubCategories','brands','attributes','gallaries'));
+
+        // عرض صفحة التعديل
+        return view('admin.Products.update', compact('product', 'MainCategories', 'SubCategories', 'brands', 'attributes', 'gallaries','variations'));
     }
+
+
     public function delete($id)
     {
         $product = Product::findOrFail($id);

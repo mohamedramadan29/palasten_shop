@@ -234,14 +234,69 @@
                                             <label for="type">نوع المنتج:</label>
                                             <select class="form-control
                                     " name="type" id="product-type" required>
-                                                <option selected value="بسيط">بسيط</option>
-                                                <option value="متغير">متغير</option>
+                                                <option @if($product['type'] == 'بسيط') selected @endif  value="بسيط">
+                                                    بسيط
+                                                </option>
+                                                <option @if($product['type'] == 'متغير') selected @endif  value="متغير">
+                                                    متغير
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                                 <!------->
-                                <div id="variable-product-fields" style="display: none">
+                                <div id="variable-product-fields"
+                                     style="display: {{ $product->type == 'متغير' ? 'block' : 'none' }};">
+
+                                    <div>
+                                        @foreach($variations as $variation)
+                                            <div class="variation  d-flex align-items-center justify-content-between">
+                                                <div class="form-group">
+                                                    <label>سعر المتغير</label>
+                                                    <input type="number" name="variant_price[]"
+                                                           value="{{ $variation->price }}" class="form-control"
+                                                           required>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>تخفيض المتغير</label>
+                                                    <input type="number" name="variant_discount[]"
+                                                           value="{{ $variation->discount }}" class="form-control">
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>المخزون</label>
+                                                    <input type="number" name="variant_stock[]"
+                                                           value="{{ $variation->stock }}" class="form-control"
+                                                           required>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label>صورة المتغير</label>
+                                                    <input type="file" name="variant_image[]" class="form-control">
+                                                    @if($variation->image)
+                                                        <img src="{{ asset($variation->image) }}" alt="صورة المتغير"
+                                                             style="max-width: 100px;">
+                                                    @endif
+                                                </div>
+
+                                                <!-- عرض السمات الخاصة بالمتغير -->
+                                                @foreach($variation->variationValues as $value)
+                                                    <div class="form-group">
+                                                        <label>{{ $value->attribute->name }}</label>
+                                                        <input type="text"
+                                                               name="variant_attributes[{{ $loop->parent->index }}][{{ $value->attribute_id }}]"
+                                                               value="{{ $value->attribute_value_name }}"
+                                                               class="form-control" required>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        @endforeach
+
+                                    </div>
+                                    <!-- زر لتأكيد التعديلات -->
+                                    <button id="confirm-variations" class="btn btn-success btn-sm">تأكيد المتغيرات
+                                    </button>
                                     <div id="attribute-container">
                                         <!-- العنصر المؤقت الذي لا يمكن حذفه -->
                                         <div class="row d-flex align-items-center" id="attribute-row-template"

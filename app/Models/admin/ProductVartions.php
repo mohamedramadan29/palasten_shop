@@ -11,6 +11,6 @@ class ProductVartions extends Model
     protected $guarded = [];
     public function variationValues()
     {
-        return $this->hasMany(VartionsValues::class);
+        return $this->hasMany(VartionsValues::class,	'product_variation_id');
     }
 }
