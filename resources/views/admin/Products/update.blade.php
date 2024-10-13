@@ -248,6 +248,7 @@
                                 <div id="variable-product-fields"
                                      style="display: {{ $product->type == 'متغير' ? 'block' : 'none' }};">
 
+
                                     <div>
                                         @foreach($variations as $variation)
                                             <div class="variation  d-flex align-items-center justify-content-between">
