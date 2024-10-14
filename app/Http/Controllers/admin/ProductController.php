@@ -28,11 +28,12 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::with('Main_Category')->orderBy('id','desc')->get();
+        $products = Product::with('Main_Category')->orderBy('id', 'desc')->get();
         $MainCategories = MainCategory::where('status', '1')->get();
         $SubCategories = SubCategory::where('status', '1')->get();
         return view('admin.Products.index', compact('products', 'MainCategories', 'SubCategories'));
     }
+
     public function getAttributeValues($attributeId)
     {
         // جلب قيم المتغيرات بناءً على معرف السمة
@@ -154,6 +155,7 @@ class ProductController extends Controller
         return view('admin.products.add', compact('MainCategories', 'SubCategories', 'brands', 'attributes', 'attributes_vartions'));
 
     }
+
     public function update(Request $request, $slug)
     {
         // جلب الفئات الرئيسية والفرعية والعلامات التجارية والسمات
@@ -164,7 +166,7 @@ class ProductController extends Controller
 
         // جلب المنتج مع الفئة الفرعية والمتغيرات المرتبطة به
         $product = Product::with('Sub_Category')->where('slug', $slug)->first();
-        $variations  = ProductVartions::where('product_id',$product['id'])->get();
+        $variations = ProductVartions::where('product_id', $product['id'])->get();
         $gallaries = ProductGallary::where('product_id', $product->id)->get();
 
         if ($request->isMethod('post')) {
@@ -175,65 +177,143 @@ class ProductController extends Controller
                 'sub_category_id' => 'nullable|integer',
                 'type' => 'required|in:بسيط,متغير',
             ]);
+            DB::beginTransaction();
 
             try {
                 $data = $request->all();
+                //dd($data);
+                // البحث عن المنتج للتعديل
+                // $product = Product::find();  // استبدال $productId بالمعرّف الخاص بالمنتج
 
-                // تحديث بيانات المنتج
-                $product->update([
-                    'name' => $data['name'],
-                    'category_id' => $data['category_id'],
-                    'sub_category_id' => $data['sub_category_id'],
-                    'type' => $data['type'],
-                ]);
+                // تحديث معلومات المنتج
+                $product->name = $data['name'];
+                $product->slug = $this->CustomeSlug($data['name']);
+                $product->category_id = $data['category_id'];
+                $product->sub_category_id = $data['sub_category_id'];
+                $product->brand_id = $data['brand_id'];
+                $product->status = $data['status'];
+                $product->short_description = $data['short_description'];
+                $product->description = $data['description'];
+                $product->quantity = $data['quantity'];
+                $product->type = $data['type'];
+                $product->purches_price = $data['purches_price'];
+                $product->price = $data['price'];
+                $product->discount = $data['discount'];
+                $product->meta_title = $data['meta_title'];
+                $product->meta_keywords = $data['meta_keywords'];
+                $product->meta_description = $data['meta_description'];
 
-                // التعامل مع المتغيرات
+                // تحديث الصورة إذا تم رفع صورة جديدة
+//                if ($file_name) {
+//                    $product->image = $file_name;
+//                }
+
+                $product->save();
+
+//                ///////// تحديث معرض الصور إذا كان موجودًا
+//                if ($request->hasFile('gallery')) {
+//                    foreach ($request->file('gallery') as $gallery) {
+//                        $gallery_name = $this->saveImage($gallery, 'assets/uploads/product_gallery');
+//                        $gallery_image = new ProductGallary();
+//                        $gallery_image->product_id = $product->id;
+//                        $gallery_image->image = $gallery_name;
+//                        $gallery_image->save();
+//                    }
+//                }
+
+
+                // التحقق من نوع المنتج "متغير"
                 if ($data['type'] == 'متغير') {
-                    // حذف المتغيرات الحالية المرتبطة بالمنتج
-                    ProductVariation::where('product_id', $product->id)->delete();
+                    // تعديل أو إضافة المتغيرات
+                   if(isset($request->variant_new_name) && $request->variant_new_name != null){
 
-                    if (isset($data['variant_price']) && is_array($data['variant_price'])) {
-                        foreach ($data['variant_price'] as $index => $price) {
-                            // إنشاء متغير جديد
-                            $productVariation = ProductVariation::create([
-                                'product_id' => $product->id,
-                                'price' => $price,
-                                'discount' => $data['variant_discount'][$index] ?? 0,
-                                'stock' => $data['variant_stock'][$index] ?? 0,
-                                'image' => isset($data['variant_image'][$index]) ? $this->uploadImage($data['variant_image'][$index]) : null,
-                            ]);
+                      // dd('new_vartions');
+                       // حذف جميع المتغيرات القديمة
 
-                            // إضافة قيم السمات للمتغير
-                            foreach ($data['variant_attributes'][$index] as $attribute_id => $attribute_value_name) {
-                                VariationValue::create([
-                                    'product_variation_id' => $productVariation->id,
-                                    'attribute_id' => $attribute_id,
-                                    'attribute_value_name' => $attribute_value_name,
-                                ]);
-                            }
-                        }
-                    }
+                       $variations = ProductVartions::where('product_id', $product->id)->get();
+                       foreach ($variations as $variation) {
+                           $variation->delete();
+                       }
+                        // حفظ المتغيرات الجديدة
+                       foreach ($request->variant_new_name as $index => $variantName) {
+
+                           // حفظ كل متغير في جدول product_variations
+                           // حفظ كل متغير في جدول product_variations باستخدام create
+                           //dd($request->variant_name);
+                           $productVariation = ProductVartions::create([
+                               'product_id' => $product->id,
+                               'price' => $request->variant_new_price[$index],
+                               'discount' => $request->variant_new_discount[$index],
+                              //  'image' => $request->variant_new_image[$index]->store('images'),
+                               'stock' => $request->variant_new_stock[$index],
+                           ]);
+
+             // حفظ القيم المرتبطة بهذا المتغير
+
+                           $attributes = explode(' - ', $variantName);
+
+                           $attributesIds = $data['attributes'];  // مصفوفة attribute_ids
+                       //    dd($attributesIds);
+                           foreach ($attributes as $attributeIndex => $attributeName) {
+                               if (isset($attributesIds[$attributeIndex])) {
+                                   VartionsValues::create([
+                                       'product_variation_id' => $productVariation->id,
+                                       'attribute_id' => $attributesIds[$attributeIndex], // ربط attribute_id بالقيمة الصحيحة
+                                       'attribute_value_name' => $attributeName
+                                   ]);
+                               }
+                           }
+                       }
+                   }else{
+                       foreach ($request->variant_id as $index => $variantId) {
+                           if ($variantId) {
+                               // تعديل المتغير الموجود
+                               $productVariation = ProductVartions::find($variantId);
+                           } else {
+                               // إنشاء متغير جديد
+                               $productVariation = new ProductVartions();
+                               $productVariation->product_id = $product->id;
+                           }
+
+                           // تحديث بيانات المتغير
+                           $productVariation->price = $request->variant_price[$index];
+                           $productVariation->discount = $request->variant_discount[$index];
+
+                           if (isset($request->variant_image[$index])) {
+                               $productVariation->image = $request->variant_image[$index]->store('images');
+                           }
+
+                           $productVariation->stock = $request->variant_stock[$index];
+                           $productVariation->save();
+
+                           // تحديث القيم المرتبطة بالمتغير
+                           foreach ($request->variant_attributes[$index] as $attributeId => $attributeValue) {
+                               VartionsValues::updateOrCreate(
+                                   [
+                                       'product_variation_id' => $productVariation->id,
+                                       'attribute_id' => $attributeId,
+                                   ],
+                                   [
+                                       'attribute_value_name' => $attributeValue,
+                                   ]
+                               );
+                           }
+                       }
+                   }
+
                 }
-
-                // تحديث الجاليري
-                if ($request->hasFile('gallary_images')) {
-                    foreach ($request->file('gallary_images') as $file) {
-                        $filePath = $this->uploadImage($file);
-                        ProductGallary::create([
-                            'product_id' => $product->id,
-                            'image' => $filePath,
-                        ]);
-                    }
-                }
-
-                return redirect()->back()->with('success', 'تم تحديث المنتج بنجاح');
+                DB::commit();
+                // بعد تحديث المنتج بنجاح
+                return Redirect::route('product.update', ['slug' => $product->slug])
+                    ->with('Success_message', 'تم تعديل المنتج بنجاح');
             } catch (\Exception $e) {
-                return $this->exception_message($e);
+                DB::rollback();
+                return $this->error_message('حدث خطأ أثناء عملية التعديل.');
             }
-        }
 
+        }
         // عرض صفحة التعديل
-        return view('admin.Products.update', compact('product', 'MainCategories', 'SubCategories', 'brands', 'attributes', 'gallaries','variations'));
+        return view('admin.Products.update', compact('product', 'MainCategories', 'SubCategories', 'brands', 'attributes', 'gallaries', 'variations'));
     }
 
 
@@ -244,11 +324,12 @@ class ProductController extends Controller
 
         return $this->success_message(' تم حذف المنتج بنجاح  ');
     }
+
     public function delete_image_gallary($id)
     {
         $imageGallary = ProductGallary::findOrFail($id);
-        $oldimage = public_path('assets/uploads/product_gallery/'.$imageGallary['image']);
-        if (file_exists($oldimage)){
+        $oldimage = public_path('assets/uploads/product_gallery/' . $imageGallary['image']);
+        if (file_exists($oldimage)) {
             unlink($oldimage);
         }
         $imageGallary->delete();

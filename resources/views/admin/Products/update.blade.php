@@ -21,7 +21,7 @@
                     @endphp
                 @endforeach
             @endif
-            <form method="post" action="{{url('admin/product/add')}}" enctype="multipart/form-data">
+            <form method="post" action="{{url('admin/product/update/'.$product['slug'])}}" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
 
@@ -247,59 +247,51 @@
                                 <!------->
                                 <div id="variable-product-fields"
                                      style="display: {{ $product->type == 'متغير' ? 'block' : 'none' }};">
+                                    @if($product->type == 'متغير')
+                                        <div>
+                                            @foreach($variations as $variation)
+                                                <input type="hidden" name="variant_id[]" value="{{ $variation->id }}" class="form-control" required>
+                                                <div class="variation d-flex align-items-center justify-content-between">
+                                                    <!-- عرض السمات الخاصة بالمتغير -->
+                                                    @foreach($variation->variationValues as $value)
+                                                        <div class="form-group">
+                                                            <label>{{ $value->attribute->name }}</label>
+                                                            <input type="text" name="variant_attributes[{{ $loop->parent->index }}][{{ $value->attribute_id }}]"
+                                                                   value="{{ $value->attribute_value_name }}" class="form-control" required>
+                                                        </div>
+                                                    @endforeach
 
-
-                                    <div>
-                                        @foreach($variations as $variation)
-                                            <div class="variation  d-flex align-items-center justify-content-between">
-                                                <div class="form-group">
-                                                    <label>سعر المتغير</label>
-                                                    <input type="number" name="variant_price[]"
-                                                           value="{{ $variation->price }}" class="form-control"
-                                                           required>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label>تخفيض المتغير</label>
-                                                    <input type="number" name="variant_discount[]"
-                                                           value="{{ $variation->discount }}" class="form-control">
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label>المخزون</label>
-                                                    <input type="number" name="variant_stock[]"
-                                                           value="{{ $variation->stock }}" class="form-control"
-                                                           required>
-                                                </div>
-
-                                                <div class="form-group">
-                                                    <label>صورة المتغير</label>
-                                                    <input type="file" name="variant_image[]" class="form-control">
-                                                    @if($variation->image)
-                                                        <img src="{{ asset($variation->image) }}" alt="صورة المتغير"
-                                                             style="max-width: 100px;">
-                                                    @endif
-                                                </div>
-
-                                                <!-- عرض السمات الخاصة بالمتغير -->
-                                                @foreach($variation->variationValues as $value)
                                                     <div class="form-group">
-                                                        <label>{{ $value->attribute->name }}</label>
-                                                        <input type="text"
-                                                               name="variant_attributes[{{ $loop->parent->index }}][{{ $value->attribute_id }}]"
-                                                               value="{{ $value->attribute_value_name }}"
-                                                               class="form-control" required>
+                                                        <label>سعر المتغير</label>
+                                                        <input type="number" name="variant_price[]" value="{{ $variation->price }}" class="form-control" required>
                                                     </div>
-                                                @endforeach
-                                            </div>
-                                        @endforeach
 
-                                    </div>
-                                    <!-- زر لتأكيد التعديلات -->
-                                    <button id="confirm-variations" class="btn btn-success btn-sm">تأكيد المتغيرات
-                                    </button>
+                                                    <div class="form-group">
+                                                        <label>تخفيض المتغير</label>
+                                                        <input type="number" name="variant_discount[]" value="{{ $variation->discount }}" class="form-control">
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>المخزون</label>
+                                                        <input type="number" name="variant_stock[]" value="{{ $variation->stock }}" class="form-control" required>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label>صورة المتغير</label>
+                                                        <input type="file" name="variant_image[]" class="form-control">
+                                                        @if($variation->image)
+                                                            <img src="{{ asset($variation->image) }}" alt="صورة المتغير" style="max-width: 100px;">
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @endif
                                     <div id="attribute-container">
+                                        <br>
                                         <!-- العنصر المؤقت الذي لا يمكن حذفه -->
+                                        <h4 class="card-title"> تحديث وتعديل متغيرات المنتج  </h4>
+                                        <br>
                                         <div class="row d-flex align-items-center" id="attribute-row-template"
                                              style="display: none">
                                             <div class="col-lg-4 col-12">
@@ -336,8 +328,6 @@
                                     </button>
 
                                     <br>
-
-
                                     <!---- متغيرات المنتج  ----->
                                     <div id="product-variants"></div>
                                 </div>
@@ -392,7 +382,7 @@
                                             <span class="input-group-text fs-20"><i class='bx bx-dollar'></i></span>
                                             <input type="number" id="purches_price" name="purches_price"
                                                    class="form-control"
-                                                   placeholder="000">
+                                                   placeholder="000" value="{{$product['purches_price']}}">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -400,7 +390,7 @@
                                         <div class="input-group mb-3">
                                             <span class="input-group-text fs-20"><i class='bx bx-dollar'></i></span>
                                             <input type="number" id="price" name="price" class="form-control"
-                                                   placeholder="000">
+                                                   placeholder="000" value="{{$product['price']}}">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -408,7 +398,7 @@
                                         <div class="input-group mb-3">
                                             <span class="input-group-text fs-20"><i class='bx bxs-discount'></i></span>
                                             <input type="number" id="discount" name="discount" class="form-control"
-                                                   placeholder="000">
+                                                   placeholder="000" value="{{$product['discount']}}">
                                         </div>
                                     </div>
                                 </div>
@@ -426,7 +416,7 @@
                                         <div class="mb-3">
                                             <label for="meta_title" class="form-label"> العنوان </label>
                                             <input type="text" id="meta_title" name="meta_title" class="form-control"
-                                                   placeholder="" value="{{old('meta_title')}}">
+                                                   placeholder="" value="{{$product['meta_title']}}">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -434,7 +424,7 @@
                                             <label for="meta_keywords" class="form-label"> الكلمات المفتاحية </label>
                                             <input type="text" id="meta_keywords" name="meta_keywords"
                                                    class="form-control"
-                                                   placeholder="" value="{{old('meta_keywords')}}">
+                                                   placeholder="" value="{{$product['meta_keywords']}}">
                                         </div>
                                     </div>
 
@@ -444,7 +434,7 @@
                                             <textarea class="form-control bg-light-subtle" id="meta_description"
                                                       rows="7"
                                                       placeholder=""
-                                                      name="meta_description">{{old('meta_description')}}</textarea>
+                                                      name="meta_description">{{$product['meta_description']}}</textarea>
                                         </div>
                                     </div>
 
@@ -513,23 +503,23 @@
             <div class="variant-inputs d-flex align-items-center justify-content-between">
                 <div class="form-group">
                     <label>اسم المتغير</label>
-                    <input name='variant_name[]' class="form-control" type="text" value="${variantText}">
+                    <input name='variant_new_name[]' class="form-control" type="text" value="${variantText}">
                 </div>
                 <div class="form-group">
                     <label>سعر المنتج</label>
-                    <input placeholder="السعر" class="form-control" type="number" name='variant_price[]'>
+                    <input placeholder="السعر" class="form-control" type="number" name='variant_new_price[]'>
                 </div>
                 <div class="form-group">
                     <label>السعر بعد التخفيض</label>
-                    <input placeholder="السعر" class="form-control" type="number" name='variant_discount[]'>
+                    <input placeholder="السعر" class="form-control" type="number" name='variant_new_discount[]'>
                 </div>
                 <div class="form-group">
                     <label>الكمية المتاحة</label>
-                    <input placeholder="الكمية" class="form-control" type="number" name='variant_stock[]'>
+                    <input placeholder="الكمية" class="form-control" type="number" name='variant_new_stock[]'>
                 </div>
                 <div class="form-group">
                     <label>صورة المنتج</label>
-                    <input type='file' class='form-control' name='variant_image[]'>
+                    <input type='file' class='form-control' name='variant_new_image[]'>
                 </div>
                 <div class="form-group">
                     <button style="margin-top: 20px" class="btn btn-sm btn-danger delete-variant"><i class="ti ti-x"></i></button>
