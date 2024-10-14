@@ -56,8 +56,8 @@
                                                    class="cart-title link"> {{$item['productdata']['name']}} </a>
                                                 @if($item['product_variation_id'] !=null)
                                                     @php
-$vartionValues = \App\Models\admin\VartionsValues::where('product_variation_id',$item['product_variation_id'])->select('attribute_value_name')->get();
- @endphp
+                                                        $vartionValues = \App\Models\admin\VartionsValues::where('product_variation_id',$item['product_variation_id'])->select('attribute_value_name')->get();
+                                                    @endphp
                                                     <div
                                                         class="cart-meta-variant">
                                                         @foreach($vartionValues as $value)
@@ -74,7 +74,8 @@ $vartionValues = \App\Models\admin\VartionsValues::where('product_variation_id',
                                             </div>
                                         </td>
                                         <td class="tf-cart-item_price" cart-data-title="السعر ">
-                                            <div class="cart-price"  data-id="{{ $item['id'] }}">  {{$item['price']}} {{ $storeCurrency }} </div>
+                                            <div class="cart-price"
+                                                 data-id="{{ $item['id'] }}">  {{$item['price']}} {{ $storeCurrency }} </div>
                                         </td>
                                         <td class="tf-cart-item_quantity" cart-data-title="الكمية ">
                                             <div class="cart-quantity">
@@ -87,7 +88,8 @@ $vartionValues = \App\Models\admin\VartionsValues::where('product_variation_id',
                                                         </svg>
                                                     </span>
 
-                                                    <input type="number" name="number" data-id="{{ $item['id'] }}" value="{{ $item['qty'] }}" min="1">
+                                                    <input type="number" name="number" data-id="{{ $item['id'] }}"
+                                                           value="{{ $item['qty'] }}" min="1">
                                                     <span class="btn-quantity plus-btn" data-id="{{$item['id']}}">
                                                         <svg class="d-inline-block" width="9" height="9"
                                                              viewBox="0 0 9 9" fill="currentColor">
@@ -113,14 +115,52 @@ $vartionValues = \App\Models\admin\VartionsValues::where('product_variation_id',
                                 <div class="tf-page-cart-checkout">
                                     <div class="tf-cart-totals-discounts">
                                         <h3> المجموع الفرعي </h3>
-                                        <span class="total-value"> {{$subtotal}} {{ $storeCurrency }}  </span>
+                                        <span class="total-value">
+                                            {{$subtotal}} {{ $storeCurrency }}  </span>
                                     </div>
-                                    <div class="cart-checkbox">
-                                        <input type="checkbox" class="tf-check" id="check-agree">
-                                        <label for="check-agree" class="fw-4">
-                                            الموافقة علي <a href="{{url('terms')}}"> الشروط والاحكام </a>
-                                        </label>
+                                    @if(Session::has('coupon_amount'))
+                                    <div class="order-total tf-cart-totals-discounts">
+                                                    <h3 class="title">
+                                                         المجموع بعد الخصم :
+                                                    </h3>
+                                        <span class="total-price grand_total total-value">
+                                      @if(Session::has('coupon_amount'))
+                                                {{$subtotal - Session::get('coupon_amount')}} <span> {{ $storeCurrency }} </span>
+                                                    </span>
+                                        @else
+                                            <span class="total-price grand_total">
+
+                                        {{$subtotal}} <span> {{ $storeCurrency }} </span>
+                                                    </span>
+                                        @endif
                                     </div>
+                                    @endif
+                                    <form id="applycoupon" method="post" action="javascript:void(0);">
+                                        @csrf
+                                        <div class="coupon-box pb-20 pt-5 d-flex justify-content-between">
+                                            <input id="code" name="code" type="text" placeholder=" كود خصم ">
+                                            <button type="submit"
+                                                    class="tf-btn btn-sm radius-3 btn-fill btn-icon animate-hover-btn">
+                                                تطبيق
+                                            </button>
+                                        </div>
+                                    </form>
+
+                                    <div class="order-total">
+                                        <br>
+                                        @if(Session::has('coupon_amount'))
+                                          <div class="d-flex justify-content-between">
+                                              <h6 class="title total-value">
+                                                  قيمه الخصم :
+                                              </h6>
+                                              <span class="total-price discountAmount" style="color: red">
+                                                      {{Session::get("coupon_amount")}} <span> {{ $storeCurrency }}  </span>
+                                                    </span>
+                                          </div>
+                                        @endif
+                                    </div>
+
+
                                     <div class="cart-checkout-btn">
                                         <a href="{{url('checkout')}}"
                                            class="tf-btn w-100 btn-fill animate-hover-btn radius-3 justify-content-center">
@@ -210,6 +250,37 @@ $vartionValues = \App\Models\admin\VartionsValues::where('product_variation_id',
         });
     </script>
 
+    <script>
+        // Apply Coupon Code
+        $("#applycoupon").submit(function () {
+            var code = $("#code").val();
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'post',
+                url: '/apply_coupon',
+                data: {code: code},
+                success: function (resp) {
+                    if (resp.message != '') {
+                        alert(resp.message);
+                        if (resp.coupon_amount > 0) {
+                            $(".discountAmount").text(resp.coupon_amount + "ر.س");
+                        } else {
+                            $(".discountAmount").text(" 0 ر.س");
+                        }
+                        if (resp.grand_total > 0) {
+                            $(".grand_total").text(resp.grand_total + "ر.س");
+                        }
+                        // إعادة تحميل الصفحة بعد تطبيق الكوبون
+                        location.reload();
+                    }
 
+                }, error: function () {
+                    alert('error');
+                }
+            });
+        })
+    </script>
 
 @endsection

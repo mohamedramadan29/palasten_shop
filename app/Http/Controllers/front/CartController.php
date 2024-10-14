@@ -4,11 +4,13 @@ namespace App\Http\Controllers\front;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\Message_Trait;
+use App\Models\admin\Coupon;
 use App\Models\admin\ShippingCity;
 use App\Models\front\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\View;
 
 class CartController extends Controller
 {
@@ -75,19 +77,6 @@ class CartController extends Controller
         //return $this->success_message(' تم اضافه المنتج الي السله');
     }
 
-//    public function getCartItems()
-//    {
-//        if (Auth::check()) {
-//            $user_id = Auth::user()->id;
-//            $cartItems = Cart::with('productdata')->where('user_id', $user_id)->get();
-//        } else {
-//            $session_id = Session::get('session_id');
-//            $cartItems = Cart::with('productdata')->where('session_id', $session_id)->get();
-//        }
-//        // اعرض الـ view الخاص بعربة التسوق مع البيانات
-//        return view('front.partials.cart_items', compact('cartItems'));
-//    }
-
     public function getCartItems()
     {
         $cartItems = [];
@@ -145,6 +134,91 @@ class CartController extends Controller
         }
 
         return response()->json(['error' => 'Item not found'], 404);
+    }
+
+
+    // Start Apply Coupon To Users
+    public function apply_coupon(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = $request->all();
+            Session::forget('coupon_code');
+            Session::forget('coupon_amount');
+            // dd($data);
+            $cartItems = Cart::getcartitems();
+
+            //dd($cartItems);
+            $item_counts = $cartItems->count();
+
+            $couponCount = Coupon::where('coupon_code', $data['code'])->count();
+            if ($couponCount > 0) {
+                // Check Other Coupon Conditions
+                // Get the Coupon Data
+                $coupondata = Coupon::where('coupon_code', $data['code'])->first();
+                // check the code is active or not
+                if ($coupondata['status'] == 0) {
+                    $message = '  كود الخصم غير فعال ';
+                }
+                // check if this coupon is expired or not
+                $current_date = date("Y-m-d");
+                if ($coupondata['expire_date'] < $current_date) {
+                    $message = ['لقد انتهي وقت هذا الكود '];
+                }
+
+                // Check If this Coupon in selected Categories Or Not All Product
+                if ($coupondata['categories'] != 'all') {
+                    $catarray = explode(',', $coupondata['categories']);
+                    foreach ($cartItems as $key => $item) {
+                        if (!in_array($item['productdata']['category_id'], $catarray)) {
+                            $message = 'هذا الكود غير متاح مع هذه المنتجات ';
+                        }
+                    }
+                }
+                // Error Message Here
+                if (isset($message)) {
+                    return response()->json([
+                        'status' => 'false',
+                        'message' => $message,
+                        'View' => (string)View::make('front.partials.cart_items')->with(compact('cartItems', 'item_counts')),
+                    ]);
+                } else {
+                    $total_amount = 0;
+                    // Coupon Code Is Correct
+                    foreach ($cartItems as $item) {
+                        $price = floatval($item['price']); // تأكد من أن السعر رقم
+                        $qty = intval($item['qty']); // تأكد من أن الكمية رقم
+                        $sub_total = $price * $qty;
+                        $total_amount += $sub_total;
+                    }
+                    // Check If The Coupon Type Is Fixed Or Percentage
+
+                    if ($coupondata['amount_type'] == 'خصم ثابت') {
+                        $couponamount = $coupondata['amount'];
+                    } else {
+                        $couponamount = $total_amount * ($coupondata['amount'] / 100);
+                    }
+                    $grand_total = $total_amount - $couponamount;
+                    // Add Coupon Code And Amount In Session
+                    Session::put('coupon_code', $data['code']);
+                    Session::put('coupon_amount', $couponamount);
+                    $message = 'تم تطبيق الكوبون بنجاح ';
+                    return response()->json([
+                        'status' => true,
+                        'coupon_amount' => $couponamount,
+                        'grand_total' => $grand_total,
+                        'message' => $message,
+                        'View' => (string)View::make('front.partials.cart_items')->with(compact('cartItems', 'item_counts', 'couponamount', 'grand_total')),
+                    ]);
+                }
+
+            } else {
+                return response()->json([
+                    'status' => 'false',
+                    'message' => 'كود الخصم غير متاح ',
+                    'View' => (string)View::make('front.partials.cart_items')->with(compact('cartItems', 'item_counts')),
+                ]);
+            }
+        }
     }
 
 

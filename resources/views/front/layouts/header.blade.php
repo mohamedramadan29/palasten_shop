@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title> @yield('title')  </title>
+    <meta http-equiv="X-UA-compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <!-- font -->
     <link rel="stylesheet" href="{{asset('assets/front/fonts/fonts.css')}}">
@@ -17,6 +18,7 @@
     <!-- Favicon and Touch Icons  -->
     <link rel="shortcut icon" href="{{asset('assets/images/logo/favicon.png')}}">
     <link rel="apple-touch-icon-precomposed" href="{{asset('assets/images/logo/favicon.png')}}">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     @toastifyCss
     @yield('css')
 </head>

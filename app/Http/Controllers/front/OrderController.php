@@ -25,14 +25,14 @@ class OrderController extends Controller
         $rules = [
             'name' => 'required',
             'phone' => 'required',
-            'email' => 'required|email',
+
             'shippingcity' => 'required',
             'address' => 'required',
         ];
         $messages = [
             'name.required' => ' من فضلك ادخل الاسم  ',
             'phone.required' => ' من فضلك ادخل رقم الهاتف  ',
-            'email.required' => ' من فضلك ادخل رقم الهاتف  ',
+
             'shippingcity.required' => ' من فضلك حدد المدينة للشحن  ',
             'address.required' => ' من فضلك حدد العنوان  '
         ];
@@ -48,7 +48,7 @@ class OrderController extends Controller
         $order->shippingcity = $data['shippingcity'];
         $order->phone = $data['phone'];
         $order->phone2 = $data['phone2'];
-        $order->email = $data['email'];
+
         $order->shipping_price = $data['shipping_price'];
         $order->order_status = 'لم يبدا';
         $order->payment_method = 'الدفع عند الاستلام';
