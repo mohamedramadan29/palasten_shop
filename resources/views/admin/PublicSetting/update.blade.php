@@ -131,32 +131,11 @@
                                      src="{{asset('assets/uploads/PublicSetting/' . $public_setting->website_logo)}}"
                                      alt="">
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title"> الالوان العامة للموقع </h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label for="main_color" class="form-label"> اللون الاساسي </label>
-                                        <input type="color" id="main_color" class="form-control" name="main_color"
-                                               value="{{$public_setting['main_color']}}">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label for="second_color" class="form-label"> اللون الثاني </label>
-                                        <input type="color" id="second_color" class="form-control"
-                                               name="second_color"
-                                               value="{{$public_setting['second_color']}}">
-                                    </div>
-                                </div>
-
-                            </div>
+                            <input type="hidden" id="second_color" class="form-control"
+                                   name="second_color"
+                                   value="{{$public_setting['second_color']}}">
+                            <input  type="hidden" id="main_color" class="form-control" name="main_color"
+                                    value="{{$public_setting['main_color']}}">
                         </div>
                     </div>
                     <div class="p-3 bg-light mb-3 rounded">
