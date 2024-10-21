@@ -1771,7 +1771,7 @@ label {
 
 .header-absolute {
   margin-bottom: -64px;
-  background-color: #222F3E;
+  background-color: var(--third_navbar_background);
   z-index: 999;
 }
 
@@ -9117,7 +9117,7 @@ header.header-bg {
   font-weight: 600;
 }
 .card-product .card-product-info .main_price{
-    color:#FEBD68;
+    color:var(--main_price_color);
     font-size: 18px;
 }
 .card-product .card-product-info .old-price {
@@ -11759,7 +11759,7 @@ blockquote .text {
 .flat-title .head_read_more{
     color: #fff;
     font-size: 17px;
-    background: #000;
+    background: var(--all_button_background);
     padding: 8px 25px;
     border-radius: 8px;
 }
@@ -15836,6 +15836,7 @@ blockquote .text {
   .flat-title .title {
       font-size: 35px;
       line-height: 10.4px;
+      color:var(--main_title_color);
   }
   .flat-title.lg .sub-title {
     font-size: 20px;
@@ -17725,7 +17726,7 @@ blockquote .text {
   .card-product .size-list,
   .card-product .wishlist,
   .card-product .compare {
-    display: none;
+    display: block;
   }
   .card-product .card-product-wrapper .list-product-btn {
     bottom: 5px;
@@ -17997,7 +17998,7 @@ blockquote .text {
   }
   .tf-cart-item {
     margin-bottom: 15px;
-    padding-inline-start: 98px;
+    padding-inline-start: 0px;
     min-height: 140px;
     display: block;
     font-size: 12px;
@@ -18180,7 +18181,7 @@ blockquote .text {
 /********** Start Top Navbar Section ************/
 
 .top_navbar {
-    background-color: #131921;
+    background-color: var(--second_navbar_background);
     padding: 10px;
 }
 
@@ -18350,24 +18351,24 @@ form .btn-add-to-cart{
 
 
 .footer{
-    background-color:#222F3E;
-    color:#fff;
+    background-color:var(--footer_background);
+    color:var(--footer_color);
 }
 .footer .footer-heading h6{
-    color:#fff;
+    color:var(--footer_color);
 }
 .footer .footer-menu_item{
-    color:#fff;
+    color:var(--footer_color);
 
 }
 .footer a{
-    color:#fff;
+    color:var(--footer_color);
 }
 .tf-social-icon .social-line{
-    border:1px solid #fff;
+    border:1px solid var(--footer_color);
 }
 .footer .footer-wrap .footer-bottom .footer-bottom-wrap .footer-menu_item{
-    color:#fff;
+    color:var(--footer_color);
 }
 
 
@@ -18389,8 +18390,8 @@ form .btn-add-to-cart{
 }
 .card-product .add-to-cart{
     width: 100%;
-    background-color: #000;
-    color: #fff;
+    background-color: var(--public_add_to_cart_background);
+    color: var(--public_add_to_cart_color);
     padding: 15px;
     border: 0;
     border-radius: 0 0 20px 20px;

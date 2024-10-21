@@ -28,7 +28,7 @@ Route::controller(ShopCollection::class)->group(function () {
 
 Route::controller(ProductController::class)->group(function () {
     Route::get('product/{slug}', 'product');
-    Route::get('/search-products', 'search')->name('search.products');
+    Route::get('search-products', 'search')->name('search.products');
     Route::post('/product/{id}/get-price', 'getPrice')->name('product.getPrice');
     Route::get('/product/quick-view/{id}', 'quickView')->name('product.quick-view');
 

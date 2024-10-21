@@ -93,7 +93,12 @@ class ProductController extends Controller
                 DB::beginTransaction();
                 $product = new Product();
                 $product->name = $data['name'];
-                $product->slug = $this->CustomeSlug($data['name']);
+                if ($data['slug'] && $data['slug'] != '') {
+                    $slug = $this->CustomeSlug($data['slug']);
+                } else {
+                    $slug = $this->CustomeSlug($data['name']);
+                }
+                $product->slug = $slug;
                 $product->category_id = $data['category_id'];
                 $product->sub_category_id = $data['sub_category_id'];
                 $product->brand_id = $data['brand_id'];
@@ -187,7 +192,12 @@ class ProductController extends Controller
 
                 // تحديث معلومات المنتج
                 $product->name = $data['name'];
-                $product->slug = $this->CustomeSlug($data['name']);
+                if ($data['slug'] && $data['slug'] != '') {
+                    $slug = $this->CustomeSlug($data['slug']);
+                } else {
+                    $slug = $this->CustomeSlug($data['name']);
+                }
+                $product->slug = $slug;
                 $product->category_id = $data['category_id'];
                 $product->sub_category_id = $data['sub_category_id'];
                 $product->brand_id = $data['brand_id'];
@@ -225,81 +235,81 @@ class ProductController extends Controller
                 // التحقق من نوع المنتج "متغير"
                 if ($data['type'] == 'متغير') {
                     // تعديل أو إضافة المتغيرات
-                   if(isset($request->variant_new_name) && $request->variant_new_name != null){
+                    if (isset($request->variant_new_name) && $request->variant_new_name != null) {
 
-                      // dd('new_vartions');
-                       // حذف جميع المتغيرات القديمة
+                        // dd('new_vartions');
+                        // حذف جميع المتغيرات القديمة
 
-                       $variations = ProductVartions::where('product_id', $product->id)->get();
-                       foreach ($variations as $variation) {
-                           $variation->delete();
-                       }
+                        $variations = ProductVartions::where('product_id', $product->id)->get();
+                        foreach ($variations as $variation) {
+                            $variation->delete();
+                        }
                         // حفظ المتغيرات الجديدة
-                       foreach ($request->variant_new_name as $index => $variantName) {
+                        foreach ($request->variant_new_name as $index => $variantName) {
 
-                           // حفظ كل متغير في جدول product_variations
-                           // حفظ كل متغير في جدول product_variations باستخدام create
-                           //dd($request->variant_name);
-                           $productVariation = ProductVartions::create([
-                               'product_id' => $product->id,
-                               'price' => $request->variant_new_price[$index],
-                               'discount' => $request->variant_new_discount[$index],
-                              //  'image' => $request->variant_new_image[$index]->store('images'),
-                               'stock' => $request->variant_new_stock[$index],
-                           ]);
+                            // حفظ كل متغير في جدول product_variations
+                            // حفظ كل متغير في جدول product_variations باستخدام create
+                            //dd($request->variant_name);
+                            $productVariation = ProductVartions::create([
+                                'product_id' => $product->id,
+                                'price' => $request->variant_new_price[$index],
+                                'discount' => $request->variant_new_discount[$index],
+                                //  'image' => $request->variant_new_image[$index]->store('images'),
+                                'stock' => $request->variant_new_stock[$index],
+                            ]);
 
-             // حفظ القيم المرتبطة بهذا المتغير
+                            // حفظ القيم المرتبطة بهذا المتغير
 
-                           $attributes = explode(' - ', $variantName);
+                            $attributes = explode(' - ', $variantName);
 
-                           $attributesIds = $data['attributes'];  // مصفوفة attribute_ids
-                       //    dd($attributesIds);
-                           foreach ($attributes as $attributeIndex => $attributeName) {
-                               if (isset($attributesIds[$attributeIndex])) {
-                                   VartionsValues::create([
-                                       'product_variation_id' => $productVariation->id,
-                                       'attribute_id' => $attributesIds[$attributeIndex], // ربط attribute_id بالقيمة الصحيحة
-                                       'attribute_value_name' => $attributeName
-                                   ]);
-                               }
-                           }
-                       }
-                   }else{
-                       foreach ($request->variant_id as $index => $variantId) {
-                           if ($variantId) {
-                               // تعديل المتغير الموجود
-                               $productVariation = ProductVartions::find($variantId);
-                           } else {
-                               // إنشاء متغير جديد
-                               $productVariation = new ProductVartions();
-                               $productVariation->product_id = $product->id;
-                           }
+                            $attributesIds = $data['attributes'];  // مصفوفة attribute_ids
+                            //    dd($attributesIds);
+                            foreach ($attributes as $attributeIndex => $attributeName) {
+                                if (isset($attributesIds[$attributeIndex])) {
+                                    VartionsValues::create([
+                                        'product_variation_id' => $productVariation->id,
+                                        'attribute_id' => $attributesIds[$attributeIndex], // ربط attribute_id بالقيمة الصحيحة
+                                        'attribute_value_name' => $attributeName
+                                    ]);
+                                }
+                            }
+                        }
+                    } else {
+                        foreach ($request->variant_id as $index => $variantId) {
+                            if ($variantId) {
+                                // تعديل المتغير الموجود
+                                $productVariation = ProductVartions::find($variantId);
+                            } else {
+                                // إنشاء متغير جديد
+                                $productVariation = new ProductVartions();
+                                $productVariation->product_id = $product->id;
+                            }
 
-                           // تحديث بيانات المتغير
-                           $productVariation->price = $request->variant_price[$index];
-                           $productVariation->discount = $request->variant_discount[$index];
+                            // تحديث بيانات المتغير
+                            $productVariation->price = $request->variant_price[$index];
+                            $productVariation->discount = $request->variant_discount[$index];
 
-                           if (isset($request->variant_image[$index])) {
-                               $productVariation->image = $request->variant_image[$index]->store('images');
-                           }
+                            if (isset($request->variant_image[$index])) {
+                                $productVariation->image = $request->variant_image[$index]->store('images');
+                            }
 
-                           $productVariation->stock = $request->variant_stock[$index];
-                           $productVariation->save();
+                            $productVariation->stock = $request->variant_stock[$index];
+                            $productVariation->save();
 
-                           // تحديث القيم المرتبطة بالمتغير
-                           foreach ($request->variant_attributes[$index] as $attributeId => $attributeValue) {
-                               VartionsValues::updateOrCreate(
-                                   [
-                                       'product_variation_id' => $productVariation->id,
-                                       'attribute_id' => $attributeId,
-                                   ],
-                                   [
-                                       'attribute_value_name' => $attributeValue,
-                                   ]
-                               );
-                           }
-                       }
-                   }
+                            // تحديث القيم المرتبطة بالمتغير
+                            foreach ($request->variant_attributes[$index] as $attributeId => $attributeValue) {
+                                VartionsValues::updateOrCreate(
+                                    [
+                                        'product_variation_id' => $productVariation->id,
+                                        'attribute_id' => $attributeId,
+                                    ],
+                                    [
+                                        'attribute_value_name' => $attributeValue,
+                                    ]
+                                );
+                            }
+                        }
+                    }
 
                 }
                 DB::commit();

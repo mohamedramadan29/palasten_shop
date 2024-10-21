@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\front;
 
 use App\Http\Controllers\Controller;
+use App\Models\admin\Advantage;
 use App\Models\admin\Banner;
+use App\Models\admin\Brand;
 use App\Models\admin\MainCategory;
 use App\Models\admin\Product;
 use App\Models\admin\ProductVartions;
@@ -17,6 +19,8 @@ class FrontController extends Controller
         $bestproducts  = Product::with('gallary','Main_Category')->where('status',1)->get();
         $lastproducts = Product::with('gallary','Main_Category')->where('status',1)->orderBy('id','DESC')->limit(12)->get();
         $mainCategories = MainCategory::where('status',1)->get();
+        $brands = Brand::where('status',1)->get();
+        $advantages = Advantage::all();
         // جلب الأقسام المحددة لتظهر في الصفحة الرئيسية
         $selectedCategories = MainCategory::where('main_page', 1)->get();
 
@@ -28,7 +32,7 @@ class FrontController extends Controller
             ->where('status', 1)
             ->get();
 
-        return view('front.index',compact('banners','bestproducts','lastproducts','mainCategories','selectedCategories','productsBySelectedCategories'));
+        return view('front.index',compact('banners','advantages','bestproducts','lastproducts','mainCategories','selectedCategories','productsBySelectedCategories','brands'));
     }
 
     public function getProductDetails($id){

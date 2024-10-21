@@ -160,7 +160,6 @@
                                         @endif
                                     </div>
 
-
                                     <div class="cart-checkout-btn">
                                         <a href="{{url('checkout')}}"
                                            class="tf-btn w-100 btn-fill animate-hover-btn radius-3 justify-content-center">

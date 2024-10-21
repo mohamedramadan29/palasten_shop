@@ -32,11 +32,18 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-6 col-12">
                                         <div class="mb-3">
                                             <label for="name" class="form-label"> اسم المنتج </label>
                                             <input required type="text" id="name" name="name" class="form-control"
                                                    placeholder="" value="{{$product['name']}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-12">
+                                        <div class="mb-3">
+                                            <label for="name" class="form-label"> اضف اسم خاص للرابط  ( اختياري )  </label>
+                                            <input required type="text" id="slug" name="slug" class="form-control"
+                                                   placeholder="" value="{{$product['slug']}}">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">

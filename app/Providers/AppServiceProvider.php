@@ -25,6 +25,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if (env('APP_ENV') === 'production') {
+            URL::forceScheme('https'); // فرض استخدام HTTPS
+        }
+        
         if (Schema::hasTable('public_settings')) {
             $settings = PublicSetting::first();
             $currency = $settings['website_currency'];

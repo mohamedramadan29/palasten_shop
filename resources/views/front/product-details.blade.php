@@ -46,26 +46,26 @@
                                     <div class="swiper tf-product-media-thumbs tf-product-media-thumbs-default"
                                          data-direction="vertical">
                                         <div class="swiper-wrapper stagger-wrap">
-                                            <div class="swiper-slide stagger-item">
-                                                <div class="item">
-                                                    <img class="lazyload"
-                                                         data-src="{{asset('assets/uploads/product_images/'.$product['image'])}}"
-                                                         src="{{asset('assets/uploads/product_images/'.$product['image'])}}"
-                                                         alt="{{$product['name']}}">
-                                                </div>
-                                            </div>
-                                            @if($product['gallary'] && $product['gallary'] !='')
-                                                @foreach($product['gallary'] as $gallary)
-                                                    <div class="swiper-slide stagger-item">
-                                                        <div class="item">
-                                                            <img class="lazyload"
-                                                                 data-src="{{asset('assets/uploads/product_gallery/'.$gallary['image'])}}"
-                                                                 src="{{asset('assets/uploads/product_gallery/'.$gallary['image'])}}"
-                                                                 alt="">
-                                                        </div>
-                                                    </div>
-                                                @endforeach
-                                            @endif
+{{--                                            <div class="swiper-slide stagger-item">--}}
+{{--                                                <div class="item">--}}
+{{--                                                    <img class="lazyload"--}}
+{{--                                                         data-src="{{asset('assets/uploads/product_images/'.$product['image'])}}"--}}
+{{--                                                         src="{{asset('assets/uploads/product_images/'.$product['image'])}}"--}}
+{{--                                                         alt="{{$product['name']}}">--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                            @if($product['gallary'] && $product['gallary'] !='')--}}
+{{--                                                @foreach($product['gallary'] as $gallary)--}}
+{{--                                                    <div class="swiper-slide stagger-item">--}}
+{{--                                                        <div class="item">--}}
+{{--                                                            <img class="lazyload"--}}
+{{--                                                                 data-src="{{asset('assets/uploads/product_gallery/'.$gallary['image'])}}"--}}
+{{--                                                                 src="{{asset('assets/uploads/product_gallery/'.$gallary['image'])}}"--}}
+{{--                                                                 alt="">--}}
+{{--                                                        </div>--}}
+{{--                                                    </div>--}}
+{{--                                                @endforeach--}}
+{{--                                            @endif--}}
                                         </div>
                                     </div>
                                     <div class="swiper tf-product-media-main tf-product-media-main-default">
@@ -104,13 +104,13 @@
                                     <div class="tf-product-info-title">
                                         <h5> {{$product['name']}} </h5>
                                     </div>
-                                    <div class="tf-product-info-badges">
-                                        <div class="product-status-content">
-                                            <p class="fw-6">{{$product['short_description']}}</p>
-                                        </div>
-                                    </div>
+{{--                                    <div class="tf-product-info-badges">--}}
+{{--                                        <div class="product-status-content">--}}
+{{--                                            <p class="fw-6">{{$product['short_description']}}</p>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
                                     <!-- عرض خيارات السمات -->
-                                    <form id="addToCart" class="" method="post" action="{{url('cart/add')}}">
+                                    <form id="addToCart_{{$product['id']}}" class="" method="post" action="{{url('cart/add')}}">
                                         @csrf
                                         <div class="tf-product-info-variant-picker">
                                             @if($productVariations->count() > 0)
@@ -143,8 +143,8 @@
                                                        name="discount" value="">
                                                     <input type="hidden" id="hidden-variation" placeholder=" " name="hidden-variation" value="">
                                             @else
-{{--                                                <input type="hidden" id="hidden-variation" placeholder="دشقفهخر " name="hidden-variation" value="">--}}
-                                                <div class="tf-product-info-price">
+                                             <input type="hidden" id="hidden-variation" placeholder="دشقفهخر " name="hidden-variation" value="">
+                                                 <div class="tf-product-info-price">
                                                     @if(isset($product['discount']) && $product['discount'] !=null)
                                                         <div
                                                             class="price-on-sale">{{$product['discount']}} {{ $storeCurrency }} </div>
@@ -175,7 +175,7 @@
                                             <input type="hidden" name="product_id" value="{{$product['id']}}">
 
 
-                                            <button id="addtocartbutton" href="javascript:void(0);"
+                                            <button id="addtocartbutton_{{$product['id']}}" href="javascript:void(0);"
                                                     class="tf-btn btn-fill justify-content-center fw-6 fs-16 flex-grow-1 animate-hover-btn btn-add-to-cart">
                                                 <span>  اضف الي السلة    </span></button>
                                         </div>
@@ -184,26 +184,35 @@
 
                                     <script>
                                         $(document).ready(function () {
-                                            $("#addtocartbutton").on('click', function (e) {
+                                            $("#addtocartbutton_{{$product['id']}}").on('click', function (e) {
                                                 e.preventDefault();
                                                 $.ajax({
                                                     url: '/cart/add',
                                                     method: 'POST',
-                                                    data: $("#addToCart").serialize(),
+                                                    headers: {
+                                                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                                    },
+                                                    data: $("#addToCart_{{$product['id']}}").serialize(),
                                                     success: function (response) {
                                                         // عرض الرسالة باستخدام Toastify
                                                         Toastify({
-                                                            text: response.message, // عرض الرسالة من response
-                                                            duration: 3000, // المدة الزمنية لعرض الرسالة
-                                                            gravity: "top", // اتجاه العرض
-                                                            position: "right", // موقع الرسالة
-                                                            backgroundColor: "#4CAF50", // لون الخلفية للرسالة
+                                                            text: response.message,
+                                                            duration: 3000,
+                                                            gravity: "top",
+                                                            position: "right",
+                                                            backgroundColor: "#4CAF50",
                                                         }).showToast();
+
+                                                        // تحديث عداد المنتجات في السلة
                                                         if (response.cartCount) {
                                                             $('.nav-cart .count-box').text(response.cartCount);
                                                         }
-                                                        // تحميل محتوى عربة التسوق المحدثة
+
+                                                        // تحديث محتويات الـ modal للسلة فورًا
                                                         updateCartModal();
+
+                                                        // إظهار الـ modal بعد الإضافة
+                                                        $('#shoppingCart').modal('show');
                                                     },
                                                     error: function (xhr, status, error) {
                                                         $('#wishlistMessage').html('<p>حدث خطأ أثناء إضافة المنتج للسلة </p>');
@@ -213,15 +222,28 @@
 
                                             function updateCartModal() {
                                                 $.ajax({
-                                                    url: '/cart/items', // رابط يقوم بجلب العناصر المحدثة
+                                                    url: '/cart/items', // رابط جلب العناصر المحدثة
                                                     method: 'GET',
                                                     success: function (response) {
-                                                        // استبدل محتوى الـ modal الخاص بعربة التسوق
-                                                        $('#shoppingCart .wrap').html(response);
+                                                        console.log('Cart modal response:', response); // طباعة استجابة السيرفر للتحقق من البيانات
+
+                                                        // استبدال محتويات الـ modal بالـ HTML المستلم من السيرفر
+                                                        $('#shoppingCart .wrap').html(response.html);
+
+                                                        // تحديث عداد السلة
+                                                        $('.nav-cart .count-box').text(response.cartCount); // تحديث العداد مباشرة
+
+                                                        // تحديث متغير $cartCount في الواجهة إذا كنت تستخدمه في أماكن أخرى
+                                                        window.cartCount = response.cartCount; // تخزين القيمة في متغير عالمي
+                                                        console.log(window.cartCount);
+                                                    },
+                                                    error: function (xhr, status, error) {
+                                                        console.log('خطأ في تحديث السلة');
                                                     }
                                                 });
                                             }
                                         });
+
                                     </script>
 
                                     <script>
@@ -315,7 +337,7 @@
         </section>
         <!-- /tabs -->
         <!-- product -->
-        <section class="flat-spacing-1 pt_0">
+        <section class="flat-spacing-1 pt_0" style="overflow-y:hidden">
             <div class="container">
                 <div class="flat-title">
                     <span class="title"> ربما يعجبك أيضا </span>

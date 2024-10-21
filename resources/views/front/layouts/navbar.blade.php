@@ -1,7 +1,46 @@
+<!--------------------------- Get Website Colors ------------------->
+
+@php
+
+$colors = \App\Models\admin\Color::first();
+
+$website_background = $colors['website_background'];
+$top_navbar_background = $colors['top_navbar_background'];
+$second_navbar_background = $colors['second_navbar_background'];
+$third_navbar_background = $colors['third_navbar_background'];
+$main_title_color = $colors['main_title_color'];
+$all_button_background = $colors['all_button_background'];
+$main_price_color = $colors['main_price_color'];
+$public_add_to_cart_background = $colors['public_add_to_cart_background'];
+$public_add_to_cart_color = $colors['public_add_to_cart_color'];
+$footer_background = $colors['footer_background'];
+$footer_color = $colors['footer_color'];
+
+@endphp
+
+
+
+<style>
+    *{
+        --website_background: <?php echo $website_background; ?>;
+        --top_navbar_background: <?php echo $top_navbar_background; ?>;
+        --second_navbar_background: <?php echo $second_navbar_background; ?>;
+        --third_navbar_background: <?php echo $third_navbar_background; ?>;
+        --main_title_color: <?php echo $main_title_color; ?>;
+        --all_button_background: <?php echo $all_button_background; ?>;
+        --main_price_color: <?php echo $main_price_color; ?>;
+        --public_add_to_cart_background: <?php echo $public_add_to_cart_background; ?>;
+        --public_add_to_cart_color: <?php echo $public_add_to_cart_color; ?>;
+        --footer_background: <?php echo $footer_background; ?>;
+        --footer_color: <?php echo $footer_color; ?>;
+        }
+</style>
+
+
 <!-- /preload -->
 <div id="wrapper">
     <!-- Top Bar -->
-    <div class="tf-top-bar bg_white line">
+    <div class="tf-top-bar line" style="background-color:var(--top_navbar_background);">
         <div class="px_15 lg-px_40">
             <div class="tf-top-bar_wrap gap-30 align-items-center">
                 <div class="text-center overflow-hidden">
@@ -67,26 +106,16 @@
 
                 <script>
                     $(document).ready(function () {
-                        // عند تغيير الفئة
-                        $('#category-select').on('change', function () {
-                            // إفراغ حقل البحث
-                            $('#search-input').val('');
+                        // دالة البحث
+                        function performSearch(query, category) {
+                            // تحقق من طول المدخل
+                            if (query.length > 2 || category) {
+                                // عرض مؤشر التحميل أثناء البحث
+                                $('#search-results').html('<p>جاري البحث...</p>').show();
 
-                            // يمكنك اختيار إخفاء نتائج البحث هنا
-                            $('#search-results').hide();
-
-                            // إذا كنت تريد تنفيذ عملية البحث فور تغيير الفئة، يمكنك إعادة استدعاء دالة البحث
-                            let category = $(this).val();
-                            performSearch('', category); // إعادة البحث مع الفئة الجديدة
-                        });
-
-                        $('#search-input').on('input', function () {
-                            let query = $(this).val();
-                            let category = $('#category-select').val();
-                            if (query.length > 2) {
                                 $.ajax({
-                                    url: '{{ route("search.products") }}',
-                                    method: 'Get',
+                                    url: '{{ route("search.products") }}', // تأكد من أن الرابط يولد عبر HTTPS
+                                    method: 'GET',
                                     data: {
                                         query: query,
                                         category: category,
@@ -96,17 +125,39 @@
                                         if (response.length > 0) {
                                             $('#search-results').html(response).show();
                                         } else {
-                                            $('#search-results').hide();
+                                            $('#search-results').html('<p>لا توجد نتائج</p>').show();
                                         }
                                     },
                                     error: function (xhr) {
                                         console.log("Error In Search Result", xhr);
+                                        $('#search-results').html('<p>حدث خطأ أثناء البحث</p>').show();
                                     }
                                 });
                             } else {
                                 $('#search-results').hide();
                             }
+                        }
+
+                        // عند تغيير الفئة
+                        $('#category-select').on('change', function () {
+                            // إفراغ حقل البحث
+                            $('#search-input').val('');
+
+                            // إخفاء نتائج البحث
+                            $('#search-results').hide();
+
+                            // استدعاء البحث مع الفئة الجديدة
+                            let category = $(this).val();
+                            performSearch('', category); // البحث فقط حسب الفئة الجديدة
                         });
+
+                        // عند الكتابة في حقل البحث
+                        $('#search-input').on('input', function () {
+                            let query = $(this).val();
+                            let category = $('#category-select').val();
+                            performSearch(query, category); // البحث حسب المدخلات والفئة
+                        });
+
                         // إخفاء القائمة المنسدلة عند النقر خارجها
                         $(document).click(function (e) {
                             if (!$(e.target).closest('.search').length) {
@@ -115,6 +166,7 @@
                         });
                     });
                 </script>
+
 
                 <style>
                     /* تصميم منطقة النتائج المنسدلة */

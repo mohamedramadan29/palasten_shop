@@ -16,6 +16,8 @@ use \App\Http\Controllers\admin\ShippingCityController;
 use \App\Http\Controllers\admin\FaqController;
 use \App\Http\Controllers\admin\BannerController;
 use \App\Http\Controllers\admin\OrderController;
+use \App\Http\Controllers\admin\ColorController;
+use \App\Http\Controllers\admin\AdvantageController;
 Route::group(['prefix' => 'admin'], function () {
 // Admin Login
 
@@ -141,13 +143,29 @@ Route::group(['prefix' => 'admin'], function () {
 
         ///////////////////// Start Order Controller ///////////////
         ///
-        Route::controller(OrderController::class)->group(function (){
-            Route::get('orders','index');
-            Route::post('order/delete/{id}','delete');
-            Route::match(['post','get'],'order/update/{id}','update');
-            Route::match(['post','get'],'order/store','store');
-            Route::get('order/print/{id}','print');
-            Route::get('orders/archive','archive');
+        Route::controller(OrderController::class)->group(function () {
+            Route::get('orders', 'index');
+            Route::post('order/delete/{id}', 'delete');
+            Route::match(['post', 'get'], 'order/update/{id}', 'update');
+            Route::match(['post', 'get'], 'order/store', 'store');
+            Route::get('order/print/{id}', 'print');
+            Route::get('orders/archive', 'archive');
+        });
+
+        ////////////////////////// Start Website Color //////////////////////
+        ///
+        Route::controller(ColorController::class)->group(function () {
+            Route::get('colors', 'index');
+            Route::match(['post', 'get'], 'colors/update', 'update');
+        });
+
+        //////////////////////////////  Start Website Advantage //////////
+        ///
+        Route::controller(AdvantageController::class)->group(function (){
+            Route::get('advantages','index');
+            Route::match(['post','get'],'advantage/store','store');
+            Route::match(['post','get'],'advantage/update/{id}','update');
+            Route::post('advantage/delete/{id}','delete');
         });
     });
 });

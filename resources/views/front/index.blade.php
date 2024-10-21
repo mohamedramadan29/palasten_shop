@@ -624,7 +624,8 @@
                                                         مشاهدة الاختيارات
                                                     </a>
                                                 @else
-                                                    <form id="addToCart{{$category['id']}}_{{$product['id']}}" class="" method="post"
+                                                    <form id="addToCart{{$category['id']}}_{{$product['id']}}" class=""
+                                                          method="post"
                                                           action="{{url('cart/add')}}">
                                                         <input type="hidden" name="product_id"
                                                                value="{{$product['id']}}">
@@ -640,8 +641,9 @@
                                                                placeholder="دشقفهخر "
                                                                name="hidden-variation" value="">
 
-                                                        <button id="addtocartbutton{{$category['id']}}_{{$product['id']}}"
-                                                                class="add-to-cart">
+                                                        <button
+                                                            id="addtocartbutton{{$category['id']}}_{{$product['id']}}"
+                                                            class="add-to-cart">
                                                             اضف الي السلة
                                                         </button>
                                                     </form>
@@ -866,42 +868,16 @@
                     <div class="swiper tf-sw-brand border-0" data-play="true" data-loop="true" data-preview="6"
                          data-tablet="4" data-mobile="2" data-space-lg="30" data-space-md="15">
                         <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                                <div class="brand-item-v2">
-                                    <img class="lazyload" data-src="{{asset('assets/front/images/brand/brand-01.png')}}"
-                                         src="{{asset('assets/front/images/brand/brand-01.png')}}" alt="image-brand">
+                            @foreach($brands as $brand)
+                                <div class="swiper-slide">
+                                    <div class="brand-item-v2">
+                                        <img style="max-width: 150px;" class="lazyload"
+                                             data-src="{{asset('assets/uploads/brands/'.$brand['image'])}}"
+                                             src="{{asset('assets/uploads/brands/'.$brand['image'])}}"
+                                             alt="{{$brand['name']}}">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="brand-item-v2">
-                                    <img class="lazyload" data-src="{{asset('assets/front/images/brand/brand-02.png')}}"
-                                         src="{{asset('assets/front/images/brand/brand-02.png')}}" alt="image-brand">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="brand-item-v2">
-                                    <img class="lazyload" data-src="{{asset('assets/front/images/brand/brand-03.png')}}"
-                                         src="{{asset('assets/front/images/brand/brand-03.png')}}" alt="image-brand">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="brand-item-v2">
-                                    <img class="lazyload" data-src="{{asset('assets/front/images/brand/brand-04.png')}}"
-                                         src="{{asset('assets/front/images/brand/brand-04.png')}}" alt="image-brand">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="brand-item-v2">
-                                    <img class="lazyload" data-src="{{asset('assets/front/images/brand/brand-05.png')}}"
-                                         src="{{asset('assets/front/images/brand/brand-05.png')}}" alt="image-brand">
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="brand-item-v2">
-                                    <img class="lazyload" data-src="{{asset('assets/front/images/brand/brand-06.png')}}"
-                                         src="{{asset('assets/front/images/brand/brand-06.png')}}" alt="image-brand">
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -914,50 +890,19 @@
                 <div class="wrap-carousel wrap-mobile">
                     <div class="swiper tf-sw-mobile" data-preview="1" data-space="15">
                         <div class="swiper-wrapper wrap-iconbox">
-                            <div class="swiper-slide">
-                                <div class="tf-icon-box style-border-line text-center">
-                                    <div class="icon">
-                                        <i class="icon-shipping"></i>
-                                    </div>
-                                    <div class="content">
-                                        <div class="title"> شحن مجاني</div>
-                                        <p> احصل علي شحن مجاني عند طلب اكثر من 200 ريال </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="tf-icon-box style-border-line text-center">
-                                    <div class="icon">
-                                        <i class="icon-payment fs-22"></i>
-                                    </div>
-                                    <div class="content">
-                                        <div class="title"> اداوات دفع</div>
-                                        <p> ادفع من خلال طرق دفع متعددة </p>
+                            @foreach($advantages as $advantage)
+                                <div class="swiper-slide">
+                                    <div class="tf-icon-box style-border-line text-center">
+                                        <div class="icon">
+                                            <i class="fas {{$advantage['icon']}}"></i>
+                                        </div>
+                                        <div class="content">
+                                            <div class="title"> {{$advantage['name']}} </div>
+                                            <p>  {{$advantage['description']}}  </p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="tf-icon-box style-border-line text-center">
-                                    <div class="icon">
-                                        <i class="icon-return fs-22"></i>
-                                    </div>
-                                    <div class="content">
-                                        <div class="title"> 14 يوم للاستبدال والارجاع</div>
-                                        <p> في خلال 30 يوم من خلال اي عملية شراء </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="tf-icon-box style-border-line text-center">
-                                    <div class="icon">
-                                        <i class="icon-suport"></i>
-                                    </div>
-                                    <div class="content">
-                                        <div class="title"> دعم فني</div>
-                                        <p> دعم فني علي مدار ال 24 ساعة </p>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
 
                     </div>
