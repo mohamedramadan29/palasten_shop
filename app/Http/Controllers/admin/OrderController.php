@@ -7,6 +7,7 @@ use App\Http\Traits\Message_Trait;
 use App\Models\admin\PublicSetting;
 use App\Models\front\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -20,6 +21,15 @@ class OrderController extends Controller
     public function update(Request $request, $id)
     {
         $order = Order::with('details','city')->where('id',$id)->first();
+
+
+        $user  = Auth::guard('admin')->user();
+        $notification = $user->unreadNotifications->where('data.order_id', $id)->first();
+
+        // التأكد من وجود الإشعار وجعله مقروءًا
+        if ($notification) {
+            $notification->markAsRead();
+        }
         if ($request->isMethod('post')){
             try {
                 $data = $request->all();

@@ -37,7 +37,7 @@ class AdvantageController extends Controller
             ]);
             return $this->success_message(' تمت اضافة الميزة بنجاح  ');
         }
-        return view('admin.advantage.add');
+        return view('admin.Advantage.add');
     }
 
     public function update(Request $request,$id)
@@ -58,7 +58,7 @@ class AdvantageController extends Controller
             ]);
             return $this->success_message(' تمت تعديل  الميزة بنجاح  ');
         }
-        return view('admin.advantage.update',compact('advantage'));
+        return view('admin.Advantage.update',compact('advantage'));
     }
 
     public function delete($id)

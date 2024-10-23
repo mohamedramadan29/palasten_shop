@@ -1,6 +1,6 @@
 @extends('front.layouts.master')
 @section('title')
-    الرئيسية | سلة الشراء
+      سلة الشراء
 @endsection
 
 @section('content')

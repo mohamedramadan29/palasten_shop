@@ -11,7 +11,7 @@ $setting = \App\Models\admin\PublicSetting::first();
 <html dir="rtl" xmlns="http://www.w3.org/1999/xhtml" xml:lang="ar-EG" lang="ar-EG">
 <head>
     <meta charset="utf-8">
-    <title> @yield('title')  </title>
+    <title> @yield('title') - {{$setting['website_name']}} </title>
     <meta name="description" content="{{$setting['website_description']}}">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta name="keywords" content="{{$setting['website_keywords']}}">

@@ -4,12 +4,15 @@ namespace App\Http\Controllers\front;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\Message_Trait;
+use App\Models\admin\admins;
 use App\Models\admin\Product;
 use App\Models\front\Cart;
 use App\Models\front\Order;
 use App\Models\front\OrderDetails;
+use App\Notifications\NewOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -65,7 +68,10 @@ class OrderController extends Controller
             $order_details->product_variation_id = $item['product_variation_id'];
             $order_details->save();
         }
+
         DB::commit();
+        $admin = admins::all();
+        Notification::send($admin,new NewOrder($order->id));
         Session::put('order_id', $order->id);
         return redirect('thanks');
        // return $this->success_message(' تم اضافة الطلب الخاص بك بنجاح  ');

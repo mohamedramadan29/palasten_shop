@@ -8,6 +8,7 @@ use App\Http\Traits\Upload_Images;
 use App\Models\admin\PublicSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class PublicSettingController extends Controller
@@ -38,11 +39,12 @@ class PublicSettingController extends Controller
 
             // Handle image upload and deletion
             if ($request->hasFile('image')) {
-                $old_image_path = public_path('assets/uploads/PublicSetting/' . $public_setting->website_logo);
+               // $old_image_path = public_path('assets/uploads/PublicSetting/' . $public_setting->website_logo);
+                $old_image_path = Storage::url('uploads/PublicSetting/' . $public_setting->website_logo);
                 if (file_exists($old_image_path)) {
                     @unlink($old_image_path);
                 }
-                $file_name = $this->saveImage($request->image, public_path('assets/uploads/PublicSetting'));
+                $file_name = $this->saveImage($request->image, 'uploads/PublicSetting');
                 $public_setting->website_logo = $file_name;
             }
 
@@ -57,6 +59,8 @@ class PublicSettingController extends Controller
                 'second_color' => $data['second_color'],
                 'website_currency'=>$data['website_currency'],
                 'website_address'=>$data['website_address'],
+                'website_email'=>$data['website_email'],
+                'website_phone'=>$data['website_phone'],
             ]);
 
             return $this->success_message('تم تعديل الاعدادات العامة للموقع بنجاح');
