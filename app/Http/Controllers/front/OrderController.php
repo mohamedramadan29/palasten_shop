@@ -24,6 +24,8 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        $coupon_amount =  Session::has('coupon_amount') ? Session::get('coupon_amount') : 0;
+        $coupon = Session::has('coupon_code') ? Session::get('coupon_code') : null;
         $cartItems = Cart::getcartitems();
         $rules = [
             'name' => 'required',
@@ -51,8 +53,9 @@ class OrderController extends Controller
         $order->shippingcity = $data['shippingcity'];
         $order->phone = $data['phone'];
         $order->phone2 = $data['phone2'];
-
         $order->shipping_price = $data['shipping_price'];
+        $order->coupon_code = $coupon;
+        $order->coupon_amount = $coupon_amount;
         $order->order_status = 'لم يبدا';
         $order->payment_method = 'الدفع عند الاستلام';
         $order->grand_total = $data['grand_total'];

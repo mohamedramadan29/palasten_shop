@@ -110,11 +110,20 @@
                                     <h6 class="fw-5"> قيمة الشحن </h6>
                                     <h6 class="shipping-price fw-5">$0.00</h6>
                                 </div>
+                                <form id="applycoupon" method="post" action="javascript:void(0);">
+                                    @csrf
+                                    <div class="coupon-box pb-20 pt-5 d-flex justify-content-between">
+                                        <input id="code" name="code" type="text" placeholder=" كود خصم ">
+                                        <button id="coupon_button" class="tf-btn btn-sm radius-3 btn-fill btn-icon animate-hover-btn">تطبيق</button>
+                                    </div>
+                                </form>
+
                                 @if (Session::has('coupon_amount'))
-                                <div class="d-flex justify-content-between line pb_20 pt-4">
-                                    <h6 class="fw-5"> قيمه الخصم   </h6>
-                                    <h6 class="fw-5"> - {{ Session::get('coupon_amount') }} {{ $storeCurrency }}  </h6>
-                                </div>
+                                    <div class="d-flex justify-content-between line pb_20 pt-4">
+                                        <h6 class="fw-5"> قيمه الخصم </h6>
+                                        <h6 class="fw-5">
+                                            - {{ Session::get('coupon_amount') }} {{ $storeCurrency }}  </h6>
+                                    </div>
                                 @endif
 
                                 <input type="hidden" id="shipping-price" name="shipping_price" value="">
@@ -125,24 +134,11 @@
                                     @else
                                         <h6 class="grand-total fw-5"> {{number_format($subtotal, 2)}} {{ $storeCurrency }} </h6>
                                     @endif
-                                    <input type="hidden" id="coupon_amount" name="coupon_amount" value="{{ Session::has('coupon_amount') ? Session::get('coupon_amount') : 0 }}">
+                                    <input type="hidden" id="coupon_amount" name="coupon_amount"
+                                           value="{{ Session::has('coupon_amount') ? Session::get('coupon_amount') : 0 }}">
                                     <input type="hidden" id="grand_total" name="grand_total" value="">
                                 </div>
                                 <div class="wd-check-payment">
-                                    {{--                            <div class="fieldset-radio mb_20">--}}
-                                    {{--                                <input type="radio" name="payment" id="bank" class="tf-check" checked>--}}
-                                    {{--                                <label for="bank">Direct bank transfer</label>--}}
-                                    {{--                            </div>--}}
-{{--                                    <div class="fieldset-radio mb_20 pt-4">--}}
-{{--                                        <input type="radio" name="payment" id="delivery" class="tf-check">--}}
-{{--                                        <label for="delivery"> الدفع عند الاستلام </label>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="box-checkbox fieldset-radio mb_20">--}}
-{{--                                        <input type="checkbox" id="check-agree" class="tf-check">--}}
-{{--                                        <label for="check-agree" class="text_black-2"> الموافقة علي <a--}}
-{{--                                                href="{{url('terms')}}" class="text-decoration-underline"> الشروط--}}
-{{--                                                والاحكام </a>.</label>--}}
-{{--                                    </div>--}}
                                 </div>
                                 <br>
                                 <button
@@ -199,6 +195,40 @@
         });
 
 
+    </script>
+
+    <script>
+        // Apply Coupon Code
+        $("#coupon_button").click(function ($e) {
+            $e.preventDefault();
+            var code = $("#code").val();
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'post',
+                url: '/apply_coupon',
+                data: {code: code},
+                success: function (resp) {
+                    if (resp.message != '') {
+                        alert(resp.message);
+                        if (resp.coupon_amount > 0) {
+                            $(".discountAmount").text(resp.coupon_amount + "ر.س");
+                        } else {
+                            $(".discountAmount").text(" 0 ر.س");
+                        }
+                        if (resp.grand_total > 0) {
+                            $(".grand_total").text(resp.grand_total + "ر.س");
+                        }
+                        // إعادة تحميل الصفحة بعد تطبيق الكوبون
+                        location.reload();
+                    }
+
+                }, error: function () {
+                    alert('error');
+                }
+            });
+        })
     </script>
 
 @endsection

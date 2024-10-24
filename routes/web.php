@@ -10,7 +10,7 @@ use \App\Http\Controllers\front\CheckoutController;
 use \App\Http\Controllers\front\WishlistController;
 use \App\Http\Controllers\front\OrderController;
 use \App\Http\Controllers\front\TermsController;
-
+use \App\Http\Controllers\front\OfferController;
 Route::controller(FrontController::class)->group(function () {
     Route::get('/', 'index');
     Route::get('/get-product-details/{id}', 'getProductDetails');
@@ -31,7 +31,6 @@ Route::controller(ProductController::class)->group(function () {
     Route::get('search-products', 'search')->name('search.products');
     Route::post('/product/{id}/get-price', 'getPrice')->name('product.getPrice');
     Route::get('/product/quick-view/{id}', 'quickView')->name('product.quick-view');
-
 
 
 });
@@ -63,5 +62,9 @@ Route::controller(TermsController::class)->group(function () {
 Route::controller(OrderController::class)->group(function () {
     Route::post('order/store', 'store');
     Route::get('thanks', 'thanks');
+});
+
+Route::controller(OfferController::class)->group(function (){
+    Route::get('offer','offer');
 });
 @include 'admin.php';

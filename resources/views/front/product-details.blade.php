@@ -180,6 +180,21 @@
                                                 <span>  اضف الي السلة    </span></button>
                                         </div>
                                     </form>
+
+                                    <!-- AddToAny BEGIN -->
+                                    <div class="share_button">
+                                    <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
+                                        <!-- <a class="a2a_dd" href="https://www.addtoany.com/share"></a> -->
+                                        <a href="" class="a2a_button_facebook"></a>
+                                        <a href="" class="a2a_button_whatsapp"></a>
+                                        <a href="" class="a2a_button_linkedin"></a>
+                                        <a href="" class="a2a_button_twitter"></a>
+                                        <a href="" class="a2a_button_x"></a>
+                                        <a href="" class="a2a_button_telegram"></a>
+                                    </div>
+                                    <script async src="https://static.addtoany.com/menu/page.js"></script>
+                                    <!-- AddToAny END -->
+                                    </div>
                                     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
                                     <script>

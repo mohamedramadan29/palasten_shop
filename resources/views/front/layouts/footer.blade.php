@@ -101,6 +101,14 @@
 <!-- toolbar-bottom -->
 <div class="tf-toolbar-bottom type-1150">
     <div class="toolbar-item">
+        <a href="{{url('/')}}">
+            <div class="toolbar-icon">
+                <i class="icon-home"></i>
+            </div>
+            <div class="toolbar-label"> الرئيسية  </div>
+        </a>
+    </div>
+    <div class="toolbar-item">
         <a href="{{url('shop')}}">
             <div class="toolbar-icon">
                 <i class="icon-shop"></i>
@@ -125,20 +133,27 @@
     {{--            <div class="toolbar-label">Account</div>--}}
     {{--        </a>--}}
     {{--    </div>--}}
+
+    @php
+        $wishlistCount = \App\Models\front\wishlist::wishlistitems()->count();
+        $cartCount = \App\Models\front\Cart::getcartitems()->count();
+
+    @endphp
+
     <div class="toolbar-item">
         <a href="{{url('wishlist')}}">
-            <div class="toolbar-icon">
+            <div class="toolbar-icon nav-wishlist">
                 <i class="icon-heart"></i>
-                <div class="toolbar-count">0</div>
+                <div class="toolbar-count count-box">{{$wishlistCount}}</div>
             </div>
             <div class="toolbar-label"> المفضلة</div>
         </a>
     </div>
     <div class="toolbar-item">
         <a href="{{url('cart')}}">
-            <div class="toolbar-icon">
+            <div class="toolbar-icon nav-cart">
                 <i class="icon-bag"></i>
-                <div class="toolbar-count">1</div>
+                <div class="toolbar-count count-box">{{$cartCount}}</div>
             </div>
             <div class="toolbar-label"> السلة</div>
         </a>

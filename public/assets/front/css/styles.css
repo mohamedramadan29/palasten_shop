@@ -18424,5 +18424,75 @@ form .btn-add-to-cart{
     }
 
 }
+.share_button{
+    margin-top:20px;
+    display: flex;
+}
+/************************** start Over Page  *****************/
+.offer_page{
+background-color:#eee;
+}
+.offer_page .data{
+    max-width: 600px;
+    background-color: #fff;
+    margin: auto;
+    padding: 15px;
+}
 
+.offer_page footer{
+    display: none;
+}
+.offer_page .logo{
+    text-align: center;
+}
+.offer_page .logo img{
+    max-width:220px
+}
 
+.offer_page .data .advantage{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.offer_page .data .advantage .adv{
+    text-align: center;
+}
+.offer_page .data .advantage .adv i{
+    color: #D46D5C;
+    font-size: 25px;
+}
+.offer_page .data .advantage .adv h4{
+    font-size: 17px;
+    color: #3b3a3a;
+}
+
+.offer_page .data .product_info{
+    text-align:center;
+}
+.offer_page .data .product_info h2{
+    color: #dc3e24;
+    font-size: 22px;
+    font-weight: bold;
+}
+.offer_page .data .product_info img{
+    max-width: 450px;
+}
+.offer_page .last_section{}
+.offer_page .last_section p{
+    text-align: center;
+    color: #464646;
+    line-height: 2;
+    font-size: 18px;
+}
+.offer_page .last_section .logos{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 10px;
+}
+.offer_page .last_section .logos img{
+    width: 50px;
+    height:50px;
+}
