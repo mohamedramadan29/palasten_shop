@@ -394,7 +394,26 @@
                 </div>
             </li>
 
-{{--            <li class="nav-item">--}}
+
+            <li class="nav-item">
+                <a class="nav-link menu-arrow" href="#sideadoffers" data-bs-toggle="collapse" role="button"
+                   aria-expanded="false" aria-controls="sideadoffers">
+                                   <span class="nav-icon">
+                                        <iconify-icon icon="solar:case-round-bold-duotone"></iconify-icon>
+                                   </span>
+                    <span class="nav-text">  صفحات الهبوط </span>
+                </a>
+                <div class="collapse" id="sideadoffers">
+                    <ul class="nav sub-navbar-nav">
+                        <li class="sub-nav-item">
+                            <a class="sub-nav-link" href="{{url('admin/offers')}}"> مشاهدة الكل   </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
+
+            {{--            <li class="nav-item">--}}
 {{--                <a class="nav-link" href="apps-email.html">--}}
 {{--                                   <span class="nav-icon">--}}
 {{--                                        <iconify-icon icon="solar:mailbox-bold-duotone"></iconify-icon>--}}

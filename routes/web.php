@@ -65,6 +65,6 @@ Route::controller(OrderController::class)->group(function () {
 });
 
 Route::controller(OfferController::class)->group(function (){
-    Route::get('offer','offer');
+    Route::get('offer/{slug}','offer');
 });
 @include 'admin.php';

@@ -1,9 +1,9 @@
 @extends('front.layouts.offer_master')
 @section('title')
-    اسم المنتج
+    {{$offer['product_name']}}
 @endsection
 <style>
-    footer{
+    footer {
         display: none !important;
     }
 </style>
@@ -43,8 +43,9 @@
                     </div>
                 </div>
                 <div class="product_info">
-                    <h2> طقم حمام مكون من 3 قطع وبرسومات جميله 124-7 </h2>
-                    <img src="{{asset('assets/front/images/pro_offer.jpg')}}" alt="">
+                    <h2>  {{$offer['product_name']}} </h2>
+                    <img src="{{\Illuminate\Support\Facades\Storage::url('uploads/product_offers/'.$offer['image'])}}"
+                         alt="">
                 </div>
                 <div class="order_info">
                     <h6> اجمالي الطلب </h6>
@@ -58,9 +59,10 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <td class="total-products" style="color:  #D46D5C; font-weight: bold"> 100 {{ $storeCurrency }} </td>
-                            <td class="shipping-price" style="color:  #D46D5C; font-weight: bold"> حدد المدينة   </td>
-                            <td class="grand-total" style="color:  #D46D5C; font-weight: bold">   </td>
+                            <td class="total-products"
+                                style="color:  #D46D5C; font-weight: bold"> {{$offer['price']}} {{ $storeCurrency }} </td>
+                            <td class="shipping-price" style="color:  #D46D5C; font-weight: bold"> حدد المدينة</td>
+                            <td class="grand-total" style="color:  #D46D5C; font-weight: bold"></td>
                         </tr>
                         </tbody>
                     </table>
@@ -70,49 +72,47 @@
                     <form action="#" method="post" class="form-checkout tf-page-cart-checkout widget-wrap-checkout">
                         <h6> للطلب املئ الاستمارة أدناه : </h6>
                         @csrf
-                                <div class="box">
-                                    <fieldset class="fieldset">
-                                        <label for="name"> الاسم   </label>
-                                        <input type="text" id="name" placeholder="" name="name" required
-                                               value="{{old('name')}}">
-                                    </fieldset>
+                        <div class="box">
+                            <fieldset class="fieldset">
+                                <label for="name"> الاسم </label>
+                                <input type="text" id="name" placeholder="" name="name" required
+                                       value="{{old('name')}}">
+                            </fieldset>
 
-                                <fieldset class="box fieldset">
-                                    <label for="phone"> رقم الهاتف </label>
-                                    <input type="number" id="phone" name="phone" required value="{{old('phone')}}">
-                                </fieldset>
-                                <fieldset class="box fieldset">
-                                    <label for="country"> حدد المدينة </label>
-                                    <div class="select-custom">
-                                        <select class="form-select w-100" id="shippingcity" name="shippingcity">
-                                            <option value="" disabled selected> -- حدد --</option>
-                                            @foreach($shippingCity as $city)
-                                                <option
-                                                    {{old('shippingcity') == $city['id'] ? 'selected' : ''}} value="{{$city['id']}}">{{$city['city']}}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </fieldset>
-                                <fieldset class="box fieldset">
-                                    <label for="note"> العنوان كاملا ( مدينة - حي - عنوان تفصيلي  ) </label>
-                                    <textarea name="note" id="note">{{old('note')}}</textarea>
-                                </fieldset>
-                                <p> - تطبق الشروط والأحكام </p>
-                                    <br>
-                                <input required type="hidden" id="grand_total" name="grand_total" value="">
-                                <input required type="hidden" id="shipping-price" name="shipping_price" value="">
-                                <button style="display: block;width:100%"
+                            <fieldset class="box fieldset">
+                                <label for="phone"> رقم الهاتف </label>
+                                <input type="number" id="phone" name="phone" required value="{{old('phone')}}">
+                            </fieldset>
+                            <fieldset class="box fieldset">
+                                <label for="country"> حدد المدينة </label>
+                                <div class="select-custom">
+                                    <select class="form-select w-100" id="shippingcity" name="shippingcity">
+                                        <option value="" disabled selected> -- حدد --</option>
+                                        @foreach($shippingCity as $city)
+                                            <option
+                                                {{old('shippingcity') == $city['id'] ? 'selected' : ''}} value="{{$city['id']}}">{{$city['city']}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </fieldset>
+                            <fieldset class="box fieldset">
+                                <label for="note"> العنوان كاملا ( مدينة - حي - عنوان تفصيلي ) </label>
+                                <textarea name="note" id="note">{{old('note')}}</textarea>
+                            </fieldset>
+                            <p> - تطبق الشروط والأحكام </p>
+                            <br>
+                            <input required type="hidden" id="grand_total" name="grand_total" value="">
+                            <input required type="hidden" id="shipping-price" name="shipping_price" value="">
+                            <button style="display: block;width:100%"
                                     class="tf-btn radius-3 btn-fill btn-icon animate-hover-btn justify-content-center">
-                                    اتمام الطلب
-                                </button>
-                            </div>
+                                اتمام الطلب
+                            </button>
+                        </div>
 
 
                     </form>
 
                 </div>
-
-
                 <div class="last_section">
                     <p>
                         عند تسجيلك للطلب سنقوم بتحضيره بكل الحب

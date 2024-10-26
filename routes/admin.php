@@ -19,6 +19,7 @@ use \App\Http\Controllers\admin\OrderController;
 use \App\Http\Controllers\admin\ColorController;
 use \App\Http\Controllers\admin\AdvantageController;
 use \App\Http\Controllers\admin\ReviewController;
+use \App\Http\Controllers\admin\OfferController;
 Route::group(['prefix' => 'admin'], function () {
 // Admin Login
 
@@ -176,6 +177,15 @@ Route::group(['prefix' => 'admin'], function () {
             Route::match(['post','get'],'review/store','store');
             Route::match(['post','get'],'review/update/{id}','update');
             Route::post('review/delete/{id}','delete');
+        });
+
+        //////////////////// Start Offers //////////////////
+        ///
+        Route::controller(OfferController::class)->group(function (){
+            Route::get('offers','index');
+            Route::match(['post','get'],'offer/store','store');
+            Route::match(['post','get'],'offer/update/{id}','update');
+            Route::post('offer/delete/{id}','delete');
         });
     });
 });
