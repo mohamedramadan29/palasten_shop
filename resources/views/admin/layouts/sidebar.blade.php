@@ -3,13 +3,13 @@
     <!-- Sidebar Logo -->
     <div class="logo-box">
         <a href="{{url('admin/dashboard')}}" class="logo-dark">
-            <img src="{{asset('assets/admin/images/logowo.png')}}" class="logo-sm" alt="logo sm">
-            <img src="{{asset('assets/admin/images/logowo.png')}}" class="logo-lg" alt="logo dark">
+            <img src="{{Storage::url('uploads/PublicSetting/'.$publicsetting['website_logo'])}}" class="logo-sm" alt="logo sm">
+            <img src="{{Storage::url('uploads/PublicSetting/'.$publicsetting['website_logo'])}}" class="logo-lg" alt="logo dark">
         </a>
 
         <a href="{{url('admin/dashboard')}}" class="logo-light">
-            <img src="{{asset('assets/admin/images/logowo.png')}}" class="logo-sm" alt="logo sm">
-            <img src="{{asset('assets/admin/images/logowo.png')}}" class="logo-lg" alt="logo light">
+            <img src="{{Storage::url('uploads/PublicSetting/'.$publicsetting['website_logo'])}}" class="logo-sm" alt="logo sm">
+            <img src="{{Storage::url('uploads/PublicSetting/'.$publicsetting['website_logo'])}}" class="logo-lg" alt="logo light">
         </a>
     </div>
 
@@ -265,7 +265,7 @@
 
 
             <li class="nav-item">
-                <a class="nav-link" href="apps-chat.html">
+                <a class="nav-link" href="{{url('admin/reports')}}">
                                    <span class="nav-icon">
                                         <iconify-icon icon="solar:chat-round-bold-duotone"></iconify-icon>
                                    </span>
@@ -273,40 +273,6 @@
                 </a>
             </li>
 
-{{--            <li class="nav-item">--}}
-{{--                <a class="nav-link menu-arrow" href="#sidebarPages" data-bs-toggle="collapse" role="button"--}}
-{{--                   aria-expanded="false" aria-controls="sidebarPages">--}}
-{{--                                   <span class="nav-icon">--}}
-{{--                                        <iconify-icon icon="solar:gift-bold-duotone"></iconify-icon>--}}
-{{--                                   </span>--}}
-{{--                    <span class="nav-text">  تقارير عامة  </span>--}}
-{{--                </a>--}}
-{{--                <div class="collapse" id="sidebarPages">--}}
-{{--                    <ul class="nav sub-navbar-nav">--}}
-{{--                        <li class="sub-nav-item">--}}
-{{--                            <a class="sub-nav-link" href="pages-starter.html">Welcome</a>--}}
-{{--                        </li>--}}
-{{--                        <li class="sub-nav-item">--}}
-{{--                            <a class="sub-nav-link" href="pages-comingsoon.html">Coming Soon</a>--}}
-{{--                        </li>--}}
-{{--                        <li class="sub-nav-item">--}}
-{{--                            <a class="sub-nav-link" href="pages-timeline.html">Timeline</a>--}}
-{{--                        </li>--}}
-{{--                        <li class="sub-nav-item">--}}
-{{--                            <a class="sub-nav-link" href="pages-pricing.html">Pricing</a>--}}
-{{--                        </li>--}}
-{{--                        <li class="sub-nav-item">--}}
-{{--                            <a class="sub-nav-link" href="pages-maintenance.html">Maintenance</a>--}}
-{{--                        </li>--}}
-{{--                        <li class="sub-nav-item">--}}
-{{--                            <a class="sub-nav-link" href="pages-404.html">404 Error</a>--}}
-{{--                        </li>--}}
-{{--                        <li class="sub-nav-item">--}}
-{{--                            <a class="sub-nav-link" href="pages-404-alt.html">404 Error (alt)</a>--}}
-{{--                        </li>--}}
-{{--                    </ul>--}}
-{{--                </div>--}}
-{{--            </li>--}}
 
             <li class="nav-item">
                 <a class="nav-link menu-arrow" href="#sidebarfaqs" data-bs-toggle="collapse" role="button"
@@ -407,6 +373,9 @@
                     <ul class="nav sub-navbar-nav">
                         <li class="sub-nav-item">
                             <a class="sub-nav-link" href="{{url('admin/offers')}}"> مشاهدة الكل   </a>
+                        </li>
+                        <li class="sub-nav-item">
+                            <a class="sub-nav-link" href="{{url('admin/offer_orders')}}"> مشاهدة  الطلبات    </a>
                         </li>
                     </ul>
                 </div>

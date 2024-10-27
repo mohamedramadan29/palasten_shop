@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Traits\Message_Trait;
+use App\Models\admin\PublicSetting;
 use App\Models\front\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,8 +18,9 @@ class AdminController extends Controller
 
     public function dashboard()
     {
+        $publicsetting = PublicSetting::first();
         $lastorders = Order::orderby('id','desc')->limit(5)->get();
-        return view('admin.dashboard',compact('lastorders'));
+        return view('admin.dashboard',compact('lastorders','publicsetting'));
     }
 
     ////////////////////// Login Admin //////////////

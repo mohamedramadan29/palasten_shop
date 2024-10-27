@@ -23,10 +23,13 @@
             @endforeach
         @endif
 
+            @php
+                $settings = \App\Models\admin\PublicSetting::select('website_logo')->first();
+            @endphp
         <div class="container ">
             <div class="data">
                 <div class="logo">
-                    <img src="{{asset('assets/front/images/offer_logo.webp')}}" alt="">
+                    <img style="max-width: 120px" src="{{\Illuminate\Support\Facades\Storage::url('uploads/PublicSetting/'.$settings->website_logo)}}" alt="">
                 </div>
                 <div class="advantage">
                     <div class="adv">
@@ -34,11 +37,11 @@
                         <h4> شحن سريع </h4>
                     </div>
                     <div class="adv">
-                        <i class="fas fa-truck"></i>
+                        <i class="fas fa-hand-holding-usd"></i>
                         <h4> الدفع عند الاستلام </h4>
                     </div>
                     <div class="adv">
-                        <i class="fas fa-truck"></i>
+                        <i class="fas fa-box"></i>
                         <h4> منتج اصلي </h4>
                     </div>
                 </div>
@@ -69,7 +72,7 @@
                 </div>
                 <div class="order_form">
 
-                    <form action="#" method="post" class="form-checkout tf-page-cart-checkout widget-wrap-checkout">
+                    <form action="{{url('offer_order/store/'.$offer['id'])}}" method="post" class="form-checkout tf-page-cart-checkout widget-wrap-checkout">
                         <h6> للطلب املئ الاستمارة أدناه : </h6>
                         @csrf
                         <div class="box">
@@ -96,8 +99,8 @@
                                 </div>
                             </fieldset>
                             <fieldset class="box fieldset">
-                                <label for="note"> العنوان كاملا ( مدينة - حي - عنوان تفصيلي ) </label>
-                                <textarea name="note" id="note">{{old('note')}}</textarea>
+                                <label for="address"> العنوان كاملا ( مدينة - حي - عنوان تفصيلي ) </label>
+                                <textarea name="address" id="address">{{old('address')}}</textarea>
                             </fieldset>
                             <p> - تطبق الشروط والأحكام </p>
                             <br>

@@ -11,6 +11,7 @@ use \App\Http\Controllers\front\WishlistController;
 use \App\Http\Controllers\front\OrderController;
 use \App\Http\Controllers\front\TermsController;
 use \App\Http\Controllers\front\OfferController;
+use \App\Http\Controllers\front\OfferOrderController;
 Route::controller(FrontController::class)->group(function () {
     Route::get('/', 'index');
     Route::get('/get-product-details/{id}', 'getProductDetails');
@@ -66,5 +67,9 @@ Route::controller(OrderController::class)->group(function () {
 
 Route::controller(OfferController::class)->group(function (){
     Route::get('offer/{slug}','offer');
+});
+
+Route::controller(OfferOrderController::class)->group(function (){
+    Route::post('offer_order/store/{id}','store_offer');
 });
 @include 'admin.php';

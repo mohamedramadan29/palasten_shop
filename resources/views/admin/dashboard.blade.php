@@ -110,19 +110,7 @@
                 </div> <!-- end col -->
             </div> <!-- end row -->
             <div class="row">
-                <div class="col-lg-6">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4 class="card-title mb-3anchor" id="datalabels"> رسم بياني شهري للمبيعات </h4>
-                        </div>
-                        <div class="card-body">
-                            <div dir="ltr">
-                                <div id="datalabels-column" class="apex-charts"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
+                <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title mb-3anchor" id="datalabels"> احدث الطلبات   </h4>

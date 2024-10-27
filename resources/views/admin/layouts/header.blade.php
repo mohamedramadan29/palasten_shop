@@ -121,7 +121,7 @@
                            aria-haspopup="true" aria-expanded="false">
                                         <span class="d-flex align-items-center">
                                              <img class="rounded-circle" width="32"
-                                                  src="{{asset('assets/admin/images/users/avatar-1.jpg')}}"
+                                                  src="{{Storage::url('uploads/PublicSetting/'.$publicsetting['website_logo'])}}"
                                                   alt="avatar-3">
                                         </span>
                         </a>
