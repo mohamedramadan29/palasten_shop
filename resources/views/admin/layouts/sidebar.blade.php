@@ -1,15 +1,21 @@
 <!-- ========== App Menu Start ========== -->
+@php
+
+    $setting = \App\Models\admin\PublicSetting::first();
+
+
+@endphp
 <div class="main-nav">
     <!-- Sidebar Logo -->
     <div class="logo-box">
         <a href="{{url('admin/dashboard')}}" class="logo-dark">
-            <img src="{{Storage::url('uploads/PublicSetting/'.$publicsetting['website_logo'])}}" class="logo-sm" alt="logo sm">
-            <img src="{{Storage::url('uploads/PublicSetting/'.$publicsetting['website_logo'])}}" class="logo-lg" alt="logo dark">
+            <img src="{{asset('assets/uploads/PublicSetting/'.$setting['website_logo'])}}" class="logo-sm" alt="logo sm">
+            <img src="{{asset('assets/uploads/PublicSetting/'.$setting['website_logo'])}}" class="logo-lg" alt="logo dark">
         </a>
 
         <a href="{{url('admin/dashboard')}}" class="logo-light">
-            <img src="{{Storage::url('uploads/PublicSetting/'.$publicsetting['website_logo'])}}" class="logo-sm" alt="logo sm">
-            <img src="{{Storage::url('uploads/PublicSetting/'.$publicsetting['website_logo'])}}" class="logo-lg" alt="logo light">
+            <img src="{{asset('assets/uploads/PublicSetting/'.$setting['website_logo'])}}" class="logo-sm" alt="logo sm">
+            <img src="{{asset('assets/uploads/PublicSetting/'.$setting['website_logo'])}}" class="logo-lg" alt="logo light">
         </a>
     </div>
 
@@ -102,6 +108,9 @@
 
                         <li class="sub-nav-item">
                             <a class="sub-nav-link" href="{{url('admin/orders')}}"> جميع الطلبات  </a>
+                        </li>
+                        <li class="sub-nav-item">
+                            <a class="sub-nav-link" href="{{url('admin/offer_orders')}}"> طلبات صفحة الهبوط  </a>
                         </li>
 {{--                        <li class="sub-nav-item">--}}
 {{--                            <a class="sub-nav-link" href="{{url('admin/order/store')}}"> اضافة طلب </a>--}}
@@ -373,9 +382,6 @@
                     <ul class="nav sub-navbar-nav">
                         <li class="sub-nav-item">
                             <a class="sub-nav-link" href="{{url('admin/offers')}}"> مشاهدة الكل   </a>
-                        </li>
-                        <li class="sub-nav-item">
-                            <a class="sub-nav-link" href="{{url('admin/offer_orders')}}"> مشاهدة  الطلبات    </a>
                         </li>
                     </ul>
                 </div>

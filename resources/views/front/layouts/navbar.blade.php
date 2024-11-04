@@ -199,7 +199,7 @@ $footer_color = $colors['footer_color'];
                 </style>
             </div>
             <div class="cart_section">
-                <ul class="tf-top-bar_item tf-social-icon d-flex gap-10">
+                <ul class="tf-top-bar_item tf-social-icon d-flex gap-10 flex-wrap">
                     @if($socialmedia['facebook'] !='')
                         <li><a href="{{$socialmedia['facebook']}}"
                                class="box-icon w_28 round social-facebook bg_line"><i
@@ -292,6 +292,9 @@ $footer_color = $colors['footer_color'];
                             <li class="menu-item"><a
                                     href="{{url('cart')}}"
                                     class="item-link"> السلة </a></li>
+                            <li class="menu-item"><a
+                                    href="{{url('faq')}}"
+                                    class="item-link"> الاسئلة الشائعة  </a></li>
                         </ul>
                     </nav>
                 </div>

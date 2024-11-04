@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Traits\Message_Trait;
 use App\Models\admin\admins;
 use App\Models\admin\Product;
+use App\Models\admin\PublicSetting;
 use App\Models\front\Cart;
 use App\Models\front\Order;
 use App\Models\front\OrderDetails;
 use App\Notifications\NewOrder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -71,6 +73,22 @@ class OrderController extends Controller
             $order_details->product_variation_id = $item['product_variation_id'];
             $order_details->save();
         }
+
+        ////////////////////// Send Confirmation Email ///////////////////////////////
+        ///
+        $public_setting = PublicSetting::first();
+        $admin_email = $public_setting['website_email'];
+        $email = $admin_email;
+
+        $MessageDate = [
+            'name' => $data['name'],
+            "address" => $data['address'],
+            'phone' => $data['phone'],
+            'grand_total'=>$data['grand_total'],
+        ];
+        Mail::send('front.mails.newordertoadmin', $MessageDate, function ($message) use ($email) {
+            $message->to($email)->subject(' لديك طلب جديد علي متجرك ');
+        });
 
         DB::commit();
         $admin = admins::all();

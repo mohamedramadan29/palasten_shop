@@ -37,6 +37,13 @@ class OfferOrderController extends Controller
             }
         }
 
+        $user  = Auth::guard('admin')->user();
+        $notification = $user->unreadNotifications->where('data.order_id', $id)->first();
+
+        // التأكد من وجود الإشعار وجعله مقروءًا
+        if ($notification) {
+            $notification->markAsRead();
+        }
         return view('admin.OfferOrders.update',compact('order'));
     }
 

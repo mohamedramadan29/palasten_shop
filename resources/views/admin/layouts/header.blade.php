@@ -30,6 +30,14 @@
 
 <body>
 
+@php
+
+    $setting = \App\Models\admin\PublicSetting::first();
+
+
+@endphp
+
+
 <!-- START Wrapper -->
 <div class="wrapper">
 
@@ -90,18 +98,33 @@
                             </div>
                             @if($unreadNotificationsUsers->count() > 0)
                                 @foreach($unreadNotificationsUsers as $notification)
+
                                     <div data-simplebar style="max-height: 280px;">
                                         <!-- Item -->
-                                        <a href="{{url('admin/order/update/'.$notification['data']['order_id'])}}" class="dropdown-item py-3 border-bottom">
-                                            <div class="d-flex">
-                                                <div class="flex-grow-1">
-                                                    <p class="mb-0 fw-semibold"> رقم الطلب  {{ $notification['data']['order_id'] }} </p>
-                                                    <p class="mb-0 text-wrap">
-                                                        لديك طلب جديد علي الموقع
-                                                    </p>
+                                        @if($notification['type'] == 'App\Notifications\NewOrder')
+                                            <a href="{{url('admin/order/update/'.$notification['data']['order_id'])}}" class="dropdown-item py-3 border-bottom">
+                                                <div class="d-flex">
+                                                    <div class="flex-grow-1">
+                                                        <p class="mb-0 fw-semibold"> رقم الطلب  {{ $notification['data']['order_id'] }} </p>
+                                                        <p class="mb-0 text-wrap">
+                                                            لديك طلب جديد علي الموقع
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </a>
+                                            </a>
+                                        @else
+                                            <a href="{{url('admin/offer_order/update/'.$notification['data']['order_id'])}}" class="dropdown-item py-3 border-bottom">
+                                                <div class="d-flex">
+                                                    <div class="flex-grow-1">
+                                                        <p class="mb-0 fw-semibold"> رقم الطلب  {{ $notification['data']['order_id'] }} </p>
+                                                        <p class="mb-0 text-wrap">
+                                                            لديك طلب جديد علي الموقع من صفحة الهبوط
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        @endif
+
                                     </div>
                                 @endforeach
                             @else
@@ -121,7 +144,7 @@
                            aria-haspopup="true" aria-expanded="false">
                                         <span class="d-flex align-items-center">
                                              <img class="rounded-circle" width="32"
-                                                  src="{{Storage::url('uploads/PublicSetting/'.$publicsetting['website_logo'])}}"
+                                                  src="{{asset('assets/uploads/PublicSetting/'.$setting['website_logo'])}}"
                                                   alt="avatar-3">
                                         </span>
                         </a>

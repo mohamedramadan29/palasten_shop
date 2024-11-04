@@ -12,9 +12,11 @@ use \App\Http\Controllers\front\OrderController;
 use \App\Http\Controllers\front\TermsController;
 use \App\Http\Controllers\front\OfferController;
 use \App\Http\Controllers\front\OfferOrderController;
+
 Route::controller(FrontController::class)->group(function () {
     Route::get('/', 'index');
     Route::get('/get-product-details/{id}', 'getProductDetails');
+    Route::get('faq','faq');
 
 });
 
@@ -65,11 +67,15 @@ Route::controller(OrderController::class)->group(function () {
     Route::get('thanks', 'thanks');
 });
 
-Route::controller(OfferController::class)->group(function (){
-    Route::get('offer/{slug}','offer');
+Route::controller(OfferController::class)->group(function () {
+    Route::get('offer/{slug}', 'offer');
 });
 
-Route::controller(OfferOrderController::class)->group(function (){
-    Route::post('offer_order/store/{id}','store_offer');
+Route::controller(OfferOrderController::class)->group(function () {
+    Route::post('offer_order/store/{id}', 'store_offer');
+});
+
+Route::controller(\App\Http\Controllers\front\ReviewController::class)->group(function (){
+   Route::match(['post','get'],'review','review');
 });
 @include 'admin.php';

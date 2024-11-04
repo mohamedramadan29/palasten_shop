@@ -52,4 +52,11 @@ class OrderController extends Controller
         return view('admin.orders.print',compact('order','publicsetting'));
     }
 
+    public function delete($id)
+    {
+        $order = Order::findORFail($id);
+        $order->delete();
+        return $this->success_message(' تم حذف الطلب ');
+    }
+
 }

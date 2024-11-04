@@ -18496,3 +18496,9 @@ background-color:#eee;
     width: 50px;
     height:50px;
 }
+
+@media(max-width: 991px){
+    .offer_page .data .product_info img{
+        max-width: 100%;
+    }
+}

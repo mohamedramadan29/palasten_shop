@@ -9,7 +9,6 @@
 </style>
 @section('content')
     <div class="page_content offer_page">
-
         @if (Session::has('Success_message'))
             @php
                 toastify()->success(\Illuminate\Support\Facades\Session::get('Success_message'));

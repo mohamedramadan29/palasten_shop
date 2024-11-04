@@ -5,7 +5,6 @@
 
 @section('content')
     <div class="page_content">
-
         @if (Session::has('Success_message'))
             @php
                 toastify()->success(\Illuminate\Support\Facades\Session::get('Success_message'));
@@ -51,7 +50,7 @@
                         <p class="sub-title wow fadeInUp" data-wow-delay="0s"> اكثر المنتجات مبيعا في المتجر </p>
                     </div>
                     <div>
-                        <a href="#" class="head_read_more"> عرض الكل <i class="bi bi-arrow-left"></i></a>
+                        <a href="{{url('shop')}}" class="head_read_more"> عرض الكل <i class="bi bi-arrow-left"></i></a>
                     </div>
                 </div>
                 <div class="hover-sw-nav hover-sw-3">
@@ -59,7 +58,6 @@
                          data-space-lg="30" data-space-md="15" data-pagination="2" data-pagination-md="3"
                          data-pagination-lg="3">
                         <div class="swiper-wrapper">
-
                             @foreach($bestproducts as $product)
                                 <div class="swiper-slide" lazy="true">
                                     <div class="card-product">
@@ -83,11 +81,11 @@
 
                                             </a>
                                             <div class="list-product-btn">
-                                                <form id="wishlistForm_{{$product['id']}}" method="post"
+                                                <form id="wishlistForm1_{{$product['id']}}" method="post"
                                                       action="{{url('wishlist/store')}}">
                                                     @csrf
                                                     <input type="hidden" name="product_id" value="{{$product['id']}}">
-                                                    <button type="button" id="addToWishlist_{{$product['id']}}"
+                                                    <button type="button" id="addToWishlist1_{{$product['id']}}"
                                                             class="box-icon bg_white wishlist btn-icon-action">
                                                         <span class="icon icon-heart"></span>
                                                         <span class="tooltip"> اضف الي المفضلة  </span>
@@ -97,12 +95,12 @@
                                                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                                                 <script>
                                                     $(document).ready(function () {
-                                                        $('#addToWishlist_{{$product['id']}}').on('click', function (e) {
+                                                        $('#addToWishlist1_{{$product['id']}}').on('click', function (e) {
                                                             e.preventDefault();
                                                             $.ajax({
                                                                 method: 'POST',
                                                                 url: 'wishlist/store',
-                                                                data: $('#wishlistForm_{{$product['id']}}').serialize(),
+                                                                data: $('#wishlistForm1_{{$product['id']}}').serialize(),
                                                                 success: function (response) {
                                                                     // عرض الرسالة باستخدام Toastify
                                                                     Toastify({
@@ -262,7 +260,7 @@
                         <p class="sub-title wow fadeInUp" data-wow-delay="0s"> احدث المنتجات في المتجر </p>
                     </div>
                     <div>
-                        <a href="#" class="head_read_more"> عرض الكل <i class="bi bi-arrow-left"></i></a>
+                        <a href="{{url('shop')}}" class="head_read_more"> عرض الكل <i class="bi bi-arrow-left"></i></a>
                     </div>
 
                 </div>
@@ -520,7 +518,7 @@
                             <p class="sub-title wow fadeInUp" data-wow-delay="0s"> اكثر المنتجات مبيعا في المتجر </p>
                         </div>
                         <div>
-                            <a href="#" class="head_read_more"> عرض الكل <i class="bi bi-arrow-left"></i></a>
+                            <a href="{{url('collection/'.$category['slug'])}}" class="head_read_more"> عرض الكل <i class="bi bi-arrow-left"></i></a>
                         </div>
                     </div>
                     <div class="hover-sw-nav hover-sw-3">
@@ -742,115 +740,36 @@
                     <div class="swiper tf-sw-testimonial" data-preview="3" data-tablet="2" data-mobile="1"
                          data-space-lg="30" data-space-md="15">
                         <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                                <div class="testimonial-item style-column wow fadeInUp" data-wow-delay="0s">
-                                    <div class="rating">
-                                        <i class="icon-start"></i>
-                                        <i class="icon-start"></i>
-                                        <i class="icon-start"></i>
-                                        <i class="icon-start"></i>
-                                        <i class="icon-start"></i>
-                                    </div>
-                                    <div class="heading"> افضل موقع للتسوق</div>
-                                    <div class="text">
-                                        “ أجد دائمًا شيئًا أنيقًا وبأسعار معقولة على موقع الأزياء هذا ”
-                                    </div>
-                                    <div class="author">
-                                        <div class="name"> محمد رمضان</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="testimonial-item style-column wow fadeInUp" data-wow-delay="0s">
-                                    <div class="rating">
-                                        <i class="icon-start"></i>
-                                        <i class="icon-start"></i>
-                                        <i class="icon-start"></i>
-                                        <i class="icon-start"></i>
-                                        <i class="icon-start"></i>
-                                    </div>
-                                    <div class="heading"> افضل موقع للتسوق</div>
-                                    <div class="text">
-                                        “ أجد دائمًا شيئًا أنيقًا وبأسعار معقولة على موقع الأزياء هذا ”
-                                    </div>
-                                    <div class="author">
-                                        <div class="name"> محمد رمضان</div>
+                            @foreach($reviews as $review)
+                                <div class="swiper-slide">
+                                    <div class="testimonial-item style-column wow fadeInUp" data-wow-delay="0s">
+                                        <div class="rating">
+                                            @for ($i = 0; $i < $review['star']; $i++)
+                                                <i class="icon-start filled"></i> <!-- Filled star icon for the rating -->
+                                            @endfor
+                                            @for ($i = $review['star']; $i < 5; $i++)
+                                                <i class="icon-start empty"></i> <!-- Empty star icon for the remaining stars -->
+                                            @endfor
+                                        </div>
+                                        <div class="heading">  {{$review['name']}} </div>
+                                        <div class="text">
+                                            {!! $review['description'] !!}
+                                        </div>
+
                                     </div>
                                 </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="testimonial-item style-column wow fadeInUp" data-wow-delay="0s">
-                                    <div class="rating">
-                                        <i class="icon-start"></i>
-                                        <i class="icon-start"></i>
-                                        <i class="icon-start"></i>
-                                        <i class="icon-start"></i>
-                                        <i class="icon-start"></i>
-                                    </div>
-                                    <div class="heading"> افضل موقع للتسوق</div>
-                                    <div class="text">
-                                        “ أجد دائمًا شيئًا أنيقًا وبأسعار معقولة على موقع الأزياء هذا ”
-                                    </div>
-                                    <div class="author">
-                                        <div class="name"> محمد رمضان</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="testimonial-item style-column wow fadeInUp" data-wow-delay="0s">
-                                    <div class="rating">
-                                        <i class="icon-start"></i>
-                                        <i class="icon-start"></i>
-                                        <i class="icon-start"></i>
-                                        <i class="icon-start"></i>
-                                        <i class="icon-start"></i>
-                                    </div>
-                                    <div class="heading"> افضل موقع للتسوق</div>
-                                    <div class="text">
-                                        “ أجد دائمًا شيئًا أنيقًا وبأسعار معقولة على موقع الأزياء هذا ”
-                                    </div>
-                                    <div class="author">
-                                        <div class="name"> محمد رمضان</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="testimonial-item style-column wow fadeInUp" data-wow-delay="0s">
-                                    <div class="rating">
-                                        <i class="icon-start"></i>
-                                        <i class="icon-start"></i>
-                                        <i class="icon-start"></i>
-                                        <i class="icon-start"></i>
-                                        <i class="icon-start"></i>
-                                    </div>
-                                    <div class="heading"> افضل موقع للتسوق</div>
-                                    <div class="text">
-                                        “ أجد دائمًا شيئًا أنيقًا وبأسعار معقولة على موقع الأزياء هذا ”
-                                    </div>
-                                    <div class="author">
-                                        <div class="name"> محمد رمضان</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="testimonial-item style-column wow fadeInUp" data-wow-delay="0s">
-                                    <div class="rating">
-                                        <i class="icon-start"></i>
-                                        <i class="icon-start"></i>
-                                        <i class="icon-start"></i>
-                                        <i class="icon-start"></i>
-                                        <i class="icon-start"></i>
-                                    </div>
-                                    <div class="heading"> افضل موقع للتسوق</div>
-                                    <div class="text">
-                                        “ أجد دائمًا شيئًا أنيقًا وبأسعار معقولة على موقع الأزياء هذا ”
-                                    </div>
-                                    <div class="author">
-                                        <div class="name"> محمد رمضان</div>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
+                        <style>
+                            .icon-start.empty{
+                                font-size: 20px;
+                                color: #ddd; !important; /* Default color for empty stars */
+                            }
+
+                            .icon-start.filled {
+                                color: #ffbf00; /* Color for filled stars */
+                            }
+                        </style>
                     </div>
                     <div class="nav-sw nav-next-slider nav-next-testimonial lg"><span
                             class="icon icon-arrow-left"></span></div>

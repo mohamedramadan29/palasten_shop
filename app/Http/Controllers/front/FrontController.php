@@ -6,15 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Models\admin\Advantage;
 use App\Models\admin\Banner;
 use App\Models\admin\Brand;
+use App\Models\admin\faq;
 use App\Models\admin\MainCategory;
 use App\Models\admin\Product;
 use App\Models\admin\ProductVartions;
+use App\Models\admin\Review;
 use App\Models\admin\VartionsValues;
 use Illuminate\Http\Request;
 
 class FrontController extends Controller
 {
     public function index(){
+        $reviews = Review::all();
         $banners = Banner::where('status',1)->get();
         $bestproducts  = Product::with('gallary','Main_Category')->where('status',1)->get();
         $lastproducts = Product::with('gallary','Main_Category')->where('status',1)->orderBy('id','DESC')->limit(12)->get();
@@ -32,7 +35,7 @@ class FrontController extends Controller
             ->where('status', 1)
             ->get();
 
-        return view('front.index',compact('banners','advantages','bestproducts','lastproducts','mainCategories','selectedCategories','productsBySelectedCategories','brands'));
+        return view('front.index',compact('banners','advantages','bestproducts','lastproducts','mainCategories','selectedCategories','productsBySelectedCategories','brands','reviews'));
     }
 
     public function getProductDetails($id){
@@ -63,5 +66,11 @@ class FrontController extends Controller
                 }
             }
         }
+    }
+
+    public function faq()
+    {
+        $faqs = faq::all();
+        return view('front.faq',compact('faqs'));
     }
 }

@@ -1,4 +1,10 @@
 <!-- Footer -->
+
+@php
+
+$public_setting = \App\Models\admin\PublicSetting::first();
+$socialmedia = \App\Models\admin\SocialMedia::first();
+@endphp
 <footer id="footer" class="footer md-pb-70">
     <div class="footer-wrap">
         <div class="footer-body">
@@ -7,16 +13,13 @@
                     <div class="col-xl-5 col-md-6 col-12">
                         <div class="footer-newsletter footer-col-block">
                             <div class="footer-heading footer-heading-desktop">
-                                <h6> اسم الموقع </h6>
+                                <h6> {{$public_setting['website_name']}} </h6>
                             </div>
                             <div class="footer-heading footer-heading-moblie">
-                                <h6> اسم الموقع </h6>
+                                <h6> {{$public_setting['website_name']}} </h6>
                             </div>
                             <p class="tf-collapse-content">
-                                هو ببساطة نص شكلي (بمعنى أن الغاية هي الشكل وليس المحتوى) ويُستخدم في صناعات المطابع
-                                ودور النشر. كان لوريم إيبسوم ولايزال المعيار للنص الشكلي منذ القرن الخامس عشر عندما قامت
-                                مطبعة مجهولة برص مجموعة من الأحرف بشكل عشوائي أخذتها من نص، لتكوّن كتيّب بمثابة دليل أو
-                                مرجع شكلي لهذه الأحرف.
+                               {{$public_setting['website_description']}}
                             </p>
                         </div>
                     </div>
@@ -29,23 +32,30 @@
                         </div>
                         <ul>
                             <li>
-                                <p>البريد الالكتروني : <a href="#">info@website.com</a></p>
+                                <p>البريد الالكتروني : <a href="mailto:{{$public_setting['website_email']}}">{{$public_setting['website_email']}}</a></p>
                             </li>
                             <li>
-                                <p>رقم الهاتف : <a href="#">(212) 555-1234</a></p>
+                                <p>رقم الهاتف : <a href="tel:{{$public_setting['website_phone']}}"> {{$public_setting['website_phone']}} </a></p>
                             </li>
                         </ul>
                         <ul class="tf-social-icon d-flex gap-10">
-                            <li><a href="#" class="box-icon w_34 round social-facebook social-line"><i
+                            @if($socialmedia['facebook'] !='')
+                            <li><a href="{{$socialmedia['facebook']}}" class="box-icon w_34 round social-facebook social-line"><i
                                         class="icon fs-14 icon-fb"></i></a></li>
-                            <li><a href="#" class="box-icon w_34 round social-twiter social-line"><i
+                            @endif
+
+                                @if($socialmedia['x-twitter'] !='')
+                            <li><a href="{{$socialmedia['x-twitter']}}" class="box-icon w_34 round social-twiter social-line"><i
                                         class="icon fs-12 icon-Icon-x"></i></a></li>
-                            <li><a href="#" class="box-icon w_34 round social-instagram social-line"><i
+                                @endif
+                                @if($socialmedia['instagram'] !='')
+                            <li><a href="{{$socialmedia['instagram']}}" class="box-icon w_34 round social-instagram social-line"><i
                                         class="icon fs-14 icon-instagram"></i></a></li>
-                            <li><a href="#" class="box-icon w_34 round social-tiktok social-line"><i
+                                @endif
+                                @if($socialmedia['tiktok'] !='')
+                            <li><a href="{{$socialmedia['tiktok']}}" class="box-icon w_34 round social-tiktok social-line"><i
                                         class="icon fs-14 icon-tiktok"></i></a></li>
-                            <li><a href="#" class="box-icon w_34 round social-pinterest social-line"><i
-                                        class="icon fs-14 icon-pinterest-1"></i></a></li>
+                                @endif
                         </ul>
                     </div>
                     <div class="col-xl-3 col-md-6 col-12 footer-col-block">
@@ -77,7 +87,7 @@
                     <div class="col-12">
                         <div
                             class="footer-bottom-wrap d-flex gap-20 flex-wrap justify-content-between align-items-center">
-                            <div class="footer-menu_item"> جميع الحقوق محفوظة © 2024 فلسطين شوب .</div>
+                            <div class="footer-menu_item"> جميع الحقوق محفوظة © 2024 {{$public_setting['website_name']}} .</div>
                         </div>
                     </div>
                 </div>
@@ -197,15 +207,18 @@
                 <li class="nav-mb-item">
                     <a href="{{url('/cart')}}" class="mb-menu-link"> سلة الشراء </a>
                 </li>
+                <li class="nav-mb-item"><a
+                        href="{{url('faq')}}"
+                        class="mb-menu-link"> الاسئلة الشائعة  </a></li>
             </ul>
             <div class="mb-other-content">
                 <div class="mb-notice">
                     <a class="text-need"> تريد مساعدة </a>
                 </div>
                 <ul class="mb-info">
-                    <li> العنوان : مصر - القاهرة</li>
-                    <li> البريد الالكتروني : <b>info@fashionshop.com</b></li>
-                    <li> رقم الهاتف : <b> 01002292856 </b></li>
+                    <li> العنوان : {{$public_setting['website_address']}}</li>
+                    <li> البريد الالكتروني : <b> {{$public_setting['website_email']}} </b></li>
+                    <li> رقم الهاتف : <b>  {{$public_setting['website_phone']}} </b></li>
                 </ul>
             </div>
         </div>

@@ -3,7 +3,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"> هل انت متاكد من حذف القسم </h5>
+                <h5 class="modal-title" id="exampleModalLabel">   سيتم حذف القسم وكل المنتجات بداخلة ، هل انت متاكد ؟  </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="{{url('admin/sub-category/delete/'.$category['id'])}}" method="post">

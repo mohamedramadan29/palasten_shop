@@ -27,9 +27,16 @@ class ReviewController extends Controller
                 $data = $request->all();
 
                // dd($data);
-                $rules = [];
-                $messages = [];
-
+                $rules = [
+                    'rating'=>'required',
+                    'name'=>'required',
+                    'content'=>'required'
+                ];
+                $messages = [
+                    'rating.required'=>' من فضلك ادخل التقيم  ',
+                    'rating.name'=>' من فضلك ادخل الاسم   ',
+                    'content.required'=>' من فضلك ادخل التقيم  ',
+                ];
                 $validator = Validator::make($data, $rules, $messages);
                 if ($validator->fails()) {
 
@@ -40,6 +47,7 @@ class ReviewController extends Controller
                 $review->create([
                     'name' => $data['name'],
                     'description' => $data['content'],
+                    'star'=>$data['rating']
                 ]);
 
                 return $this->success_message(' تم اضافة التقيم بنجاح  ');
