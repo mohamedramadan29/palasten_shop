@@ -6,6 +6,18 @@
 @section('content')
     <div class="page_content">
 
+        @if (Session::has('Success_message'))
+            @php
+                toastify()->success(\Illuminate\Support\Facades\Session::get('Success_message'));
+            @endphp
+        @endif
+        @if ($errors->any())
+            @foreach ($errors->all() as $error)
+                @php
+                    toastify()->error($error);
+                @endphp
+            @endforeach
+        @endif
 
         <!-- page-title -->
         <div class="tf-page-title">
@@ -46,6 +58,18 @@
                                         <span class="icon icon-view"></span>
                                         <span class="tooltip"> مشاهدة </span>
                                     </button>
+                                    <form id="" method="post"
+                                          action="{{url('wishlist/delete/'.$product['id'])}}">
+                                        @csrf
+                                        <input type="hidden" name="product_id" value="{{$product['id']}}">
+                                        <button type="submit" id=""
+                                                class="box-icon bg_white wishlist btn-icon-action">
+                                            <span class="icon icon-heart" style="color:red"></span>
+                                            <span class="tooltip"> حذف من  المفضلة  </span>
+                                            <span class="icon icon-heart"></span>
+                                        </button>
+                                    </form>
+
                                 </div>
                             </div>
                             <div class="card-product-info">

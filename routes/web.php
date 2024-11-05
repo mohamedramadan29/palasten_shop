@@ -57,7 +57,7 @@ Route::controller(CheckoutController::class)->group(function () {
 Route::controller(WishlistController::class)->group(function () {
     Route::get('wishlist', 'index');
     Route::post('wishlist/store', 'store');
-    Route::get('wishlist/delete/{id}', 'delete');
+    Route::post('wishlist/delete/{id}', 'delete');
 });
 Route::controller(TermsController::class)->group(function () {
     Route::get('terms', 'index');

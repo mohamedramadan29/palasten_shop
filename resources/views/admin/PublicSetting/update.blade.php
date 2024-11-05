@@ -143,13 +143,10 @@
                         <div class="card-body">
                             <div class="mb-3">
                                 <input type="file" class="form-control" name="image" accept="image/*">
-{{--                                <img width="80px" height="80px"--}}
-{{--                                     src="{{asset('assets/uploads/PublicSetting/' . $public_setting->website_logo)}}"--}}
-{{--                                     alt="">--}}
-
                                 <img width="80px" height="80px"
-                                     src="{{\Illuminate\Support\Facades\Storage::url('uploads/PublicSetting/'.$public_setting->website_logo)}}"
+                                     src="{{asset('assets/uploads/PublicSetting/' . $public_setting->website_logo)}}"
                                      alt="">
+
                             </div>
                             <input type="hidden" id="second_color" class="form-control"
                                    name="second_color"

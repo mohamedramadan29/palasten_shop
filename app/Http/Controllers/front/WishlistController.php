@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Session;
 class WishlistController extends Controller
 {
     use Message_Trait;
+
     public function index()
     {
         $cookie_id = Cookie::get('cookie_id');
@@ -25,7 +26,7 @@ class WishlistController extends Controller
 
 // جلب المنتجات من جدول products بناءً على IDs
         $productsInWishlist = Product::whereIn('id', $wishlistProductIds)->get();
-        return view('front.wishlist', compact('wishlists','productsInWishlist'));
+        return view('front.wishlist', compact('wishlists', 'productsInWishlist'));
     }
 
     public function store(Request $request)
@@ -50,10 +51,27 @@ class WishlistController extends Controller
                     'message' => 'تم إضافة المنتج إلى المفضلة بنجاح!',
                     'wishlistCount' => $wishlistCount // إرسال العدد إلى الـ Frontend
                 ]);
-            }else{
+            } else {
                 return response()->json(['message' => 'تم اضافة المنتج الي المفضلة من قبل ']);
-               // return $this->success_message(' تم اضافة المنتج الي المفضلة من قبل  ');
+                // return $this->success_message(' تم اضافة المنتج الي المفضلة من قبل  ');
             }
+        }
+    }
+
+    public function delete($id)
+    {
+        try {
+            $cookie_id = Cookie::get('cookie_id');
+            if (empty($cookie_id)) {
+                $cookie_id = Session::getId();
+                // تخزين session_id في cookie لمدة 30 يومًا
+                Cookie::queue(Cookie::make('session_id', $cookie_id, 60 * 24 * 30));
+            }
+            $wishlist = wishlist::where('product_id', $id)->where('cookie_id', $cookie_id)->first();
+            $wishlist->delete();
+            return $this->success_message(' تم حذف المنتج من المفضلة بنجاح  ');
+        } catch (\Exception $e) {
+            return $this->exception_message($e);
         }
     }
 }

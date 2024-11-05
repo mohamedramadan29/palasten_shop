@@ -79,7 +79,7 @@ $footer_color = $colors['footer_color'];
     <div class="top_navbar">
         <div class="sections">
             <div class="logo_section">
-                <img src=" {{\Illuminate\Support\Facades\Storage::url('uploads/PublicSetting/'.$settings->website_logo)}}" alt="logo">
+                <img src=" {{asset('assets/uploads/PublicSetting/'.$settings->website_logo)}}" alt="logo">
 
 
             </div>
