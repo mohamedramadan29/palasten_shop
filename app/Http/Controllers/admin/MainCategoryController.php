@@ -7,6 +7,7 @@ use App\Http\Traits\Message_Trait;
 use App\Http\Traits\Slug_Trait;
 use App\Http\Traits\Upload_Images;
 use App\Models\admin\MainCategory;
+use App\Models\admin\Product;
 use Illuminate\Http\Request;
 
 class MainCategoryController extends Controller
@@ -120,18 +121,37 @@ class MainCategoryController extends Controller
         return view('admin.MainCategory.update', compact('category'));
     }
 
+
     public function delete($id)
     {
         try {
+            // Find the main category
             $category = MainCategory::findOrFail($id);
-            $old_image = public_path('assets/uploads/category_images/' . $category['image']);
-            if (isset($old_image) && $old_image != '') {
-                unlink($old_image);
+
+            // Delete all products associated with this main category
+            $products = Product::where('category_id', $id)->get();
+            foreach ($products as $product) {
+                // Delete product images if any
+                $productImage = public_path('assets/uploads/product_images/' . $product['image']);
+                if (file_exists($productImage)) {
+                    @unlink($productImage);
+                }
+                // Delete the product
+                $product->delete();
             }
+
+            // Delete the main category image
+            $old_image = public_path('assets/uploads/category_images/' . $category['image']);
+            if (file_exists($old_image)) {
+                @unlink($old_image);
+            }
+
+            // Delete the main category
             $category->delete();
-            return $this->success_message(' تم حذف القسم بنجاح  ');
+            return $this->success_message('تم حذف القسم الرئيسي وجميع المنتجات المرتبطة بنجاح');
         } catch (\Exception $e) {
             return $this->exception_message($e);
         }
     }
+
 }

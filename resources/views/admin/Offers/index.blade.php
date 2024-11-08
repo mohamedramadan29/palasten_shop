@@ -67,7 +67,8 @@
                                             <td>  {{$offer['product_name']}} </td>
                                             <td> {{$offer['price']}} </td>
                                             <td>
-                                                <img class="img-thumbnail" src="{{\Illuminate\Support\Facades\Storage::url('uploads/product_offers/'.$offer['image'])}}" width="80" height="80px" alt="">
+
+                                                <img class="img-thumbnail" src="{{asset('assets/uploads/product_offers/'.$offer['image'])}}" width="80" height="80px" alt="">
                                             </td>
                                             <td>
                                                 <a target="_blank" href="{{url('/offer/'.$offer['slug'])}}" class="btn btn-primary btn-sm">  رابط الصفحة  </a>

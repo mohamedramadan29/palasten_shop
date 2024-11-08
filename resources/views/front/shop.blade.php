@@ -41,7 +41,7 @@
                         <div class="tf-dropdown-sort" style="border: none" data-bs-toggle="dropdown">
                             <form class="filter-choice select-form" name="sortProducts" id="sortProducts">
                                 <select name="sort" title="sort-by" class="form-select"
-                                        data-placeholder="Price: Low to High" id="sort" class="chosen-select">
+                                        data-placeholder="Price: Low to High" id="sort" class="chosen-select" onchange="this.form.submit()">
                                     <option value="" selected> رتب حسب</option>
                                     <option
                                         @if(isset($_GET['sort']) && $_GET['sort'] == 'price_from_low_heigh') selected
@@ -87,38 +87,50 @@
 
                                     </a>
                                     <div class="list-product-btn">
-                                        <form id="wishlistForm_{{$product['id']}}" method="post"
-                                              action="{{url('wishlist/store')}}">
+                                        <form id="wishlistForm1_{{$product['id']}}" method="post" action="{{ url('wishlist/store') }}">
                                             @csrf
-                                            <input type="hidden" name="product_id" value="{{$product['id']}}">
-                                            <button type="button" id="addToWishlist_{{$product['id']}}"
-                                                    class="box-icon bg_white wishlist btn-icon-action">
+                                            <input type="hidden" name="product_id" value="{{ $product['id'] }}">
+                                            <button type="button" id="addToWishlist1_{{$product['id']}}"
+                                                    class="box-icon bg_white wishlist btn-icon-action {{ in_array($product['id'], $wishlistProducts) ? 'in-wishlist' : '' }}">
                                                 <span class="icon icon-heart"></span>
-                                                <span class="tooltip"> اضف الي المفضلة  </span>
+                                                <span class="tooltip"> اضف الي المفضلة </span>
                                                 <span class="icon icon-heart"></span>
                                             </button>
                                         </form>
+
+                                        <style>
+                                            .wishlist .icon-heart {
+                                                color: gray;
+                                            }
+
+                                            .wishlist.in-wishlist .icon-heart {
+                                                color: red;
+                                            }
+                                        </style>
+
                                         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                                         <script>
                                             $(document).ready(function () {
-                                                $('#addToWishlist_{{$product['id']}}').on('click', function (e) {
+                                                $('#addToWishlist1_{{$product['id']}}').on('click', function (e) {
                                                     e.preventDefault();
                                                     $.ajax({
                                                         method: 'POST',
-                                                        url: 'wishlist/store',
-                                                        data: $('#wishlistForm_{{$product['id']}}').serialize(),
+                                                        url: '{{ url("wishlist/store") }}',
+                                                        data: $('#wishlistForm1_{{$product['id']}}').serialize() + '&cookie_id={{ Cookie::get("cookie_id") }}',
                                                         success: function (response) {
-                                                            // عرض الرسالة باستخدام Toastify
                                                             Toastify({
-                                                                text: response.message, // عرض الرسالة من response
-                                                                duration: 3000, // المدة الزمنية لعرض الرسالة
-                                                                gravity: "top", // اتجاه العرض
-                                                                position: "right", // موقع الرسالة
-                                                                backgroundColor: "#4CAF50", // لون الخلفية للرسالة
+                                                                text: response.message,
+                                                                duration: 3000,
+                                                                gravity: "top",
+                                                                position: "right",
+                                                                backgroundColor: "#4CAF50",
                                                             }).showToast();
+
                                                             if (response.wishlistCount) {
                                                                 $('.nav-wishlist .count-box').text(response.wishlistCount);
                                                             }
+
+                                                            $('#addToWishlist1_{{$product['id']}}').toggleClass('in-wishlist');
                                                         },
                                                         error: function (xhr, status, error) {
                                                             $('#wishlistMessage').html('<p>حدث خطأ أثناء إضافة المنتج للمفضلة</p>');

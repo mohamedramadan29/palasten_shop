@@ -44,7 +44,7 @@ class OfferController extends Controller
                     return Redirect::back()->withInput()->withErrors($validator);
                 }
                 if ($request->hasFile('image')) {
-                    $file_name = $this->saveImage($request->image, 'uploads/product_offers');
+                    $file_name = $this->saveImage($request->image, public_path('assets/uploads/product_offers'));
                 }
                 $offer = new Offer();
                 $offer->product_name = $data['product_name'];
@@ -89,7 +89,7 @@ class OfferController extends Controller
                     return Redirect::back()->withInput()->withErrors($validator);
                 }
                 if ($request->hasFile('image')) {
-                    $file_name = $this->saveImage($request->image, 'uploads/product_offers');
+                    $file_name = $this->saveImage($request->image, public_path('assets/uploads/product_offers'));
                     $offer->update([
                         'image'=>$file_name
                     ]);

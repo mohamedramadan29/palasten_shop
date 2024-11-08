@@ -9,6 +9,7 @@ use App\Models\front\wishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 class WishlistController extends Controller
 {
@@ -32,30 +33,49 @@ class WishlistController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+
+        // الحصول على cookie_id أو إنشاءه في حال عدم وجوده
         $cookie_id = Cookie::get('cookie_id');
         if (empty($cookie_id)) {
-            $cookie_id = Session::getId();
-            // تخزين session_id في cookie لمدة 30 يومًا
-            Cookie::queue(Cookie::make('session_id', $cookie_id, 60 * 24 * 30));
+            $cookie_id = (string) Str::uuid(); // إنشاء معرف فريد
+            Cookie::queue(Cookie::make('cookie_id', $cookie_id, 60 * 24 * 30)); // حفظه في الكوكيز لمدة 30 يوم
         }
+
+        // التحقق من أن المعرف الفريد موجود
         if (!empty($cookie_id)) {
-            $wishlist = wishlist::where('cookie_id', $cookie_id)->where('product_id', $data['product_id'])->first();
-            if (!$wishlist) {
-                wishlist::create([
+            // البحث عن المنتج في المفضلة بناءً على cookie_id و product_id
+            $wishlist = Wishlist::where('cookie_id', $cookie_id)
+                ->where('product_id', $data['product_id'])
+                ->first();
+
+            if ($wishlist) {
+                // إذا كان المنتج موجودًا، نحذفه
+                $wishlist->delete();
+                // حساب عدد المنتجات في المفضلة بعد الحذف
+                $wishlistCount = Wishlist::where('cookie_id', $cookie_id)->count();
+                return response()->json([
+                    'message' => 'تم إزالة المنتج من المفضلة بنجاح!',
+                    'wishlistCount' => $wishlistCount, // إرسال العدد إلى الواجهة الأمامية
+                    'isFavorited' => false // إشارة بأن المنتج لم يعد في المفضلة
+                ]);
+            } else {
+                // إذا لم يكن المنتج موجودًا، نضيفه
+                Wishlist::create([
                     'cookie_id' => $cookie_id,
                     'product_id' => $data['product_id'],
                 ]);
-                // حساب عدد المنتجات في المفضلة
+                // حساب عدد المنتجات في المفضلة بعد الإضافة
                 $wishlistCount = Wishlist::where('cookie_id', $cookie_id)->count();
                 return response()->json([
                     'message' => 'تم إضافة المنتج إلى المفضلة بنجاح!',
-                    'wishlistCount' => $wishlistCount // إرسال العدد إلى الـ Frontend
+                    'wishlistCount' => $wishlistCount, // إرسال العدد إلى الواجهة الأمامية
+                    'isFavorited' => true // إشارة بأن المنتج الآن في المفضلة
                 ]);
-            } else {
-                return response()->json(['message' => 'تم اضافة المنتج الي المفضلة من قبل ']);
-                // return $this->success_message(' تم اضافة المنتج الي المفضلة من قبل  ');
             }
         }
+
+        // في حال عدم وجود cookie_id، يمكن إرجاع رسالة خطأ
+        return response()->json(['message' => 'تعذر إتمام العملية. يرجى المحاولة مرة أخرى.']);
     }
 
     public function delete($id)

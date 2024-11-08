@@ -59,7 +59,7 @@
                                             <label for="image" class="form-label"> صورة المنتج </label>
                                             <input type="file" id="image" name="image" class="form-control"
                                                    accept="image/*">
-                                            <img class="img-thumbnail" src="{{\Illuminate\Support\Facades\Storage::url('uploads/product_offers/'.$offer['image'])}}" width="80" height="80px" alt="">
+                                            <img class="img-thumbnail" src="{{asset('assets/uploads/product_offers/'.$offer['image'])}}" width="80" height="80px" alt="">
                                         </div>
                                     </div>
                                 </div>

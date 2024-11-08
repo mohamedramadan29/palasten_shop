@@ -5,7 +5,10 @@ namespace App\Http\Controllers\front;
 use App\Http\Controllers\Controller;
 use App\Models\admin\MainCategory;
 use App\Models\admin\Product;
+use App\Models\front\wishlist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Session;
 
 class ShopCollection extends Controller
 {
@@ -19,13 +22,11 @@ class ShopCollection extends Controller
     public function collection_details($slug)
     {
         $category = MainCategory::where('slug',$slug)->first();
-
         // جلب المنتجات التي تنتمي لهذه الفئة أو الفئة الفرعية
         $products = Product::where(function($query) use ($category) {
             $query->where('category_id', $category['id'])
                 ->orWhere('sub_category_id', $category['id']);
         })->where('status', 1);
-
 
         // التحقق من وجود معيار الترتيب في الطلب
         if (request()->has('sort') && !empty(request()->get('sort'))) {
@@ -46,9 +47,17 @@ class ShopCollection extends Controller
         }
 
         // تنفيذ الاستعلام مع التصفية النهائية وتجزئة النتائج
+
         $products = $products->paginate(16);
+        $cookie_id = Cookie::get('cookie_id');
+        if (empty($cookie_id)) {
+            $cookie_id = Session::getId();
+            // تخزين session_id في cookie لمدة 30 يومًا
+            Cookie::queue(Cookie::make('session_id', $cookie_id, 60 * 24 * 30));
+        }
 
+        $wishlistProducts = Wishlist::where('cookie_id', $cookie_id)->pluck('product_id')->toArray();
 
-        return view('front.category-details',compact('category','products'));
+        return view('front.category-details',compact('category','products','wishlistProducts'));
     }
 }

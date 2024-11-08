@@ -12,21 +12,24 @@ use App\Models\admin\Product;
 use App\Models\admin\ProductVartions;
 use App\Models\admin\Review;
 use App\Models\admin\VartionsValues;
+use App\Models\front\wishlist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Session;
 
 class FrontController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $reviews = Review::all();
-        $banners = Banner::where('status',1)->get();
-        $bestproducts  = Product::with('gallary','Main_Category')->where('status',1)->get();
-        $lastproducts = Product::with('gallary','Main_Category')->where('status',1)->orderBy('id','DESC')->limit(12)->get();
-        $mainCategories = MainCategory::where('status',1)->get();
-        $brands = Brand::where('status',1)->get();
+        $banners = Banner::where('status', 1)->get();
+        $bestproducts = Product::with('gallary', 'Main_Category')->where('status', 1)->get();
+        $lastproducts = Product::with('gallary', 'Main_Category')->where('status', 1)->orderBy('id', 'DESC')->limit(12)->get();
+        $mainCategories = MainCategory::where('status', 1)->get();
+        $brands = Brand::where('status', 1)->get();
         $advantages = Advantage::all();
         // جلب الأقسام المحددة لتظهر في الصفحة الرئيسية
         $selectedCategories = MainCategory::where('main_page', 1)->get();
-
         // جلب المنتجات المتعلقة بالأقسام المختارة
         $productsBySelectedCategories = Product::with('gallary', 'Main_Category')
             ->whereHas('Main_Category', function ($query) {
@@ -34,11 +37,19 @@ class FrontController extends Controller
             })
             ->where('status', 1)
             ->get();
+        $cookie_id = Cookie::get('cookie_id');
+        if (empty($cookie_id)) {
+            $cookie_id = Session::getId();
+            // تخزين session_id في cookie لمدة 30 يومًا
+            Cookie::queue(Cookie::make('session_id', $cookie_id, 60 * 24 * 30));
+        }
 
-        return view('front.index',compact('banners','advantages','bestproducts','lastproducts','mainCategories','selectedCategories','productsBySelectedCategories','brands','reviews'));
+        $wishlistProducts = Wishlist::where('cookie_id', $cookie_id)->pluck('product_id')->toArray();
+        return view('front.index', compact('banners', 'advantages', 'bestproducts', 'lastproducts', 'mainCategories', 'selectedCategories', 'productsBySelectedCategories', 'brands', 'reviews','wishlistProducts'));
     }
 
-    public function getProductDetails($id){
+    public function getProductDetails($id)
+    {
 
         // جلب جميع المتغيرات الخاصة بالمنتج
         $productVariations = ProductVartions::where('product_id', $id)->get();
@@ -71,6 +82,6 @@ class FrontController extends Controller
     public function faq()
     {
         $faqs = faq::all();
-        return view('front.faq',compact('faqs'));
+        return view('front.faq', compact('faqs'));
     }
 }

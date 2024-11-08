@@ -81,17 +81,27 @@
 
                                             </a>
                                             <div class="list-product-btn">
-                                                <form id="wishlistForm1_{{$product['id']}}" method="post"
-                                                      action="{{url('wishlist/store')}}">
+                                                <form id="wishlistForm1_{{$product['id']}}" method="post" action="{{ url('wishlist/store') }}">
                                                     @csrf
-                                                    <input type="hidden" name="product_id" value="{{$product['id']}}">
+                                                    <input type="hidden" name="product_id" value="{{ $product['id'] }}">
                                                     <button type="button" id="addToWishlist1_{{$product['id']}}"
-                                                            class="box-icon bg_white wishlist btn-icon-action">
+                                                            class="box-icon bg_white wishlist btn-icon-action {{ in_array($product['id'], $wishlistProducts) ? 'in-wishlist' : '' }}">
                                                         <span class="icon icon-heart"></span>
-                                                        <span class="tooltip"> اضف الي المفضلة  </span>
+                                                        <span class="tooltip"> اضف الي المفضلة </span>
                                                         <span class="icon icon-heart"></span>
                                                     </button>
                                                 </form>
+
+                                                <style>
+                                                    .wishlist .icon-heart {
+                                                        color: gray;
+                                                    }
+
+                                                    .wishlist.in-wishlist .icon-heart {
+                                                        color: red;
+                                                    }
+                                                </style>
+
                                                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                                                 <script>
                                                     $(document).ready(function () {
@@ -99,20 +109,22 @@
                                                             e.preventDefault();
                                                             $.ajax({
                                                                 method: 'POST',
-                                                                url: 'wishlist/store',
-                                                                data: $('#wishlistForm1_{{$product['id']}}').serialize(),
+                                                                url: '{{ url("wishlist/store") }}',
+                                                                data: $('#wishlistForm1_{{$product['id']}}').serialize() + '&cookie_id={{ Cookie::get("cookie_id") }}',
                                                                 success: function (response) {
-                                                                    // عرض الرسالة باستخدام Toastify
                                                                     Toastify({
-                                                                        text: response.message, // عرض الرسالة من response
-                                                                        duration: 3000, // المدة الزمنية لعرض الرسالة
-                                                                        gravity: "top", // اتجاه العرض
-                                                                        position: "right", // موقع الرسالة
-                                                                        backgroundColor: "#4CAF50", // لون الخلفية للرسالة
+                                                                        text: response.message,
+                                                                        duration: 3000,
+                                                                        gravity: "top",
+                                                                        position: "right",
+                                                                        backgroundColor: "#4CAF50",
                                                                     }).showToast();
+
                                                                     if (response.wishlistCount) {
                                                                         $('.nav-wishlist .count-box').text(response.wishlistCount);
                                                                     }
+
+                                                                    $('#addToWishlist1_{{$product['id']}}').toggleClass('in-wishlist');
                                                                 },
                                                                 error: function (xhr, status, error) {
                                                                     $('#wishlistMessage').html('<p>حدث خطأ أثناء إضافة المنتج للمفضلة</p>');
@@ -287,38 +299,49 @@
 
                                 </a>
                                 <div class="list-product-btn">
-                                    <form id="wishlistForm_{{$product['id']}}" method="post"
-                                          action="{{url('wishlist/store')}}">
+                                    <form id="wishlistForm2_{{$product['id']}}" method="post" action="{{ url('wishlist/store') }}">
                                         @csrf
-                                        <input type="hidden" name="product_id" value="{{$product['id']}}">
-                                        <button type="button" id="addToWishlist_{{$product['id']}}"
-                                                class="box-icon bg_white wishlist btn-icon-action">
+                                        <input type="hidden" name="product_id" value="{{ $product['id'] }}">
+                                        <button type="button" id="addToWishlist2_{{$product['id']}}"
+                                                class="box-icon bg_white wishlist btn-icon-action {{ in_array($product['id'], $wishlistProducts) ? 'in-wishlist' : '' }}">
                                             <span class="icon icon-heart"></span>
-                                            <span class="tooltip"> اضف الي المفضلة  </span>
+                                            <span class="tooltip"> اضف الي المفضلة </span>
                                             <span class="icon icon-heart"></span>
                                         </button>
                                     </form>
+
+                                    <style>
+                                        .wishlist .icon-heart {
+                                            color: gray;
+                                        }
+
+                                        .wishlist.in-wishlist .icon-heart {
+                                            color: red;
+                                        }
+                                    </style>
                                     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                                     <script>
                                         $(document).ready(function () {
-                                            $('#addToWishlist_{{$product['id']}}').on('click', function (e) {
+                                            $('#addToWishlist2_{{$product['id']}}').on('click', function (e) {
                                                 e.preventDefault();
                                                 $.ajax({
                                                     method: 'POST',
-                                                    url: 'wishlist/store',
-                                                    data: $('#wishlistForm_{{$product['id']}}').serialize(),
+                                                    url: '{{ url("wishlist/store") }}',
+                                                    data: $('#wishlistForm2_{{$product['id']}}').serialize() + '&cookie_id={{ Cookie::get("cookie_id") }}',
                                                     success: function (response) {
-                                                        // عرض الرسالة باستخدام Toastify
                                                         Toastify({
-                                                            text: response.message, // عرض الرسالة من response
-                                                            duration: 3000, // المدة الزمنية لعرض الرسالة
-                                                            gravity: "top", // اتجاه العرض
-                                                            position: "right", // موقع الرسالة
-                                                            backgroundColor: "#4CAF50", // لون الخلفية للرسالة
+                                                            text: response.message,
+                                                            duration: 3000,
+                                                            gravity: "top",
+                                                            position: "right",
+                                                            backgroundColor: "#4CAF50",
                                                         }).showToast();
+
                                                         if (response.wishlistCount) {
                                                             $('.nav-wishlist .count-box').text(response.wishlistCount);
                                                         }
+
+                                                        $('#addToWishlist2_{{$product['id']}}').toggleClass('in-wishlist');
                                                     },
                                                     error: function (xhr, status, error) {
                                                         $('#wishlistMessage').html('<p>حدث خطأ أثناء إضافة المنتج للمفضلة</p>');
@@ -466,7 +489,7 @@
                                 class="icon icon-arrow-left"></span></div>
                     </div>
                     <span class="text-3 fw-7 text-uppercase title wow fadeInUp"
-                          data-wow-delay="0s"> اقسام المتجر  </span>
+                          data-wow-delay="0s">  اقسام المتجر  </span>
                 </div>
                 <div class="row">
                     <div class="col-xl-9 col-lg-8 col-md-8">
@@ -551,39 +574,49 @@
 
                                                 </a>
                                                 <div class="list-product-btn">
-                                                    <form id="wishlistForm_{{$product['id']}}" method="post"
-                                                          action="{{url('wishlist/store')}}">
+                                                    <form id="wishlistForm3_{{$category['id']}}_{{$product['id']}}" method="post" action="{{ url('wishlist/store') }}">
                                                         @csrf
-                                                        <input type="hidden" name="product_id"
-                                                               value="{{$product['id']}}">
-                                                        <button type="button" id="addToWishlist_{{$product['id']}}"
-                                                                class="box-icon bg_white wishlist btn-icon-action">
+                                                        <input type="hidden" name="product_id" value="{{ $product['id'] }}">
+                                                        <button type="button" id="addToWishlist3_{{$category['id']}}_{{$product['id']}}"
+                                                                class="box-icon bg_white wishlist btn-icon-action {{ in_array($product['id'], $wishlistProducts) ? 'in-wishlist' : '' }}">
                                                             <span class="icon icon-heart"></span>
-                                                            <span class="tooltip"> اضف الي المفضلة  </span>
+                                                            <span class="tooltip"> اضف الي المفضلة </span>
                                                             <span class="icon icon-heart"></span>
                                                         </button>
                                                     </form>
+
+                                                    <style>
+                                                        .wishlist .icon-heart {
+                                                            color: gray;
+                                                        }
+
+                                                        .wishlist.in-wishlist .icon-heart {
+                                                            color: red;
+                                                        }
+                                                    </style>
                                                     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                                                     <script>
                                                         $(document).ready(function () {
-                                                            $('#addToWishlist_{{$product['id']}}').on('click', function (e) {
+                                                            $('#addToWishlist3_{{$category['id']}}_{{$product['id']}}').on('click', function (e) {
                                                                 e.preventDefault();
                                                                 $.ajax({
                                                                     method: 'POST',
-                                                                    url: 'wishlist/store',
-                                                                    data: $('#wishlistForm_{{$product['id']}}').serialize(),
+                                                                    url: '{{ url("wishlist/store") }}',
+                                                                    data: $('#wishlistForm3_{{$category['id']}}_{{$product['id']}}').serialize() + '&cookie_id={{ Cookie::get("cookie_id") }}',
                                                                     success: function (response) {
-                                                                        // عرض الرسالة باستخدام Toastify
                                                                         Toastify({
-                                                                            text: response.message, // عرض الرسالة من response
-                                                                            duration: 3000, // المدة الزمنية لعرض الرسالة
-                                                                            gravity: "top", // اتجاه العرض
-                                                                            position: "right", // موقع الرسالة
-                                                                            backgroundColor: "#4CAF50", // لون الخلفية للرسالة
+                                                                            text: response.message,
+                                                                            duration: 3000,
+                                                                            gravity: "top",
+                                                                            position: "right",
+                                                                            backgroundColor: "#4CAF50",
                                                                         }).showToast();
+
                                                                         if (response.wishlistCount) {
                                                                             $('.nav-wishlist .count-box').text(response.wishlistCount);
                                                                         }
+
+                                                                        $('#addToWishlist3_{{$category['id']}}_{{$product['id']}}').toggleClass('in-wishlist');
                                                                     },
                                                                     error: function (xhr, status, error) {
                                                                         $('#wishlistMessage').html('<p>حدث خطأ أثناء إضافة المنتج للمفضلة</p>');
