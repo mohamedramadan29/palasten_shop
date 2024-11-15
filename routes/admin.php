@@ -148,7 +148,7 @@ Route::group(['prefix' => 'admin'], function () {
         ///////////////////// Start Order Controller ///////////////
         ///
         Route::controller(OrderController::class)->group(function () {
-            Route::get('orders', 'index');
+            Route::get('orders', 'index')->name('orders');
             Route::post('order/delete/{id}', 'delete');
             Route::match(['post', 'get'], 'order/update/{id}', 'update');
             Route::match(['post', 'get'], 'order/store', 'store');

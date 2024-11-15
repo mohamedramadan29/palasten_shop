@@ -13,11 +13,11 @@
                             <div class="d-flex flex-column h-100 justify-content-center">
                                 <div class="auth-logo mb-4">
                                     <a href="{{url('login')}}" class="logo-dark">
-                                        <img src="{{asset('assets/admin/images/logowo.png')}}" width="75px" alt="logo dark">
+                                        <img src="{{asset('assets/uploads/PublicSetting/'.$setting['website_logo'])}}" width="75px" alt="logo dark">
                                     </a>
 
                                     <a href="{{url('login')}}" class="logo-light">
-                                        <img src="{{asset('assets/admin/images/logowo.png')}}" width="75px" alt="logo light">
+                                        <img src="{{asset('assets/uploads/PublicSetting/'.$setting['website_logo'])}}" width="75px" alt="logo light">
                                     </a>
                                 </div>
 

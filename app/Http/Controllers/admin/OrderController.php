@@ -21,8 +21,9 @@ class OrderController extends Controller
     public function update(Request $request, $id)
     {
         $order = Order::with('details','city')->where('id',$id)->first();
-
-
+        if (!isset($order)){
+            return redirect()->route('orders');
+        }
         $user  = Auth::guard('admin')->user();
         $notification = $user->unreadNotifications->where('data.order_id', $id)->first();
 

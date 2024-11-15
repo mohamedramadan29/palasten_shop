@@ -18478,6 +18478,9 @@ background-color:#eee;
 }
 .offer_page .data .product_info img{
     max-width: 450px;
+    max-height: 450px;
+    object-fit: cover;
+    object-position: center;
 }
 .offer_page .last_section{}
 .offer_page .last_section p{

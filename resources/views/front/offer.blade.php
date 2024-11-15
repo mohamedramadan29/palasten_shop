@@ -28,7 +28,7 @@
         <div class="container ">
             <div class="data">
                 <div class="logo">
-                    <img style="max-width: 120px" src="{{\Illuminate\Support\Facades\Storage::url('uploads/PublicSetting/'.$settings->website_logo)}}" alt="">
+                    <img style="max-width: 120px" src="{{asset('assets/uploads/PublicSetting/'.$settings->website_logo)}}" alt="">
                 </div>
                 <div class="advantage">
                     <div class="adv">
@@ -46,8 +46,7 @@
                 </div>
                 <div class="product_info">
                     <h2>  {{$offer['product_name']}} </h2>
-                    <img src="{{\Illuminate\Support\Facades\Storage::url('uploads/product_offers/'.$offer['image'])}}"
-                         alt="">
+                    <img src="{{asset('assets/uploads/product_offers/'.$offer['image'])}}">
                 </div>
                 <div class="order_info">
                     <h6> اجمالي الطلب </h6>
