@@ -15,4 +15,9 @@ class MainCategory extends Model
     {
         return $this->belongsTo(SubCategory::class,'id');
     }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class,'category_id');
+    }
 }
