@@ -8,6 +8,9 @@
                     @if(\Illuminate\Support\Facades\Session::has('Error_Message'))
                         <div class="alert alert-danger"> {{\Illuminate\Support\Facades\Session::get('Error_Message')}} </div>
                     @endif
+                    @php
+                    $setting  = \App\Models\admin\PublicSetting::first();
+                    @endphp
                     <div class="row justify-content-center h-100">
                         <div class="col-lg-6 py-lg-5">
                             <div class="d-flex flex-column h-100 justify-content-center">
