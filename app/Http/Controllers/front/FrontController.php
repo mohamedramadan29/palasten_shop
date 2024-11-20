@@ -29,7 +29,7 @@ class FrontController extends Controller
         $brands = Brand::where('status', 1)->get();
         $advantages = Advantage::all();
         // جلب الأقسام المحددة لتظهر في الصفحة الرئيسية
-        $selectedCategories = MainCategory::where('main_page', 1)->get();
+        $selectedCategories = MainCategory::with('products')->where('main_page', 1)->get();
         // جلب المنتجات المتعلقة بالأقسام المختارة
         $productsBySelectedCategories = Product::with('gallary', 'Main_Category')
             ->whereHas('Main_Category', function ($query) {

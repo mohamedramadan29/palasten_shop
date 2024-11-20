@@ -53,4 +53,12 @@ class OfferOrderController extends Controller
         $publicsetting = PublicSetting::first();
         return view('admin.OfferOrders.print',compact('order','publicsetting'));
     }
+
+    public function delete($id)
+    {
+        $order = OfferOrder::findORFail($id);
+        $order->delete();
+        return $this->success_message(' تم حذف الطلب ');
+    }
+
 }

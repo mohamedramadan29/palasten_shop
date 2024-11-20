@@ -84,18 +84,18 @@ $footer_color = $colors['footer_color'];
 
             </div>
             <div class="search_section">
-                <form method="get" action="" id="search_form">
+                <form method="get" action="{{url('main-search')}}" id="search_form">
                     @csrf
                     <div class="search">
                         @php
                             $categories = \App\Models\admin\MainCategory::where('status',1)->get();
                         @endphp
-                        <select class="" id="category-select">
+                        <select class="" id="category-select" name="category">
                             <option value=""> الكل</option>
                             @foreach($categories as $category)
                                 <option value="{{$category['id']}}"> {{$category['name']}} </option>
                             @endforeach
-                        </select><input id="search-input" class="search_input" type="text"
+                        </select><input id="search-input" name="product_name" class="search_input" type="text"
                                         placeholder="اكتب كلمة البحث">
                         <button
                             type="submit"><i class="icon icon-search"></i></button>

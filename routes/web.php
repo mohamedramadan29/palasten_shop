@@ -34,7 +34,7 @@ Route::controller(ProductController::class)->group(function () {
     Route::get('search-products', 'search')->name('search.products');
     Route::post('/product/{id}/get-price', 'getPrice')->name('product.getPrice');
     Route::get('/product/quick-view/{id}', 'quickView')->name('product.quick-view');
-
+    Route::get('main-search','main_search');
 
 });
 

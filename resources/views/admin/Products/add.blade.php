@@ -41,7 +41,7 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="name" class="form-label"> اضف اسم خاص للرابط  ( اختياري )  </label>
-                                            <input required type="text" id="slug" name="slug" class="form-control"
+                                            <input type="text" id="slug" name="slug" class="form-control"
                                                    placeholder="" value="{{old('slug')}}">
                                         </div>
                                     </div>

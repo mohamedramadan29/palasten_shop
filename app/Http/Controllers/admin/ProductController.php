@@ -74,7 +74,7 @@ class ProductController extends Controller
                     'category_id.required' => ' من فضلك حدد القسم الرئيسي للمنتج  ',
                     'description.required' => ' من فضلك ادخل الوصف الخاص بالمنتج ',
                     'image.mimes' =>
-                        'من فضلك يجب ان يكون نوع الصورة jpg,png,jpeg,webp',
+                    'من فضلك يجب ان يكون نوع الصورة jpg,png,jpeg,webp',
                     'image.image' => 'من فضلك ادخل الصورة بشكل صحيح',
                 ];
                 $validator = Validator::make($data, $rules, $messages);
@@ -158,7 +158,6 @@ class ProductController extends Controller
             }
         }
         return view('admin.products.add', compact('MainCategories', 'SubCategories', 'brands', 'attributes', 'attributes_vartions'));
-
     }
 
     public function update(Request $request, $slug)
@@ -174,6 +173,7 @@ class ProductController extends Controller
         $variations = ProductVartions::where('product_id', $product['id'])->get();
         $gallaries = ProductGallary::where('product_id', $product->id)->get();
 
+
         if ($request->isMethod('post')) {
             // التحقق من صحة المدخلات
             $request->validate([
@@ -183,7 +183,18 @@ class ProductController extends Controller
                 'type' => 'required|in:بسيط,متغير',
             ]);
             DB::beginTransaction();
+            if ($request->hasFile('image')) {
+                ////// Delete Old Image
+                $old_image = public_path('assets/uploads/product_images/' . $product->image);
+                if (file_exists($old_image)) {
+                    @unlink($old_image);
+                }
+                $file_name = $this->saveImage($request->image, public_path('assets/uploads/product_images'));
 
+                $product->update([
+                    'image' => $file_name
+                ]);
+            }
             try {
                 $data = $request->all();
                 //dd($data);
@@ -213,23 +224,20 @@ class ProductController extends Controller
                 $product->meta_keywords = $data['meta_keywords'];
                 $product->meta_description = $data['meta_description'];
 
-                // تحديث الصورة إذا تم رفع صورة جديدة
-//                if ($file_name) {
-//                    $product->image = $file_name;
-//                }
+
 
                 $product->save();
 
-//                ///////// تحديث معرض الصور إذا كان موجودًا
-//                if ($request->hasFile('gallery')) {
-//                    foreach ($request->file('gallery') as $gallery) {
-//                        $gallery_name = $this->saveImage($gallery, 'assets/uploads/product_gallery');
-//                        $gallery_image = new ProductGallary();
-//                        $gallery_image->product_id = $product->id;
-//                        $gallery_image->image = $gallery_name;
-//                        $gallery_image->save();
-//                    }
-//                }
+                ///////// تحديث معرض الصور إذا كان موجودًا
+                if ($request->hasFile('gallery')) {
+                    foreach ($request->file('gallery') as $gallery) {
+                        $gallery_name = $this->saveImage($gallery, 'assets/uploads/product_gallery');
+                        $gallery_image = new ProductGallary();
+                        $gallery_image->product_id = $product->id;
+                        $gallery_image->image = $gallery_name;
+                        $gallery_image->save();
+                    }
+                }
 
 
                 // التحقق من نوع المنتج "متغير"
@@ -310,7 +318,6 @@ class ProductController extends Controller
                             }
                         }
                     }
-
                 }
                 DB::commit();
                 // بعد تحديث المنتج بنجاح
@@ -320,7 +327,6 @@ class ProductController extends Controller
                 DB::rollback();
                 return $this->error_message('حدث خطأ أثناء عملية التعديل.');
             }
-
         }
         // عرض صفحة التعديل
         return view('admin.Products.update', compact('product', 'MainCategories', 'SubCategories', 'brands', 'attributes', 'gallaries', 'variations'));
@@ -340,7 +346,7 @@ class ProductController extends Controller
         $imageGallary = ProductGallary::findOrFail($id);
         $oldimage = public_path('assets/uploads/product_gallery/' . $imageGallary['image']);
         if (file_exists($oldimage)) {
-            unlink($oldimage);
+            @unlink($oldimage);
         }
         $imageGallary->delete();
         return $this->success_message(' تم حذف الصورة بنجاح  ');

@@ -19,14 +19,14 @@
         <!-- Slider -->
         <div class="tf-slideshow slider-effect-fade position-relative hero_section">
             <div class="swiper tf-sw-slideshow" data-preview="1" data-tablet="1" data-mobile="1" data-centered="false"
-                 data-space="0" data-loop="true" data-auto-play="false" data-delay="0" data-speed="1000">
+                data-space="0" data-loop="true" data-auto-play="false" data-delay="0" data-speed="1000">
                 <div class="swiper-wrapper">
-                    @if(count($banners) > 0)
-                        @foreach($banners as $banner)
+                    @if (count($banners) > 0)
+                        @foreach ($banners as $banner)
                             <div class="swiper-slide">
                                 <div class="wrap-slider">
-                                    <img src="{{asset('assets/uploads/banners/'.$banner['image'])}}"
-                                         alt="fashion-slideshow">
+                                    <img src="{{ asset('assets/uploads/banners/' . $banner['image']) }}"
+                                        alt="fashion-slideshow">
                                 </div>
                             </div>
                         @endforeach
@@ -46,49 +46,49 @@
             <div class="container">
                 <div class="flat-title wow fadeInUp" data-wow-delay="0s">
                     <div>
-                        <span class="title wow fadeInUp" data-wow-delay="0s"> الاكثر مبيعا  </span>
+                        <span class="title wow fadeInUp" data-wow-delay="0s"> الاكثر مبيعا </span>
                         <p class="sub-title wow fadeInUp" data-wow-delay="0s"> اكثر المنتجات مبيعا في المتجر </p>
                     </div>
                     <div>
-                        <a href="{{url('shop')}}" class="head_read_more"> عرض الكل <i class="bi bi-arrow-left"></i></a>
+                        <a href="{{ url('shop') }}" class="head_read_more"> عرض الكل <i class="bi bi-arrow-left"></i></a>
                     </div>
                 </div>
                 <div class="hover-sw-nav hover-sw-3">
                     <div class="swiper tf-sw-product-sell wrap-sw-over" data-preview="4" data-tablet="3" data-mobile="2"
-                         data-space-lg="30" data-space-md="15" data-pagination="2" data-pagination-md="3"
-                         data-pagination-lg="3">
+                        data-space-lg="30" data-space-md="15" data-pagination="2" data-pagination-md="3"
+                        data-pagination-lg="3">
                         <div class="swiper-wrapper">
-                            @if(count($bestproducts) > 0)
-                                @foreach($bestproducts as $product)
+                            @if (count($bestproducts) > 0)
+                                @foreach ($bestproducts as $product)
                                     <div class="swiper-slide" lazy="true">
                                         <div class="card-product">
                                             <div class="card-product-wrapper">
-                                                <a href="{{url('product/'.$product['slug'])}}" class="product-img">
+                                                <a href="{{ url('product/' . $product['slug']) }}" class="product-img">
                                                     <img class="lazyload img-product"
-                                                         data-src="{{asset('assets/uploads/product_images/'.$product['image'])}}"
-                                                         src="{{asset('assets/uploads/product_images/'.$product['image'])}}"
-                                                         alt="{{$product['name']}}">
-                                                    @if($product->gallary && $product->gallary->first())
+                                                        data-src="{{ asset('assets/uploads/product_images/' . $product['image']) }}"
+                                                        src="{{ asset('assets/uploads/product_images/' . $product['image']) }}"
+                                                        alt="{{ $product['name'] }}">
+                                                    @if ($product->gallary && $product->gallary->first())
                                                         <img class="lazyload img-hover"
-                                                             data-src="{{asset('assets/uploads/product_gallery/'.$product->gallary->first()->image)}}"
-                                                             src="{{asset('assets/uploads/product_gallery/'.$product->gallary->first()->image)}}"
-                                                             alt="{{$product['name']}}">
+                                                            data-src="{{ asset('assets/uploads/product_gallery/' . $product->gallary->first()->image) }}"
+                                                            src="{{ asset('assets/uploads/product_gallery/' . $product->gallary->first()->image) }}"
+                                                            alt="{{ $product['name'] }}">
                                                     @else
                                                         <img class="lazyload img-hover"
-                                                             data-src="{{asset('assets/uploads/product_images/'.$product['image'])}}"
-                                                             src="{{asset('assets/uploads/product_images/'.$product['image'])}}"
-                                                             alt="{{$product['name']}}">
+                                                            data-src="{{ asset('assets/uploads/product_images/' . $product['image']) }}"
+                                                            src="{{ asset('assets/uploads/product_images/' . $product['image']) }}"
+                                                            alt="{{ $product['name'] }}">
                                                     @endif
 
                                                 </a>
                                                 <div class="list-product-btn">
-                                                    <form id="wishlistForm1_{{$product['id']}}" method="post"
-                                                          action="{{ url('wishlist/store') }}">
+                                                    <form id="wishlistForm1_{{ $product['id'] }}" method="post"
+                                                        action="{{ url('wishlist/store') }}">
                                                         @csrf
                                                         <input type="hidden" name="product_id"
-                                                               value="{{ $product['id'] }}">
-                                                        <button type="button" id="addToWishlist1_{{$product['id']}}"
-                                                                class="box-icon bg_white wishlist btn-icon-action {{ in_array($product['id'], $wishlistProducts) ? 'in-wishlist' : '' }}">
+                                                            value="{{ $product['id'] }}">
+                                                        <button type="button" id="addToWishlist1_{{ $product['id'] }}"
+                                                            class="box-icon bg_white wishlist btn-icon-action {{ in_array($product['id'], $wishlistProducts) ? 'in-wishlist' : '' }}">
                                                             <span class="icon icon-heart"></span>
                                                             <span class="tooltip"> اضف الي المفضلة </span>
                                                             <span class="icon icon-heart"></span>
@@ -107,14 +107,15 @@
 
                                                     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                                                     <script>
-                                                        $(document).ready(function () {
-                                                            $('#addToWishlist1_{{$product['id']}}').on('click', function (e) {
+                                                        $(document).ready(function() {
+                                                            $('#addToWishlist1_{{ $product['id'] }}').on('click', function(e) {
                                                                 e.preventDefault();
                                                                 $.ajax({
                                                                     method: 'POST',
-                                                                    url: '{{ url("wishlist/store") }}',
-                                                                    data: $('#wishlistForm1_{{$product['id']}}').serialize() + '&cookie_id={{ Cookie::get("cookie_id") }}',
-                                                                    success: function (response) {
+                                                                    url: '{{ url('wishlist/store') }}',
+                                                                    data: $('#wishlistForm1_{{ $product['id'] }}').serialize() +
+                                                                        '&cookie_id={{ Cookie::get('cookie_id') }}',
+                                                                    success: function(response) {
                                                                         Toastify({
                                                                             text: response.message,
                                                                             duration: 3000,
@@ -127,69 +128,73 @@
                                                                             $('.nav-wishlist .count-box').text(response.wishlistCount);
                                                                         }
 
-                                                                        $('#addToWishlist1_{{$product['id']}}').toggleClass('in-wishlist');
+                                                                        $('#addToWishlist1_{{ $product['id'] }}').toggleClass('in-wishlist');
                                                                     },
-                                                                    error: function (xhr, status, error) {
+                                                                    error: function(xhr, status, error) {
                                                                         $('#wishlistMessage').html('<p>حدث خطأ أثناء إضافة المنتج للمفضلة</p>');
                                                                     }
                                                                 });
                                                             });
                                                         });
                                                     </script>
-                                                    <button data-id="{{$product->id}}" href="" data-bs-toggle="modal"
-                                                            class="box-icon bg_white quickview tf-btn-loading btn-quick-view">
+                                                    <button data-id="{{ $product->id }}" href=""
+                                                        data-bs-toggle="modal"
+                                                        class="box-icon bg_white quickview tf-btn-loading btn-quick-view">
                                                         <span class="icon icon-view"></span>
                                                         <span class="tooltip"> مشاهدة </span>
                                                     </button>
                                                 </div>
                                             </div>
                                             <div class="card-product-info">
-                                                <a href="{{url('product/'.$product['slug'])}}"
-                                                   class="title link"> {{$product['name']}} </a>
-                                                @if(isset($product['discount']) && $product['discount'] !=null)
+                                                <a href="{{ url('product/' . $product['slug']) }}" class="title link">
+                                                    {{ $product['name'] }} </a>
+                                                @if (isset($product['discount']) && $product['discount'] != null)
                                                     <div class="">
-                                                    <span
-                                                        class="price main_price"> {{$product['discount']}} {{ $storeCurrency }} </span>
-                                                        <span
-                                                            class="price old_price"> {{$product['price']}} {{ $storeCurrency }} </span>
+                                                        <span class="price main_price"> {{ $product['discount'] }}
+                                                            {{ $storeCurrency }} </span>
+                                                        <span class="price old_price"> {{ $product['price'] }}
+                                                            {{ $storeCurrency }} </span>
                                                     </div>
                                                 @else
-                                                    <span
-                                                        class="price main_price"> {{$product['price']}} {{ $storeCurrency }} </span>
+                                                    <span class="price main_price"> {{ $product['price'] }}
+                                                        {{ $storeCurrency }} </span>
                                                 @endif
 
                                                 @php
-                                                    $productVariations = \App\Models\admin\ProductVartions::where('product_id', $product['id'])->get();
+                                                    $productVariations = \App\Models\admin\ProductVartions::where(
+                                                        'product_id',
+                                                        $product['id'],
+                                                    )->get();
                                                 @endphp
-                                                @if($productVariations->count() > 0)
-                                                    <a href="{{url('product/'.$product['slug'])}}" class="add-to-cart">
+                                                @if ($productVariations->count() > 0)
+                                                    <a href="{{ url('product/' . $product['slug']) }}" class="add-to-cart">
                                                         مشاهدة الاختيارات
                                                     </a>
                                                 @else
-                                                    <form id="addToCart_{{$product['id']}}" class="" method="post"
-                                                          action="{{url('cart/add')}}">
+                                                    <form id="addToCart_{{ $product['id'] }}" class="" method="post"
+                                                        action="{{ url('cart/add') }}">
                                                         <input type="hidden" name="product_id"
-                                                               value="{{$product['id']}}">
+                                                            value="{{ $product['id'] }}">
                                                         <input type="hidden" name="number" value="1">
-                                                        @if(isset($product['discount']) && $product['discount'] !=null)
+                                                        @if (isset($product['discount']) && $product['discount'] != null)
                                                             <input type="hidden" name="price"
-                                                                   value="{{$product['discount']}}">
+                                                                value="{{ $product['discount'] }}">
                                                         @else
                                                             <input type="hidden" name="price"
-                                                                   value="{{$product['price']}}">
+                                                                value="{{ $product['price'] }}">
                                                         @endif
                                                         <input type="hidden" id="hidden-variation"
-                                                               placeholder="دشقفهخر "
-                                                               name="hidden-variation" value="">
+                                                            placeholder="دشقفهخر " name="hidden-variation"
+                                                            value="">
 
-                                                        <button id="addtocartbutton_{{$product['id']}}"
-                                                                class="add-to-cart">
+                                                        <button id="addtocartbutton_{{ $product['id'] }}"
+                                                            class="add-to-cart">
                                                             اضف الي السلة
                                                         </button>
                                                     </form>
                                                     <script>
-                                                        $(document).ready(function () {
-                                                            $("#addtocartbutton_{{$product['id']}}").on('click', function (e) {
+                                                        $(document).ready(function() {
+                                                            $("#addtocartbutton_{{ $product['id'] }}").on('click', function(e) {
                                                                 e.preventDefault();
                                                                 $.ajax({
                                                                     url: '/cart/add',
@@ -197,8 +202,8 @@
                                                                     headers: {
                                                                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
                                                                     },
-                                                                    data: $("#addToCart_{{$product['id']}}").serialize(),
-                                                                    success: function (response) {
+                                                                    data: $("#addToCart_{{ $product['id'] }}").serialize(),
+                                                                    success: function(response) {
                                                                         // عرض الرسالة باستخدام Toastify
                                                                         Toastify({
                                                                             text: response.message,
@@ -219,7 +224,7 @@
                                                                         // إظهار الـ modal بعد الإضافة
                                                                         $('#shoppingCart').modal('show');
                                                                     },
-                                                                    error: function (xhr, status, error) {
+                                                                    error: function(xhr, status, error) {
                                                                         $('#wishlistMessage').html('<p>حدث خطأ أثناء إضافة المنتج للسلة </p>');
                                                                     }
                                                                 });
@@ -229,8 +234,9 @@
                                                                 $.ajax({
                                                                     url: '/cart/items', // رابط جلب العناصر المحدثة
                                                                     method: 'GET',
-                                                                    success: function (response) {
-                                                                        console.log('Cart modal response:', response); // طباعة استجابة السيرفر للتحقق من البيانات
+                                                                    success: function(response) {
+                                                                        console.log('Cart modal response:',
+                                                                        response); // طباعة استجابة السيرفر للتحقق من البيانات
 
                                                                         // استبدال محتويات الـ modal بالـ HTML المستلم من السيرفر
                                                                         $('#shoppingCart .wrap').html(response.html);
@@ -242,13 +248,12 @@
                                                                         window.cartCount = response.cartCount; // تخزين القيمة في متغير عالمي
                                                                         console.log(window.cartCount);
                                                                     },
-                                                                    error: function (xhr, status, error) {
+                                                                    error: function(xhr, status, error) {
                                                                         console.log('خطأ في تحديث السلة');
                                                                     }
                                                                 });
                                                             }
                                                         });
-
                                                     </script>
                                                 @endif
 
@@ -275,44 +280,45 @@
             <div class="container">
                 <div class="flat-title wow fadeInUp" data-wow-delay="0s">
                     <div>
-                        <span class="title wow fadeInUp" data-wow-delay="0s"> احدث المنتجات   </span>
+                        <span class="title wow fadeInUp" data-wow-delay="0s"> احدث المنتجات </span>
                         <p class="sub-title wow fadeInUp" data-wow-delay="0s"> احدث المنتجات في المتجر </p>
                     </div>
                     <div>
-                        <a href="{{url('shop')}}" class="head_read_more"> عرض الكل <i class="bi bi-arrow-left"></i></a>
+                        <a href="{{ url('shop') }}" class="head_read_more"> عرض الكل <i
+                                class="bi bi-arrow-left"></i></a>
                     </div>
 
                 </div>
                 <div class="grid-layout loadmore-item wow fadeInUp" data-wow-delay="0s" data-grid="grid-4">
-                    @if(count($lastproducts) > 0)
-                        @foreach($lastproducts as $product)
+                    @if (count($lastproducts) > 0)
+                        @foreach ($lastproducts as $product)
                             <div class="card-product">
                                 <div class="card-product-wrapper">
-                                    <a href="{{url('product/'.$product['slug'])}}" class="product-img">
+                                    <a href="{{ url('product/' . $product['slug']) }}" class="product-img">
                                         <img class="lazyload img-product"
-                                             data-src="{{asset('assets/uploads/product_images/'.$product['image'])}}"
-                                             src="{{asset('assets/uploads/product_images/'.$product['image'])}}"
-                                             alt="{{$product['name']}}">
-                                        @if($product->gallary && $product->gallary->first())
+                                            data-src="{{ asset('assets/uploads/product_images/' . $product['image']) }}"
+                                            src="{{ asset('assets/uploads/product_images/' . $product['image']) }}"
+                                            alt="{{ $product['name'] }}">
+                                        @if ($product->gallary && $product->gallary->first())
                                             <img class="lazyload img-hover"
-                                                 data-src="{{asset('assets/uploads/product_gallery/'.$product->gallary->first()->image)}}"
-                                                 src="{{asset('assets/uploads/product_gallery/'.$product->gallary->first()->image)}}"
-                                                 alt="{{$product['name']}}">
+                                                data-src="{{ asset('assets/uploads/product_gallery/' . $product->gallary->first()->image) }}"
+                                                src="{{ asset('assets/uploads/product_gallery/' . $product->gallary->first()->image) }}"
+                                                alt="{{ $product['name'] }}">
                                         @else
                                             <img class="lazyload img-hover"
-                                                 data-src="{{asset('assets/uploads/product_images/'.$product['image'])}}"
-                                                 src="{{asset('assets/uploads/product_images/'.$product['image'])}}"
-                                                 alt="{{$product['name']}}">
+                                                data-src="{{ asset('assets/uploads/product_images/' . $product['image']) }}"
+                                                src="{{ asset('assets/uploads/product_images/' . $product['image']) }}"
+                                                alt="{{ $product['name'] }}">
                                         @endif
 
                                     </a>
                                     <div class="list-product-btn">
-                                        <form id="wishlistForm2_{{$product['id']}}" method="post"
-                                              action="{{ url('wishlist/store') }}">
+                                        <form id="wishlistForm2_{{ $product['id'] }}" method="post"
+                                            action="{{ url('wishlist/store') }}">
                                             @csrf
                                             <input type="hidden" name="product_id" value="{{ $product['id'] }}">
-                                            <button type="button" id="addToWishlist2_{{$product['id']}}"
-                                                    class="box-icon bg_white wishlist btn-icon-action {{ in_array($product['id'], $wishlistProducts) ? 'in-wishlist' : '' }}">
+                                            <button type="button" id="addToWishlist2_{{ $product['id'] }}"
+                                                class="box-icon bg_white wishlist btn-icon-action {{ in_array($product['id'], $wishlistProducts) ? 'in-wishlist' : '' }}">
                                                 <span class="icon icon-heart"></span>
                                                 <span class="tooltip"> اضف الي المفضلة </span>
                                                 <span class="icon icon-heart"></span>
@@ -330,14 +336,15 @@
                                         </style>
                                         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                                         <script>
-                                            $(document).ready(function () {
-                                                $('#addToWishlist2_{{$product['id']}}').on('click', function (e) {
+                                            $(document).ready(function() {
+                                                $('#addToWishlist2_{{ $product['id'] }}').on('click', function(e) {
                                                     e.preventDefault();
                                                     $.ajax({
                                                         method: 'POST',
-                                                        url: '{{ url("wishlist/store") }}',
-                                                        data: $('#wishlistForm2_{{$product['id']}}').serialize() + '&cookie_id={{ Cookie::get("cookie_id") }}',
-                                                        success: function (response) {
+                                                        url: '{{ url('wishlist/store') }}',
+                                                        data: $('#wishlistForm2_{{ $product['id'] }}').serialize() +
+                                                            '&cookie_id={{ Cookie::get('cookie_id') }}',
+                                                        success: function(response) {
                                                             Toastify({
                                                                 text: response.message,
                                                                 duration: 3000,
@@ -350,65 +357,67 @@
                                                                 $('.nav-wishlist .count-box').text(response.wishlistCount);
                                                             }
 
-                                                            $('#addToWishlist2_{{$product['id']}}').toggleClass('in-wishlist');
+                                                            $('#addToWishlist2_{{ $product['id'] }}').toggleClass('in-wishlist');
                                                         },
-                                                        error: function (xhr, status, error) {
+                                                        error: function(xhr, status, error) {
                                                             $('#wishlistMessage').html('<p>حدث خطأ أثناء إضافة المنتج للمفضلة</p>');
                                                         }
                                                     });
                                                 });
                                             });
                                         </script>
-                                        <button data-id="{{$product->id}}" href="" data-bs-toggle="modal"
-                                                class="box-icon bg_white quickview tf-btn-loading btn-quick-view">
+                                        <button data-id="{{ $product->id }}" href="" data-bs-toggle="modal"
+                                            class="box-icon bg_white quickview tf-btn-loading btn-quick-view">
                                             <span class="icon icon-view"></span>
                                             <span class="tooltip"> مشاهدة </span>
                                         </button>
                                     </div>
                                 </div>
                                 <div class="card-product-info">
-                                    <a href="{{url('product/'.$product['slug'])}}"
-                                       class="title link"> {{$product['name']}} </a>
-                                    @if(isset($product['discount']) && $product['discount'] !=null)
+                                    <a href="{{ url('product/' . $product['slug']) }}" class="title link">
+                                        {{ $product['name'] }} </a>
+                                    @if (isset($product['discount']) && $product['discount'] != null)
                                         <div class="">
-                                                    <span
-                                                        class="price main_price"> {{$product['discount']}} {{ $storeCurrency }} </span>
-                                            <span
-                                                class="price old_price"> {{$product['price']}} {{ $storeCurrency }} </span>
+                                            <span class="price main_price"> {{ $product['discount'] }}
+                                                {{ $storeCurrency }} </span>
+                                            <span class="price old_price"> {{ $product['price'] }} {{ $storeCurrency }}
+                                            </span>
                                         </div>
                                     @else
-                                        <span
-                                            class="price main_price"> {{$product['price']}} {{ $storeCurrency }} </span>
+                                        <span class="price main_price"> {{ $product['price'] }} {{ $storeCurrency }}
+                                        </span>
                                     @endif
 
                                     @php
-                                        $productVariations = \App\Models\admin\ProductVartions::where('product_id', $product['id'])->get();
+                                        $productVariations = \App\Models\admin\ProductVartions::where(
+                                            'product_id',
+                                            $product['id'],
+                                        )->get();
                                     @endphp
-                                    @if($productVariations->count() > 0)
-                                        <a href="{{url('product/'.$product['slug'])}}" class="add-to-cart">
+                                    @if ($productVariations->count() > 0)
+                                        <a href="{{ url('product/' . $product['slug']) }}" class="add-to-cart">
                                             مشاهدة الاختيارات
                                         </a>
                                     @else
-                                        <form id="addToCart2_{{$product['id']}}" class="" method="post"
-                                              action="{{url('cart/add')}}">
-                                            <input type="hidden" name="product_id" value="{{$product['id']}}">
+                                        <form id="addToCart2_{{ $product['id'] }}" class="" method="post"
+                                            action="{{ url('cart/add') }}">
+                                            <input type="hidden" name="product_id" value="{{ $product['id'] }}">
                                             <input type="hidden" name="number" value="1">
-                                            @if(isset($product['discount']) && $product['discount'] !=null)
-                                                <input type="hidden" name="price"
-                                                       value="{{$product['discount']}}">
+                                            @if (isset($product['discount']) && $product['discount'] != null)
+                                                <input type="hidden" name="price" value="{{ $product['discount'] }}">
                                             @else
-                                                <input type="hidden" name="price" value="{{$product['price']}}">
+                                                <input type="hidden" name="price" value="{{ $product['price'] }}">
                                             @endif
                                             <input type="hidden" id="hidden-variation" placeholder="دشقفهخر "
-                                                   name="hidden-variation" value="">
+                                                name="hidden-variation" value="">
 
-                                            <button id="addtocartbutton2_{{$product['id']}}" class="add-to-cart">
+                                            <button id="addtocartbutton2_{{ $product['id'] }}" class="add-to-cart">
                                                 اضف الي السلة
                                             </button>
                                         </form>
                                         <script>
-                                            $(document).ready(function () {
-                                                $("#addtocartbutton2_{{$product['id']}}").on('click', function (e) {
+                                            $(document).ready(function() {
+                                                $("#addtocartbutton2_{{ $product['id'] }}").on('click', function(e) {
                                                     e.preventDefault();
                                                     $.ajax({
                                                         url: '/cart/add',
@@ -416,8 +425,8 @@
                                                         headers: {
                                                             'X-CSRF-TOKEN': '{{ csrf_token() }}'
                                                         },
-                                                        data: $("#addToCart2_{{$product['id']}}").serialize(),
-                                                        success: function (response) {
+                                                        data: $("#addToCart2_{{ $product['id'] }}").serialize(),
+                                                        success: function(response) {
                                                             // عرض الرسالة باستخدام Toastify
                                                             Toastify({
                                                                 text: response.message,
@@ -438,7 +447,7 @@
                                                             // إظهار الـ modal بعد الإضافة
                                                             $('#shoppingCart').modal('show');
                                                         },
-                                                        error: function (xhr, status, error) {
+                                                        error: function(xhr, status, error) {
                                                             $('#wishlistMessage').html('<p>حدث خطأ أثناء إضافة المنتج للسلة </p>');
                                                         }
                                                     });
@@ -448,8 +457,9 @@
                                                     $.ajax({
                                                         url: '/cart/items', // رابط جلب العناصر المحدثة
                                                         method: 'GET',
-                                                        success: function (response) {
-                                                            console.log('Cart modal response:', response); // طباعة استجابة السيرفر للتحقق من البيانات
+                                                        success: function(response) {
+                                                            console.log('Cart modal response:',
+                                                            response); // طباعة استجابة السيرفر للتحقق من البيانات
 
                                                             // استبدال محتويات الـ modal بالـ HTML المستلم من السيرفر
                                                             $('#shoppingCart .wrap').html(response.html);
@@ -461,13 +471,12 @@
                                                             window.cartCount = response.cartCount; // تخزين القيمة في متغير عالمي
                                                             console.log(window.cartCount);
                                                         },
-                                                        error: function (xhr, status, error) {
+                                                        error: function(xhr, status, error) {
                                                             console.log('خطأ في تحديث السلة');
                                                         }
                                                     });
                                                 }
                                             });
-
                                         </script>
                                     @endif
 
@@ -479,8 +488,8 @@
 
                 </div>
                 <div class="tf-pagination-wrap view-more-button text-center">
-                    <button class="tf-btn-loading tf-loading-default style-2 btn-loadmore "><span
-                            class="text"> مشاهدة المزيد  </span></button>
+                    <button class="tf-btn-loading tf-loading-default style-2 btn-loadmore "><span class="text"> مشاهدة
+                            المزيد </span></button>
                 </div>
             </div>
         </section>
@@ -494,33 +503,32 @@
                     <div class="box-sw-navigation">
                         <div class="nav-sw nav-next-slider nav-next-collection"><span
                                 class="icon icon-arrow-right"></span></div>
-                        <div class="nav-sw nav-prev-slider nav-prev-collection"><span
-                                class="icon icon-arrow-left"></span></div>
+                        <div class="nav-sw nav-prev-slider nav-prev-collection"><span class="icon icon-arrow-left"></span>
+                        </div>
                     </div>
-                    <span class="text-3 fw-7 text-uppercase title wow fadeInUp"
-                          data-wow-delay="0s">  اقسام المتجر  </span>
+                    <span class="text-3 fw-7 text-uppercase title wow fadeInUp" data-wow-delay="0s"> اقسام المتجر </span>
                 </div>
                 <div class="row">
                     <div class="col-xl-9 col-lg-8 col-md-8">
                         <div class="swiper tf-sw-collection" data-preview="3" data-tablet="2" data-mobile="2"
-                             data-space-lg="30" data-space-md="30" data-space="15" data-loop="false"
-                             data-auto-play="false">
+                            data-space-lg="30" data-space-md="30" data-space="15" data-loop="false"
+                            data-auto-play="false">
                             <div class="swiper-wrapper">
-                                @if(count($mainCategories) > 0)
-                                    @foreach($mainCategories as $category)
+                                @if (count($mainCategories) > 0)
+                                    @foreach ($mainCategories as $category)
                                         <div class="swiper-slide" lazy="true">
                                             <div class="collection-item style-left hover-img">
                                                 <div class="collection-inner">
-                                                    <a href="{{url('collection/'.$category['slug'])}}"
-                                                       class="collection-image img-style">
+                                                    <a href="{{ url('collection/' . $category['slug']) }}"
+                                                        class="collection-image img-style">
                                                         <img class="lazyload"
-                                                             data-src="{{asset('assets/uploads/category_images/'.$category['image'])}}"
-                                                             src="{{asset('assets/uploads/category_images/'.$category['image'])}}"
-                                                             alt="{{$category['name']}}">
+                                                            data-src="{{ asset('assets/uploads/category_images/' . $category['image']) }}"
+                                                            src="{{ asset('assets/uploads/category_images/' . $category['image']) }}"
+                                                            alt="{{ $category['name'] }}">
                                                     </a>
                                                     <div class="collection-content">
-                                                        <a href="{{url('collection/'.$category['slug'])}}"
-                                                           class="tf-btn collection-title hover-icon fs-15"><span>{{$category['name']}}</span><i
+                                                        <a href="{{ url('collection/' . $category['slug']) }}"
+                                                            class="tf-btn collection-title hover-icon fs-15"><span>{{ $category['name'] }}</span><i
                                                                 class="icon icon-arrow1-top-left"></i></a>
                                                     </div>
                                                 </div>
@@ -534,7 +542,7 @@
                     <div class="col-xl-3 col-lg-4 col-md-4">
                         <div class="discovery-new-item">
                             <h5> جميع الاقسام </h5>
-                            <a href="{{url('collection')}}"><i class="icon-arrow1-top-left"></i></a>
+                            <a href="{{ url('collection') }}"><i class="icon-arrow1-top-left"></i></a>
                         </div>
                     </div>
                 </div>
@@ -543,59 +551,59 @@
         </section>
         <!-- /Categories -->
         <!---------------- Selected Index Categories ------------------>
-        @if(count($selectedCategories) > 0)
-            @foreach($selectedCategories as $category)
+        @if (count($selectedCategories) > 0)
+            @foreach ($selectedCategories as $category)
                 <section class="flat-spacing-15 new_products">
                     <div class="container">
                         <div class="flat-title wow fadeInUp" data-wow-delay="0s">
                             <div>
-                                <span class="title wow fadeInUp" data-wow-delay="0s"> {{$category['name']}} </span>
+                                <span class="title wow fadeInUp" data-wow-delay="0s"> {{ $category['name'] }} </span>
                                 <p class="sub-title wow fadeInUp" data-wow-delay="0s"> اكثر المنتجات مبيعا في
                                     المتجر </p>
                             </div>
                             <div>
-                                <a href="{{url('collection/'.$category['slug'])}}" class="head_read_more"> عرض الكل <i
+                                <a href="{{ url('collection/' . $category['slug']) }}" class="head_read_more"> عرض الكل <i
                                         class="bi bi-arrow-left"></i></a>
                             </div>
                         </div>
                         <div class="hover-sw-nav hover-sw-3">
                             <div class="swiper tf-sw-product-sell wrap-sw-over" data-preview="4" data-tablet="3"
-                                 data-mobile="2"
-                                 data-space-lg="30" data-space-md="15" data-pagination="2" data-pagination-md="3"
-                                 data-pagination-lg="3">
+                                data-mobile="2" data-space-lg="30" data-space-md="15" data-pagination="2"
+                                data-pagination-md="3" data-pagination-lg="3">
                                 <div class="swiper-wrapper">
 
-                                    @foreach($productsBySelectedCategories as $product)
+                                    @foreach ($category['products'] as $product)
                                         <div class="swiper-slide" lazy="true">
                                             <div class="card-product">
                                                 <div class="card-product-wrapper">
-                                                    <a href="{{url('product/'.$product['slug'])}}" class="product-img">
+                                                    <a href="{{ url('product/' . $product['slug']) }}" class="product-img">
                                                         <img class="lazyload img-product"
-                                                             data-src="{{asset('assets/uploads/product_images/'.$product['image'])}}"
-                                                             src="{{asset('assets/uploads/product_images/'.$product['image'])}}"
-                                                             alt="{{$product['name']}}">
-                                                        @if($product->gallary && $product->gallary->first())
+                                                            data-src="{{ asset('assets/uploads/product_images/' . $product['image']) }}"
+                                                            src="{{ asset('assets/uploads/product_images/' . $product['image']) }}"
+                                                            alt="{{ $product['name'] }}">
+                                                        @if ($product->gallary && $product->gallary->first())
                                                             <img class="lazyload img-hover"
-                                                                 data-src="{{asset('assets/uploads/product_gallery/'.$product->gallary->first()->image)}}"
-                                                                 src="{{asset('assets/uploads/product_gallery/'.$product->gallary->first()->image)}}"
-                                                                 alt="{{$product['name']}}">
+                                                                data-src="{{ asset('assets/uploads/product_gallery/' . $product->gallary->first()->image) }}"
+                                                                src="{{ asset('assets/uploads/product_gallery/' . $product->gallary->first()->image) }}"
+                                                                alt="{{ $product['name'] }}">
                                                         @else
                                                             <img class="lazyload img-hover"
-                                                                 data-src="{{asset('assets/uploads/product_images/'.$product['image'])}}"
-                                                                 src="{{asset('assets/uploads/product_images/'.$product['image'])}}"
-                                                                 alt="{{$product['name']}}">
+                                                                data-src="{{ asset('assets/uploads/product_images/' . $product['image']) }}"
+                                                                src="{{ asset('assets/uploads/product_images/' . $product['image']) }}"
+                                                                alt="{{ $product['name'] }}">
                                                         @endif
 
                                                     </a>
                                                     <div class="list-product-btn">
-                                                        <form id="wishlistForm3_{{$category['id']}}_{{$product['id']}}"
-                                                              method="post" action="{{ url('wishlist/store') }}">
+                                                        <form
+                                                            id="wishlistForm3_{{ $category['id'] }}_{{ $product['id'] }}"
+                                                            method="post" action="{{ url('wishlist/store') }}">
                                                             @csrf
                                                             <input type="hidden" name="product_id"
-                                                                   value="{{ $product['id'] }}">
+                                                                value="{{ $product['id'] }}">
                                                             <button type="button"
-                                                                    id="addToWishlist3_{{$category['id']}}_{{$product['id']}}"
-                                                                    class="box-icon bg_white wishlist btn-icon-action {{ in_array($product['id'], $wishlistProducts) ? 'in-wishlist' : '' }}">
+                                                                id="addToWishlist3_{{ $category['id'] }}_{{ $product['id'] }}"
+                                                                class="box-icon bg_white wishlist btn-icon-action {{ in_array($product['id'], $wishlistProducts) ? 'in-wishlist' : '' }}">
                                                                 <span class="icon icon-heart"></span>
                                                                 <span class="tooltip"> اضف الي المفضلة </span>
                                                                 <span class="icon icon-heart"></span>
@@ -611,17 +619,17 @@
                                                                 color: red;
                                                             }
                                                         </style>
-                                                        <script
-                                                            src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                                                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                                                         <script>
-                                                            $(document).ready(function () {
-                                                                $('#addToWishlist3_{{$category['id']}}_{{$product['id']}}').on('click', function (e) {
+                                                            $(document).ready(function() {
+                                                                $('#addToWishlist3_{{ $category['id'] }}_{{ $product['id'] }}').on('click', function(e) {
                                                                     e.preventDefault();
                                                                     $.ajax({
                                                                         method: 'POST',
-                                                                        url: '{{ url("wishlist/store") }}',
-                                                                        data: $('#wishlistForm3_{{$category['id']}}_{{$product['id']}}').serialize() + '&cookie_id={{ Cookie::get("cookie_id") }}',
-                                                                        success: function (response) {
+                                                                        url: '{{ url('wishlist/store') }}',
+                                                                        data: $('#wishlistForm3_{{ $category['id'] }}_{{ $product['id'] }}')
+                                                                            .serialize() + '&cookie_id={{ Cookie::get('cookie_id') }}',
+                                                                        success: function(response) {
                                                                             Toastify({
                                                                                 text: response.message,
                                                                                 duration: 3000,
@@ -634,74 +642,78 @@
                                                                                 $('.nav-wishlist .count-box').text(response.wishlistCount);
                                                                             }
 
-                                                                            $('#addToWishlist3_{{$category['id']}}_{{$product['id']}}').toggleClass('in-wishlist');
+                                                                            $('#addToWishlist3_{{ $category['id'] }}_{{ $product['id'] }}')
+                                                                                .toggleClass('in-wishlist');
                                                                         },
-                                                                        error: function (xhr, status, error) {
+                                                                        error: function(xhr, status, error) {
                                                                             $('#wishlistMessage').html('<p>حدث خطأ أثناء إضافة المنتج للمفضلة</p>');
                                                                         }
                                                                     });
                                                                 });
                                                             });
                                                         </script>
-                                                        <button data-id="{{$product->id}}" href=""
-                                                                data-bs-toggle="modal"
-                                                                class="box-icon bg_white quickview tf-btn-loading btn-quick-view">
+                                                        <button data-id="{{ $product->id }}" href=""
+                                                            data-bs-toggle="modal"
+                                                            class="box-icon bg_white quickview tf-btn-loading btn-quick-view">
                                                             <span class="icon icon-view"></span>
                                                             <span class="tooltip"> مشاهدة </span>
                                                         </button>
                                                     </div>
                                                 </div>
                                                 <div class="card-product-info">
-                                                    <a href="{{url('product/'.$product['slug'])}}"
-                                                       class="title link"> {{$product['name']}} </a>
-                                                    @if(isset($product['discount']) && $product['discount'] !=null)
+                                                    <a href="{{ url('product/' . $product['slug']) }}" class="title link">
+                                                        {{ $product['name'] }} </a>
+                                                    @if (isset($product['discount']) && $product['discount'] != null)
                                                         <div class="">
-                                                                    <span
-                                                                        class="price main_price"> {{$product['discount']}} {{ $storeCurrency }} </span>
-                                                            <span
-                                                                class="price old_price"> {{$product['price']}} {{ $storeCurrency }} </span>
+                                                            <span class="price main_price"> {{ $product['discount'] }}
+                                                                {{ $storeCurrency }} </span>
+                                                            <span class="price old_price"> {{ $product['price'] }}
+                                                                {{ $storeCurrency }} </span>
                                                         </div>
                                                     @else
-                                                        <span
-                                                            class="price main_price"> {{$product['price']}} {{ $storeCurrency }} </span>
+                                                        <span class="price main_price"> {{ $product['price'] }}
+                                                            {{ $storeCurrency }} </span>
                                                     @endif
 
                                                     @php
-                                                        $productVariations = \App\Models\admin\ProductVartions::where('product_id', $product['id'])->get();
+                                                        $productVariations = \App\Models\admin\ProductVartions::where(
+                                                            'product_id',
+                                                            $product['id'],
+                                                        )->get();
                                                     @endphp
-                                                    @if($productVariations->count() > 0)
-                                                        <a href="{{url('product/'.$product['slug'])}}"
-                                                           class="add-to-cart">
+                                                    @if ($productVariations->count() > 0)
+                                                        <a href="{{ url('product/' . $product['slug']) }}"
+                                                            class="add-to-cart">
                                                             مشاهدة الاختيارات
                                                         </a>
                                                     @else
-                                                        <form id="addToCart3_{{$category['id']}}_{{$product['id']}}"
-                                                              class=""
-                                                              method="post"
-                                                              action="{{url('cart/add')}}">
+                                                        <form
+                                                            id="addToCart3_{{ $category['id'] }}_{{ $product['id'] }}"
+                                                            class="" method="post"
+                                                            action="{{ url('cart/add') }}">
                                                             <input type="hidden" name="product_id"
-                                                                   value="{{$product['id']}}">
+                                                                value="{{ $product['id'] }}">
                                                             <input type="hidden" name="number" value="1">
-                                                            @if(isset($product['discount']) && $product['discount'] !=null)
+                                                            @if (isset($product['discount']) && $product['discount'] != null)
                                                                 <input type="hidden" name="price"
-                                                                       value="{{$product['discount']}}">
+                                                                    value="{{ $product['discount'] }}">
                                                             @else
                                                                 <input type="hidden" name="price"
-                                                                       value="{{$product['price']}}">
+                                                                    value="{{ $product['price'] }}">
                                                             @endif
                                                             <input type="hidden" id="hidden-variation"
-                                                                   placeholder="دشقفهخر "
-                                                                   name="hidden-variation" value="">
+                                                                placeholder="دشقفهخر " name="hidden-variation"
+                                                                value="">
 
                                                             <button
-                                                                id="addtocartbutton_{{$category['id']}}_{{$product['id']}}"
+                                                                id="addtocartbutton_{{ $category['id'] }}_{{ $product['id'] }}"
                                                                 class="add-to-cart">
                                                                 اضف الي السلة
                                                             </button>
                                                         </form>
                                                         <script>
-                                                            $(document).ready(function () {
-                                                                $("#addtocartbutton_{{$category['id']}}_{{$product['id']}}").on('click', function (e) {
+                                                            $(document).ready(function() {
+                                                                $("#addtocartbutton_{{ $category['id'] }}_{{ $product['id'] }}").on('click', function(e) {
                                                                     e.preventDefault();
                                                                     $.ajax({
                                                                         url: '/cart/add',
@@ -709,8 +721,9 @@
                                                                         headers: {
                                                                             'X-CSRF-TOKEN': '{{ csrf_token() }}'
                                                                         },
-                                                                        data: $("#addToCart3_{{$category['id']}}_{{$product['id']}}").serialize(),
-                                                                        success: function (response) {
+                                                                        data: $("#addToCart3_{{ $category['id'] }}_{{ $product['id'] }}")
+                                                                        .serialize(),
+                                                                        success: function(response) {
                                                                             // عرض الرسالة باستخدام Toastify
                                                                             Toastify({
                                                                                 text: response.message, // عرض الرسالة من response
@@ -727,7 +740,7 @@
                                                                             // إظهار الـ modal بعد الإضافة
                                                                             $('#shoppingCart').modal('show');
                                                                         },
-                                                                        error: function (xhr, status, error) {
+                                                                        error: function(xhr, status, error) {
                                                                             $('#wishlistMessage').html('<p>حدث خطأ أثناء إضافة المنتج للسلة </p>');
                                                                         }
                                                                     });
@@ -737,8 +750,9 @@
                                                                     $.ajax({
                                                                         url: '/cart/items', // رابط جلب العناصر المحدثة
                                                                         method: 'GET',
-                                                                        success: function (response) {
-                                                                            console.log('Cart modal response:', response); // طباعة استجابة السيرفر للتحقق من البيانات
+                                                                        success: function(response) {
+                                                                            console.log('Cart modal response:',
+                                                                            response); // طباعة استجابة السيرفر للتحقق من البيانات
 
                                                                             // استبدال محتويات الـ modal بالـ HTML المستلم من السيرفر
                                                                             $('#shoppingCart .wrap').html(response.html);
@@ -750,7 +764,7 @@
                                                                             window.cartCount = response.cartCount; // تخزين القيمة في متغير عالمي
                                                                             console.log(window.cartCount);
                                                                         },
-                                                                        error: function (xhr, status, error) {
+                                                                        error: function(xhr, status, error) {
                                                                             console.log('خطأ في تحديث السلة');
                                                                         }
                                                                     });
@@ -785,18 +799,17 @@
             <div class="container">
                 <div class="flat-title wow fadeInUp" data-wow-delay="0s">
                     <div>
-                        <span class="title"> آراء العملاء  </span>
+                        <span class="title"> آراء العملاء </span>
                         <p class="sub-title"> ماذا يقول العملاء عنا </p>
                     </div>
 
                 </div>
                 <div class="wrap-carousel">
                     <div class="swiper tf-sw-testimonial" data-preview="3" data-tablet="2" data-mobile="1"
-                         data-space-lg="30" data-space-md="15">
+                        data-space-lg="30" data-space-md="15">
                         <div class="swiper-wrapper">
-                            @if(count($reviews) > 0)
-
-                                @foreach($reviews as $review)
+                            @if (count($reviews) > 0)
+                                @foreach ($reviews as $review)
                                     <div class="swiper-slide">
                                         <div class="testimonial-item style-column wow fadeInUp" data-wow-delay="0s">
                                             <div class="rating">
@@ -809,7 +822,7 @@
                                                     <!-- Empty star icon for the remaining stars -->
                                                 @endfor
                                             </div>
-                                            <div class="heading">  {{$review['name']}} </div>
+                                            <div class="heading"> {{ $review['name'] }} </div>
                                             <div class="text">
                                                 {!! $review['description'] !!}
                                             </div>
@@ -823,16 +836,18 @@
                             .icon-start.empty {
                                 font-size: 20px;
                                 color: #ddd;
-                            !important; /* Default color for empty stars */
+                                !important;
+                                /* Default color for empty stars */
                             }
 
                             .icon-start.filled {
-                                color: #ffbf00; /* Color for filled stars */
+                                color: #ffbf00;
+                                /* Color for filled stars */
                             }
                         </style>
                     </div>
-                    <div class="nav-sw nav-next-slider nav-next-testimonial lg"><span
-                            class="icon icon-arrow-left"></span></div>
+                    <div class="nav-sw nav-next-slider nav-next-testimonial lg"><span class="icon icon-arrow-left"></span>
+                    </div>
                     <div class="nav-sw nav-prev-slider nav-prev-testimonial lg"><span
                             class="icon icon-arrow-right"></span></div>
                     <div class="sw-dots style-2 sw-pagination-testimonial justify-content-center"></div>
@@ -841,20 +856,20 @@
         </section>
         <!-- /Testimonial -->
         <!-- Brand -->
-        @if(count($brands) > 0)
+        @if (count($brands) > 0)
             <section class="flat-spacing-12">
                 <div class="">
                     <div class="wrap-carousel wrap-brand wrap-brand-v2 autoplay-linear">
                         <div class="swiper tf-sw-brand border-0" data-play="true" data-loop="true" data-preview="6"
-                             data-tablet="4" data-mobile="2" data-space-lg="30" data-space-md="15">
+                            data-tablet="4" data-mobile="2" data-space-lg="30" data-space-md="15">
                             <div class="swiper-wrapper">
-                                @foreach($brands as $brand)
+                                @foreach ($brands as $brand)
                                     <div class="swiper-slide">
                                         <div class="brand-item-v2">
                                             <img style="max-width: 150px;" class="lazyload"
-                                                 data-src="{{asset('assets/uploads/brands/'.$brand['image'])}}"
-                                                 src="{{asset('assets/uploads/brands/'.$brand['image'])}}"
-                                                 alt="{{$brand['name']}}">
+                                                data-src="{{ asset('assets/uploads/brands/' . $brand['image']) }}"
+                                                src="{{ asset('assets/uploads/brands/' . $brand['image']) }}"
+                                                alt="{{ $brand['name'] }}">
                                         </div>
                                     </div>
                                 @endforeach
@@ -867,22 +882,21 @@
 
         <!-- /Brand -->
         <!-- Icon box -->
-        @if(count($advantages) > 0)
-
+        @if (count($advantages) > 0)
             <section class="flat-spacing-7 flat-iconbox wow fadeInUp" data-wow-delay="0s">
                 <div class="container">
                     <div class="wrap-carousel wrap-mobile">
                         <div class="swiper tf-sw-mobile" data-preview="1" data-space="15">
                             <div class="swiper-wrapper wrap-iconbox">
-                                @foreach($advantages as $advantage)
+                                @foreach ($advantages as $advantage)
                                     <div class="swiper-slide">
                                         <div class="tf-icon-box style-border-line text-center">
                                             <div class="icon">
-                                                <i class="fas {{$advantage['icon']}}"></i>
+                                                <i class="fas {{ $advantage['icon'] }}"></i>
                                             </div>
                                             <div class="content">
-                                                <div class="title"> {{$advantage['name']}} </div>
-                                                <p>  {{$advantage['description']}}  </p>
+                                                <div class="title"> {{ $advantage['name'] }} </div>
+                                                <p> {{ $advantage['description'] }} </p>
                                             </div>
                                         </div>
                                     </div>
@@ -903,15 +917,15 @@
 @section('js')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function () {
-            $('body').on('click', '#addtocartbutton', function (e) {
+        $(document).ready(function() {
+            $('body').on('click', '#addtocartbutton', function(e) {
                 e.preventDefault(); // منع السلوك الافتراضي للنموذج
                 // إرسال الطلب باستخدام AJAX
                 $.ajax({
                     url: '/cart/add',
                     method: 'POST',
                     data: $("#addToCart").serialize(), // البيانات المرسلة
-                    success: function (response) {
+                    success: function(response) {
                         // عرض الرسالة باستخدام Toastify
                         Toastify({
                             text: response.message,
@@ -932,7 +946,7 @@
                         $('#shoppingCart').modal('show');
                         $('#quick_view').modal('hide');
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         console.error("Error:", xhr.responseText); // عرض أي أخطاء
                         $('#wishlistMessage').html('<p>حدث خطأ أثناء إضافة المنتج للسلة</p>');
                     }
@@ -944,8 +958,9 @@
                 $.ajax({
                     url: '/cart/items', // رابط جلب العناصر المحدثة
                     method: 'GET',
-                    success: function (response) {
-                        console.log('Cart modal response:', response); // طباعة استجابة السيرفر للتحقق من البيانات
+                    success: function(response) {
+                        console.log('Cart modal response:',
+                        response); // طباعة استجابة السيرفر للتحقق من البيانات
 
                         // استبدال محتويات الـ modal بالـ HTML المستلم من السيرفر
                         $('#shoppingCart .wrap').html(response.html);
@@ -957,18 +972,17 @@
                         window.cartCount = response.cartCount; // تخزين القيمة في متغير عالمي
                         console.log(window.cartCount);
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         console.log('خطأ في تحديث السلة');
                     }
                 });
             }
         });
-
     </script>
 
     <script>
         document.querySelectorAll('.btn-quick-view').forEach(button => {
-            button.addEventListener('click', function () {
+            button.addEventListener('click', function() {
                 const productId = this.getAttribute('data-id');
 
                 // طلب AJAX لجلب البيانات
@@ -1000,14 +1014,14 @@
         // تهيئة أزرار التحكم بالكمية
         function initializeQuantityButtons() {
             document.querySelectorAll('.plus-btn').forEach(button => {
-                button.addEventListener('click', function () {
+                button.addEventListener('click', function() {
                     const input = this.previousElementSibling;
                     input.value = parseInt(input.value) + 1;
                 });
             });
 
             document.querySelectorAll('.minus-btn').forEach(button => {
-                button.addEventListener('click', function () {
+                button.addEventListener('click', function() {
                     const input = this.nextElementSibling;
                     if (parseInt(input.value) > 1) {
                         input.value = parseInt(input.value) - 1;
@@ -1016,7 +1030,7 @@
             });
         }
 
-        document.addEventListener('hidden.bs.modal', function () {
+        document.addEventListener('hidden.bs.modal', function() {
             // إزالة أي عناصر overlay بقيت على الصفحة
             document.querySelectorAll('.modal-backdrop').forEach(overlay => {
                 overlay.remove();
@@ -1026,27 +1040,29 @@
         });
     </script>
 
-    @if(isset($product))
+    @if (isset($product))
         <script>
             function fetchPrice() {
                 let form = document.getElementById('addToCart');
                 let formData = new FormData(form);
 
-                fetch('{{ route("product.getPrice", $product->id) }}', {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: formData
-                })
+                fetch('{{ route('product.getPrice', $product->id) }}', {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        },
+                        body: formData
+                    })
                     .then(response => response.json())
                     .then(data => {
                         // تحديث السعر في الواجهة
-                        document.getElementById('price-value').innerText = data.price ? data.price + '{{$storeCurrency}}' : 'غير متوفر';
+                        document.getElementById('price-value').innerText = data.price ? data.price +
+                            '{{ $storeCurrency }}' : 'غير متوفر';
 
                         if (data.discount && data.discount > 0) {
                             // عرض السعر بعد التخفيض إذا كان موجودًا
-                            document.getElementById('discounted-price').innerText = data.discount + '{{$storeCurrency}}';
+                            document.getElementById('discounted-price').innerText = data.discount +
+                            '{{ $storeCurrency }}';
                             document.getElementById('discount-section').style.display = 'block';
                             document.getElementById('price-value').style.textDecoration = "line-through";
                         } else {
@@ -1063,6 +1079,4 @@
             }
         </script>
     @endif
-
-
 @endsection
