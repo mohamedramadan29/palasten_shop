@@ -1,6 +1,6 @@
 @extends('front.layouts.master')
 @section('title')
-     المتجر
+    المتجر
 @endsection
 
 @section('content')
@@ -9,8 +9,8 @@
         <!-- page-title -->
         <div class="tf-page-title">
             <div class="container-full">
-                <div class="heading text-center"> المتجر  </div>
-                <p class="text-center text-2 text_black-2 mt_5"> جميع المنتجات  </p>
+                <div class="heading text-center"> المتجر </div>
+                <p class="text-center text-2 text_black-2 mt_5"> جميع المنتجات </p>
             </div>
         </div>
         <!-- /page-title -->
@@ -41,21 +41,18 @@
                         <div class="tf-dropdown-sort" style="border: none" data-bs-toggle="dropdown">
                             <form class="filter-choice select-form" name="sortProducts" id="sortProducts">
                                 <select name="sort" title="sort-by" class="form-select"
-                                        data-placeholder="Price: Low to High" id="sort" class="chosen-select" onchange="this.form.submit()">
+                                    data-placeholder="Price: Low to High" id="sort" class="chosen-select"
+                                    onchange="this.form.submit()">
                                     <option value="" selected> رتب حسب</option>
-                                    <option
-                                        @if(isset($_GET['sort']) && $_GET['sort'] == 'price_from_low_heigh') selected
-                                        @endif value="price_from_low_heigh"> السعر : من الاقل الي الاعلي
+                                    <option @if (isset($_GET['sort']) && $_GET['sort'] == 'price_from_low_heigh') selected @endif value="price_from_low_heigh">
+                                        السعر : من الاقل الي الاعلي
                                     </option>
-                                    <option
-                                        @if(isset($_GET['sort']) && $_GET['sort'] == 'price_from_hieght_low') selected
-                                        @endif value="price_from_hieght_low"> السعر : من الاعلي الي الاقل
+                                    <option @if (isset($_GET['sort']) && $_GET['sort'] == 'price_from_hieght_low') selected @endif value="price_from_hieght_low">
+                                        السعر : من الاعلي الي الاقل
                                     </option>
-                                    <option @if(isset($_GET['sort']) && $_GET['sort'] == 'oldest') selected
-                                            @endif value="oldest"> رتب حسب الاقدم
+                                    <option @if (isset($_GET['sort']) && $_GET['sort'] == 'oldest') selected @endif value="oldest"> رتب حسب الاقدم
                                     </option>
-                                    <option @if(isset($_GET['sort']) && $_GET['sort'] == 'latest') selected
-                                            @endif value="latest">رتب حسب الاحدث
+                                    <option @if (isset($_GET['sort']) && $_GET['sort'] == 'latest') selected @endif value="latest">رتب حسب الاحدث
                                     </option>
                                 </select>
                             </form>
@@ -65,33 +62,34 @@
                 <div class="wrapper-control-shop">
                     <div class="meta-filter-shop"></div>
                     <div class="grid-layout wrapper-shop" data-grid="grid-4">
-                        @foreach($products as $product)
+                        @foreach ($products as $product)
                             <div class="card-product">
                                 <div class="card-product-wrapper">
-                                    <a href="{{url('product/'.$product['slug'])}}" class="product-img">
+                                    <a href="{{ url('product/' . $product['slug']) }}" class="product-img">
                                         <img class="lazyload img-product"
-                                             data-src="{{asset('assets/uploads/product_images/'.$product['image'])}}"
-                                             src="{{asset('assets/uploads/product_images/'.$product['image'])}}"
-                                             alt="{{$product['name']}}">
-                                        @if($product->gallary && $product->gallary->first())
+                                            data-src="{{ asset('assets/uploads/product_images/' . $product['image']) }}"
+                                            src="{{ asset('assets/uploads/product_images/' . $product['image']) }}"
+                                            alt="{{ $product['name'] }}">
+                                        @if ($product->gallary && $product->gallary->first())
                                             <img class="lazyload img-hover"
-                                                 data-src="{{asset('assets/uploads/product_gallery/'.$product->gallary->first()->image)}}"
-                                                 src="{{asset('assets/uploads/product_gallery/'.$product->gallary->first()->image)}}"
-                                                 alt="{{$product['name']}}">
+                                                data-src="{{ asset('assets/uploads/product_gallery/' . $product->gallary->first()->image) }}"
+                                                src="{{ asset('assets/uploads/product_gallery/' . $product->gallary->first()->image) }}"
+                                                alt="{{ $product['name'] }}">
                                         @else
                                             <img class="lazyload img-hover"
-                                                 data-src="{{asset('assets/uploads/product_images/'.$product['image'])}}"
-                                                 src="{{asset('assets/uploads/product_images/'.$product['image'])}}"
-                                                 alt="{{$product['name']}}">
+                                                data-src="{{ asset('assets/uploads/product_images/' . $product['image']) }}"
+                                                src="{{ asset('assets/uploads/product_images/' . $product['image']) }}"
+                                                alt="{{ $product['name'] }}">
                                         @endif
 
                                     </a>
                                     <div class="list-product-btn">
-                                        <form id="wishlistForm1_{{$product['id']}}" method="post" action="{{ url('wishlist/store') }}">
+                                        <form id="wishlistForm1_{{ $product['id'] }}" method="post"
+                                            action="{{ url('wishlist/store') }}">
                                             @csrf
                                             <input type="hidden" name="product_id" value="{{ $product['id'] }}">
-                                            <button type="button" id="addToWishlist1_{{$product['id']}}"
-                                                    class="box-icon bg_white wishlist btn-icon-action {{ in_array($product['id'], $wishlistProducts) ? 'in-wishlist' : '' }}">
+                                            <button type="button" id="addToWishlist1_{{ $product['id'] }}"
+                                                class="box-icon bg_white wishlist btn-icon-action {{ in_array($product['id'], $wishlistProducts) ? 'in-wishlist' : '' }}">
                                                 <span class="icon icon-heart"></span>
                                                 <span class="tooltip"> اضف الي المفضلة </span>
                                                 <span class="icon icon-heart"></span>
@@ -102,22 +100,21 @@
                                             .wishlist .icon-heart {
                                                 color: gray;
                                             }
-
                                             .wishlist.in-wishlist .icon-heart {
                                                 color: red;
                                             }
                                         </style>
-
                                         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                                         <script>
-                                            $(document).ready(function () {
-                                                $('#addToWishlist1_{{$product['id']}}').on('click', function (e) {
+                                            $(document).ready(function() {
+                                                $('#addToWishlist1_{{ $product['id'] }}').on('click', function(e) {
                                                     e.preventDefault();
                                                     $.ajax({
                                                         method: 'POST',
-                                                        url: '{{ url("wishlist/store") }}',
-                                                        data: $('#wishlistForm1_{{$product['id']}}').serialize() + '&cookie_id={{ Cookie::get("cookie_id") }}',
-                                                        success: function (response) {
+                                                        url: '{{ url('wishlist/store') }}',
+                                                        data: $('#wishlistForm1_{{ $product['id'] }}').serialize() +
+                                                            '&cookie_id={{ Cookie::get('cookie_id') }}',
+                                                        success: function(response) {
                                                             Toastify({
                                                                 text: response.message,
                                                                 duration: 3000,
@@ -130,65 +127,67 @@
                                                                 $('.nav-wishlist .count-box').text(response.wishlistCount);
                                                             }
 
-                                                            $('#addToWishlist1_{{$product['id']}}').toggleClass('in-wishlist');
+                                                            $('#addToWishlist1_{{ $product['id'] }}').toggleClass('in-wishlist');
                                                         },
-                                                        error: function (xhr, status, error) {
+                                                        error: function(xhr, status, error) {
                                                             $('#wishlistMessage').html('<p>حدث خطأ أثناء إضافة المنتج للمفضلة</p>');
                                                         }
                                                     });
                                                 });
                                             });
                                         </script>
-                                        <button data-id="{{$product->id}}" href="" data-bs-toggle="modal"
-                                                class="box-icon bg_white quickview tf-btn-loading btn-quick-view">
+                                        <button data-id="{{ $product->id }}" href="" data-bs-toggle="modal"
+                                            class="box-icon bg_white quickview tf-btn-loading btn-quick-view">
                                             <span class="icon icon-view"></span>
                                             <span class="tooltip"> مشاهدة </span>
                                         </button>
                                     </div>
                                 </div>
                                 <div class="card-product-info">
-                                    <a href="{{url('product/'.$product['slug'])}}"
-                                       class="title link"> {{$product['name']}} </a>
-                                    @if(isset($product['discount']) && $product['discount'] !=null)
+                                    <a href="{{ url('product/' . $product['slug']) }}" class="title link">
+                                        {{ $product['name'] }} </a>
+                                    @if (isset($product['discount']) && $product['discount'] != null)
                                         <div class="">
-                                                    <span
-                                                        class="price main_price"> {{$product['discount']}} {{ $storeCurrency }} </span>
-                                            <span
-                                                class="price old_price"> {{$product['price']}} {{ $storeCurrency }} </span>
+                                            <span class="price main_price"> {{ $product['discount'] }}
+                                                {{ $storeCurrency }} </span>
+                                            <span class="price old_price"> {{ $product['price'] }} {{ $storeCurrency }}
+                                            </span>
                                         </div>
                                     @else
-                                        <span
-                                            class="price main_price"> {{$product['price']}} {{ $storeCurrency }} </span>
+                                        <span class="price main_price"> {{ $product['price'] }} {{ $storeCurrency }}
+                                        </span>
                                     @endif
 
                                     @php
-                                        $productVariations = \App\Models\admin\ProductVartions::where('product_id', $product['id'])->get();
+                                        $productVariations = \App\Models\admin\ProductVartions::where(
+                                            'product_id',
+                                            $product['id'],
+                                        )->get();
                                     @endphp
-                                    @if($productVariations->count() > 0)
-                                        <a href="{{url('product/'.$product['slug'])}}" class="add-to-cart">
+                                    @if ($productVariations->count() > 0)
+                                        <a href="{{ url('product/' . $product['slug']) }}" class="add-to-cart">
                                             مشاهدة الاختيارات
                                         </a>
                                     @else
-                                        <form id="addToCart_{{$product['id']}}" class="" method="post"
-                                              action="{{url('cart/add')}}">
-                                            <input type="hidden" name="product_id" value="{{$product['id']}}">
+                                        <form id="addToCart_{{ $product['id'] }}" class="" method="post"
+                                            action="{{ url('cart/add') }}">
+                                            <input type="hidden" name="product_id" value="{{ $product['id'] }}">
                                             <input type="hidden" name="number" value="1">
-                                            @if(isset($product['discount']) && $product['discount'] !=null)
-                                                <input type="hidden" name="price"
-                                                       value="{{$product['discount']}}">
+                                            @if (isset($product['discount']) && $product['discount'] != null)
+                                                <input type="hidden" name="price" value="{{ $product['discount'] }}">
                                             @else
-                                                <input type="hidden" name="price" value="{{$product['price']}}">
+                                                <input type="hidden" name="price" value="{{ $product['price'] }}">
                                             @endif
                                             <input type="hidden" id="hidden-variation" placeholder="دشقفهخر "
-                                                   name="hidden-variation" value="">
+                                                name="hidden-variation" value="">
 
-                                            <button id="addtocartbutton_{{$product['id']}}" class="add-to-cart">
+                                            <button id="addtocartbutton_{{ $product['id'] }}" class="add-to-cart">
                                                 اضف الي السلة
                                             </button>
                                         </form>
                                         <script>
-                                            $(document).ready(function () {
-                                                $("#addtocartbutton_{{$product['id']}}").on('click', function (e) {
+                                            $(document).ready(function() {
+                                                $("#addtocartbutton_{{ $product['id'] }}").on('click', function(e) {
                                                     e.preventDefault();
                                                     $.ajax({
                                                         url: '/cart/add',
@@ -196,8 +195,8 @@
                                                         headers: {
                                                             'X-CSRF-TOKEN': '{{ csrf_token() }}'
                                                         },
-                                                        data: $("#addToCart_{{$product['id']}}").serialize(),
-                                                        success: function (response) {
+                                                        data: $("#addToCart_{{ $product['id'] }}").serialize(),
+                                                        success: function(response) {
                                                             // عرض الرسالة باستخدام Toastify
                                                             Toastify({
                                                                 text: response.message,
@@ -218,7 +217,7 @@
                                                             // إظهار الـ modal بعد الإضافة
                                                             $('#shoppingCart').modal('show');
                                                         },
-                                                        error: function (xhr, status, error) {
+                                                        error: function(xhr, status, error) {
                                                             $('#wishlistMessage').html('<p>حدث خطأ أثناء إضافة المنتج للسلة </p>');
                                                         }
                                                     });
@@ -228,8 +227,9 @@
                                                     $.ajax({
                                                         url: '/cart/items', // رابط جلب العناصر المحدثة
                                                         method: 'GET',
-                                                        success: function (response) {
-                                                            console.log('Cart modal response:', response); // طباعة استجابة السيرفر للتحقق من البيانات
+                                                        success: function(response) {
+                                                            console.log('Cart modal response:',
+                                                            response); // طباعة استجابة السيرفر للتحقق من البيانات
 
                                                             // استبدال محتويات الـ modal بالـ HTML المستلم من السيرفر
                                                             $('#shoppingCart .wrap').html(response.html);
@@ -241,13 +241,12 @@
                                                             window.cartCount = response.cartCount; // تخزين القيمة في متغير عالمي
                                                             console.log(window.cartCount);
                                                         },
-                                                        error: function (xhr, status, error) {
+                                                        error: function(xhr, status, error) {
                                                             console.log('خطأ في تحديث السلة');
                                                         }
                                                     });
                                                 }
                                             });
-
                                         </script>
                                     @endif
 
@@ -271,15 +270,15 @@
 @section('js')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function () {
-            $('body').on('click', '#addtocartbutton', function (e) {
+        $(document).ready(function() {
+            $('body').on('click', '#addtocartbutton', function(e) {
                 e.preventDefault(); // منع السلوك الافتراضي للنموذج
                 // إرسال الطلب باستخدام AJAX
                 $.ajax({
                     url: '/cart/add',
                     method: 'POST',
                     data: $("#addToCart").serialize(), // البيانات المرسلة
-                    success: function (response) {
+                    success: function(response) {
                         // عرض الرسالة باستخدام Toastify
                         Toastify({
                             text: response.message,
@@ -300,7 +299,7 @@
                         $('#shoppingCart').modal('show');
                         $('#quick_view').modal('hide');
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         console.error("Error:", xhr.responseText); // عرض أي أخطاء
                         $('#wishlistMessage').html('<p>حدث خطأ أثناء إضافة المنتج للسلة</p>');
                     }
@@ -312,8 +311,9 @@
                 $.ajax({
                     url: '/cart/items', // رابط جلب العناصر المحدثة
                     method: 'GET',
-                    success: function (response) {
-                        console.log('Cart modal response:', response); // طباعة استجابة السيرفر للتحقق من البيانات
+                    success: function(response) {
+                        console.log('Cart modal response:',
+                        response); // طباعة استجابة السيرفر للتحقق من البيانات
 
                         // استبدال محتويات الـ modal بالـ HTML المستلم من السيرفر
                         $('#shoppingCart .wrap').html(response.html);
@@ -325,18 +325,17 @@
                         window.cartCount = response.cartCount; // تخزين القيمة في متغير عالمي
                         console.log(window.cartCount);
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         console.log('خطأ في تحديث السلة');
                     }
                 });
             }
         });
-
     </script>
 
     <script>
         document.querySelectorAll('.btn-quick-view').forEach(button => {
-            button.addEventListener('click', function () {
+            button.addEventListener('click', function() {
                 const productId = this.getAttribute('data-id');
 
                 // طلب AJAX لجلب البيانات
@@ -368,14 +367,14 @@
         // تهيئة أزرار التحكم بالكمية
         function initializeQuantityButtons() {
             document.querySelectorAll('.plus-btn').forEach(button => {
-                button.addEventListener('click', function () {
+                button.addEventListener('click', function() {
                     const input = this.previousElementSibling;
                     input.value = parseInt(input.value) + 1;
                 });
             });
 
             document.querySelectorAll('.minus-btn').forEach(button => {
-                button.addEventListener('click', function () {
+                button.addEventListener('click', function() {
                     const input = this.nextElementSibling;
                     if (parseInt(input.value) > 1) {
                         input.value = parseInt(input.value) - 1;
@@ -384,7 +383,7 @@
             });
         }
 
-        document.addEventListener('hidden.bs.modal', function () {
+        document.addEventListener('hidden.bs.modal', function() {
             // إزالة أي عناصر overlay بقيت على الصفحة
             document.querySelectorAll('.modal-backdrop').forEach(overlay => {
                 overlay.remove();
@@ -403,21 +402,22 @@
             let form = document.getElementById('addToCart');
             let formData = new FormData(form);
 
-            fetch('{{ route("product.getPrice", $product->id) }}', {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: formData
-            })
+            fetch('{{ route('product.getPrice', $product->id) }}', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: formData
+                })
                 .then(response => response.json())
                 .then(data => {
                     // تحديث السعر في الواجهة
-                    document.getElementById('price-value').innerText = data.price ? data.price + '{{$storeCurrency}}' : 'غير متوفر';
+                    document.getElementById('price-value').innerText = data.price ? data.price +
+                        '{{ $storeCurrency }}' : 'غير متوفر';
 
                     if (data.discount && data.discount > 0) {
                         // عرض السعر بعد التخفيض إذا كان موجودًا
-                        document.getElementById('discounted-price').innerText = data.discount + '{{$storeCurrency}}';
+                        document.getElementById('discounted-price').innerText = data.discount + '{{ $storeCurrency }}';
                         document.getElementById('discount-section').style.display = 'block';
                         document.getElementById('price-value').style.textDecoration = "line-through";
                     } else {
@@ -433,5 +433,4 @@
                 .catch(error => console.error('Error:', error));
         }
     </script>
-
 @endsection

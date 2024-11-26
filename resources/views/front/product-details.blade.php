@@ -46,26 +46,6 @@
                                     <div class="swiper tf-product-media-thumbs tf-product-media-thumbs-default"
                                          data-direction="vertical">
                                         <div class="swiper-wrapper stagger-wrap">
-{{--                                            <div class="swiper-slide stagger-item">--}}
-{{--                                                <div class="item">--}}
-{{--                                                    <img class="lazyload"--}}
-{{--                                                         data-src="{{asset('assets/uploads/product_images/'.$product['image'])}}"--}}
-{{--                                                         src="{{asset('assets/uploads/product_images/'.$product['image'])}}"--}}
-{{--                                                         alt="{{$product['name']}}">--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-{{--                                            @if($product['gallary'] && $product['gallary'] !='')--}}
-{{--                                                @foreach($product['gallary'] as $gallary)--}}
-{{--                                                    <div class="swiper-slide stagger-item">--}}
-{{--                                                        <div class="item">--}}
-{{--                                                            <img class="lazyload"--}}
-{{--                                                                 data-src="{{asset('assets/uploads/product_gallery/'.$gallary['image'])}}"--}}
-{{--                                                                 src="{{asset('assets/uploads/product_gallery/'.$gallary['image'])}}"--}}
-{{--                                                                 alt="">--}}
-{{--                                                        </div>--}}
-{{--                                                    </div>--}}
-{{--                                                @endforeach--}}
-{{--                                            @endif--}}
                                         </div>
                                     </div>
                                     <div class="swiper tf-product-media-main tf-product-media-main-default">
@@ -263,7 +243,7 @@
 
                                     <script>
                                         function fetchPrice2() {
-                                            let form = document.getElementById('addToCart');
+                                            let form = document.getElementById('addToCart_{{$product['id']}}');
                                             let formData = new FormData(form);
 
                                             fetch('{{ route("product.getPrice", $product->id) }}', {
@@ -457,6 +437,7 @@
                                             @else
                                                 <form id="addToCart_{{$product['id']}}" class="" method="post"
                                                       action="{{url('cart/add')}}">
+                                                    @csrf
                                                     <input type="hidden" name="product_id" value="{{$product['id']}}">
                                                     <input type="hidden" name="number" value="1">
                                                     @if(isset($product['discount']) && $product['discount'] !=null)
@@ -687,40 +668,40 @@
 
 
 
-    <script>
-        function fetchPrice() {
-            let form = document.getElementById('addToCart');
-            let formData = new FormData(form);
 
-            fetch('{{ route("product.getPrice", $product->id) }}', {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: formData
-            })
-                .then(response => response.json())
-                .then(data => {
-                    // تحديث السعر في الواجهة
-                    document.getElementById('price-value').innerText = data.price ? data.price + '{{$storeCurrency}}' : 'غير متوفر';
-
-                    if (data.discount && data.discount > 0) {
-                        // عرض السعر بعد التخفيض إذا كان موجودًا
-                        document.getElementById('discounted-price').innerText = data.discount + '{{$storeCurrency}}';
-                        document.getElementById('discount-section').style.display = 'block';
-                        document.getElementById('price-value').style.textDecoration = "line-through";
-                    } else {
-                        // إخفاء قسم التخفيض إذا لم يكن هناك تخفيض
-                        document.getElementById('discount-section').style.display = 'none';
-                        document.getElementById('price-value').style.textDecoration = "none";
-                    }
-                    // تحديث الحقول المخفية بالقيمة الحقيقية للسعر والخصم
-                    document.getElementById('hidden-variation').value = data.variation_id;
-                    document.getElementById('hidden-price').value = data.price;
-                    document.getElementById('hidden-discount').value = data.discount ? data.discount : '';
-                })
-                .catch(error => console.error('Error:', error));
-        }
-    </script>
 
 @endsection
+<script>
+    function fetchPrice() {
+        let form = document.getElementById('addToCart');
+        let formData = new FormData(form);
+
+        fetch('{{ route("product.getPrice", $product->id) }}', {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                // تحديث السعر في الواجهة
+                document.getElementById('price-value').innerText = data.price ? data.price + ' {{$storeCurrency}}' : 'غير متوفر';
+
+                if (data.discount && data.discount > 0) {
+                    document.getElementById('discounted-price').innerText = data.discount + ' {{$storeCurrency}}';
+                    document.getElementById('discount-section').style.display = 'block';
+                    document.getElementById('price-value').style.textDecoration = "line-through";
+                } else {
+                    document.getElementById('discount-section').style.display = 'none';
+                    document.getElementById('price-value').style.textDecoration = "none";
+                }
+                // تحديث الحقول المخفية
+                document.getElementById('hidden-variation').value = data.variation_id;
+                document.getElementById('hidden-price').value = data.price;
+                document.getElementById('hidden-discount').value = data.discount || '';
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+</script>

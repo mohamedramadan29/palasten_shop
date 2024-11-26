@@ -15,7 +15,7 @@ class GeneralController extends Controller
     public function getProducts()
     {
         $query = Product::query();
-        $allproducts = $query->get();
+        $allproducts = $query->where('status',1)->get();
         $latest_products = $query->latest()->take(6)->get();
         $categories = MainCategory::all();
         $brands = Brand::all();
@@ -25,6 +25,6 @@ class GeneralController extends Controller
             $category->products_category = $category->products()->limit(4)->get();
             return $category;
         });
-        return response()->json($reviews);
+        return response()->json($allproducts);
     }
 }

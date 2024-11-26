@@ -87,7 +87,7 @@
                             <fieldset class="box fieldset">
                                 <label for="country"> حدد المدينة </label>
                                 <div class="select-custom">
-                                    <select class="form-select w-100" id="shippingcity" name="shippingcity">
+                                    <select required class="form-select w-100" id="shippingcity" name="shippingcity">
                                         <option value="" disabled selected> -- حدد --</option>
                                         @foreach($shippingCity as $city)
                                             <option
@@ -98,7 +98,7 @@
                             </fieldset>
                             <fieldset class="box fieldset">
                                 <label for="address"> العنوان كاملا ( مدينة - حي - عنوان تفصيلي ) </label>
-                                <textarea name="address" id="address">{{old('address')}}</textarea>
+                                <textarea required name="address" id="address">{{old('address')}}</textarea>
                             </fieldset>
                             <p> - تطبق الشروط والأحكام </p>
                             <br>
