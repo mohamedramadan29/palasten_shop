@@ -69,6 +69,10 @@ class ProductController extends Controller
                 if ($request->hasFile('image')) {
                     $rules['image'] = 'image|mimes:jpg,png,jpeg,webp';
                 }
+                // التحقق من الفيديو
+                if ($request->hasFile('video')) {
+                    $rules['video'] = 'mimes:mp4,mov,avi,flv|max:10240'; // 10MB
+                }
                 $messages = [
                     'name.required' => ' من فضلك ادخل اسم المنتج  ',
                     'category_id.required' => ' من فضلك حدد القسم الرئيسي للمنتج  ',
@@ -84,6 +88,14 @@ class ProductController extends Controller
                 if ($request->hasFile('image')) {
                     $file_name = $this->saveImage($request->image, public_path('assets/uploads/product_images'));
                 }
+                // حفظ الفيديو
+                $video_name = null;
+                if ($request->hasFile('video')) {
+                    $video_file = $request->file('video');
+                    $video_name = time() . '_' . $video_file->getClientOriginalName();
+                    $video_file->move(public_path('assets/uploads/product_videos'), $video_name);
+                }
+
                 /////// Check if This Product In Db Or Not
                 ///
                 $count_old_product = Product::where('name', $data['name'])->count();
@@ -114,6 +126,7 @@ class ProductController extends Controller
                 $product->meta_keywords = $data['meta_keywords'];
                 $product->meta_description = $data['meta_description'];
                 $product->image = $file_name;
+                $product->video = $video_name; // تخزين اسم الفيديو
                 $product->save();
                 ///////// Check If Product Gallary Not Empty
                 ///
@@ -157,7 +170,7 @@ class ProductController extends Controller
                 return $this->exception_message($e);
             }
         }
-        return view('admin.products.add', compact('MainCategories', 'SubCategories', 'brands', 'attributes', 'attributes_vartions'));
+        return view('admin.Products.add', compact('MainCategories', 'SubCategories', 'brands', 'attributes', 'attributes_vartions'));
     }
 
     public function update(Request $request, $slug)
